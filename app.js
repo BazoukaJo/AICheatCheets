@@ -1,19 +1,22 @@
 // Cline AI Prompt Assistant - Main Application Logic
 // State management with error handling
-const currentCategory = 'all';
-const selectedCategories = new Set(['all']);
-let searchTerm = '';
-let favorites = [];
-let usageStats = {};
+const AppState = {
+  currentCategory: 'all',
+  selectedCategories: new Set(['all']),
+  searchTerm: '',
+  favorites: [],
+  usageStats: {},
+  prompts: []
+};
 
 // Embedded prompts data for static app compatibility
-let prompts = [
+const embeddedPrompts = [
   {
     'id': 1,
     'title': 'Evaluate Completed App',
     'category': 'review',
     'description': 'Comprehensive assessment of finished applications',
-    'template': 'Evaluate this completed application: [paste app code/details]. Assess: overall functionality, performance bottlenecks, security vulnerabilities, code quality, scalability potential, user experience, and maintainability. Provide detailed feedback with prioritized improvement recommendations and implementation suggestions.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a senior software architect. Evaluate this completed application: [paste app code/details]. Assess: overall functionality and user experience. Identify performance bottlenecks and scalability potential. Check for security vulnerabilities and code quality issues. Evaluate maintainability. Provide detailed feedback with prioritized improvement recommendations and implementation suggestions.',
     'icon': 'fas fa-clipboard-check'
   },
   {
@@ -21,7 +24,7 @@ let prompts = [
     'title': 'Clean Up Code',
     'category': 'cleanup',
     'description': 'Remove redundancies, format properly, and suggest improvements',
-    'template': 'Clean up this code for better readability and efficiency: [paste code here]. Focus on: removing unused imports/variables, improving naming, fixing formatting, eliminating redundancies, and adding comments where needed. Preserve all functionality.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code style expert. Clean up this [language] code for better readability and efficiency: [paste code here]. Focus on: removing unused imports/variables. Improving naming conventions. Fixing formatting and indentation. Eliminating redundancies. Adding comments where needed. Preserve all functionality. Output: cleaned code in a code block, followed by suggestions for further improvements.',
     'icon': 'fas fa-broom'
   },
   {
@@ -29,7 +32,7 @@ let prompts = [
     'title': 'Debug Code',
     'category': 'debug',
     'description': 'Find and fix issues with step-by-step reasoning',
-    'template': 'Debug this code: [paste code here]. It\'s not working as expected—[describe symptom, e.g., \'throws error X\' or \'returns wrong value\']. Provide step-by-step reasoning: check inputs, examine logic flow, identify potential causes, and suggest targeted fixes with explanations.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a senior debugger. Debug this [language] code: [paste code here]. It\'s not working as expected—[describe symptom, e.g., \'throws error X\' or \'returns wrong value\']. Provide step-by-step reasoning: check inputs, examine logic flow, identify potential causes, and suggest targeted fixes with explanations.',
     'icon': 'fas fa-bug'
   },
   {
@@ -37,7 +40,7 @@ let prompts = [
     'title': 'Explain Code',
     'category': 'explain',
     'description': 'Break down code step by step with analysis',
-    'template': 'Explain this code step by step: [paste code here]. Break down what each part does, why it\'s structured this way, and any potential issues.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code educator. Explain this [language] code step by step: [paste code here]. Break down what each part does, why it\'s structured this way, and any potential issues.',
     'icon': 'fas fa-search'
   },
   {
@@ -45,7 +48,7 @@ let prompts = [
     'title': 'Add Specific Feature',
     'category': 'feature',
     'description': 'Integrate new functionality seamlessly',
-    'template': 'Add [describe feature, e.g., user authentication] to this existing code: [paste code here]. Integrate it seamlessly and handle any dependencies.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a feature engineer. Add [describe feature, e.g., user authentication] to this existing [language] code: [paste code here]. Integrate it seamlessly and handle any dependencies.',
     'icon': 'fas fa-plus-circle'
   },
   {
@@ -53,7 +56,7 @@ let prompts = [
     'title': 'Generate Tests',
     'category': 'test',
     'description': 'Create comprehensive unit tests',
-    'template': 'Write unit tests for this function: [paste code here]. Cover edge cases and use [framework, e.g., Jest].',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a QA engineer. Write unit tests for this [language] function/code: [paste code here]. Cover edge cases and use [framework, e.g., Jest].',
     'icon': 'fas fa-vial'
   },
   {
@@ -61,7 +64,7 @@ let prompts = [
     'title': 'Optimize Code',
     'category': 'optimize',
     'description': 'Improve performance, memory usage, or speed',
-    'template': 'Optimize this code for [aspect, e.g., speed/memory/CPU usage]: [paste code here]. Focus on: algorithmic improvements, memory management, reducing complexity, and eliminating bottlenecks. Provide before/after performance comparisons.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a performance optimizer. Optimize this [language] code for [aspect, e.g., speed/memory/CPU usage]: [paste code here]. Focus on: algorithmic improvements, memory management, reducing complexity, and eliminating bottlenecks. Provide before/after performance comparisons.',
     'icon': 'fas fa-tachometer-alt'
   },
   {
@@ -69,7 +72,7 @@ let prompts = [
     'title': 'Document Features',
     'category': 'document',
     'description': 'Add detailed comments and documentation',
-    'template': 'Add detailed documentation to this code or feature: [paste code or describe feature]. Include comments explaining each section, inputs, outputs, and usage examples.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a technical writer. Add detailed documentation to this code or feature: [paste code or describe feature]. Include comments explaining each section, inputs, outputs, and usage examples.',
     'icon': 'fas fa-book'
   },
   {
@@ -77,7 +80,7 @@ let prompts = [
     'title': 'Refactor with Changes',
     'category': 'refactor',
     'description': 'Apply specific refactoring changes',
-    'template': 'Refactor this code with these specific changes: [list changes, e.g., make it asynchronous and optimize loops]: [paste code here]. Maintain original behavior.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a refactoring specialist. Refactor this [language] code with these specific changes: [list changes, e.g., make it asynchronous and optimize loops]: [paste code here]. Maintain original behavior.',
     'icon': 'fas fa-code-branch'
   },
   {
@@ -85,7 +88,7 @@ let prompts = [
     'title': 'Security Audit',
     'category': 'security',
     'description': 'Identify and fix security vulnerabilities',
-    'template': 'Perform a security audit on this code: [paste code here]. Identify vulnerabilities like [specific concerns, e.g., SQL injection] and suggest fixes.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a security expert. Perform a security audit on this [language] code: [paste code here]. Identify vulnerabilities like [specific concerns, e.g., SQL injection] and suggest fixes.',
     'icon': 'fas fa-shield-alt'
   },
   {
@@ -93,7 +96,7 @@ let prompts = [
     'title': 'API Development',
     'category': 'api',
     'description': 'Build robust RESTful APIs',
-    'template': 'Create a RESTful API for [resource] with CRUD operations, input validation, error handling, rate limiting, caching, and comprehensive OpenAPI documentation.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a backend developer. Create a RESTful API for [resource] with CRUD operations, input validation, error handling, rate limiting, caching, and comprehensive OpenAPI documentation.',
     'icon': 'fas fa-plug'
   },
   {
@@ -101,7 +104,7 @@ let prompts = [
     'title': 'Repair Code',
     'category': 'repair',
     'description': 'Fix bugs and explain the changes made',
-    'template': 'Repair this broken code: [paste code here]. It\'s producing [describe error or issue]. Fix the bugs and explain the changes.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code repair specialist. Repair this broken [language] code: [paste code here]. It\'s producing [describe error or issue]. Fix the bugs and explain the changes.',
     'icon': 'fas fa-tools'
   },
   {
@@ -109,7 +112,7 @@ let prompts = [
     'title': 'Generate New Code',
     'category': 'generate',
     'description': 'Create new scripts or applications from scratch',
-    'template': 'Generate a [language] script that [full description, e.g., fetches weather data via API and displays it in a CLI]. Include error handling.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code generator. Generate a [language] script that [full description, e.g., fetches weather data via API and displays it in a CLI]. Include error handling.',
     'icon': 'fas fa-magic'
   },
   {
@@ -117,7 +120,7 @@ let prompts = [
     'title': 'Code Review Analysis',
     'category': 'review',
     'description': 'Comprehensive code review and feedback',
-    'template': 'Perform a comprehensive code review of [paste code] focusing on: maintainability, performance bottlenecks, security vulnerabilities, and best practices. Provide actionable recommendations.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code reviewer. Perform a comprehensive code review of [paste code] focusing on: maintainability, performance bottlenecks, security vulnerabilities, and best practices. Provide actionable recommendations.',
     'icon': 'fas fa-search-plus'
   },
   {
@@ -125,7 +128,7 @@ let prompts = [
     'title': 'Testing Strategy',
     'category': 'testing',
     'description': 'Complete testing strategies and plans',
-    'template': 'Generate a complete testing strategy for [application/feature] including: unit tests, integration tests, E2E tests, performance benchmarks, and test automation setup.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a test strategist. Generate a complete testing strategy for [application/feature] including: unit tests, integration tests, E2E tests, performance benchmarks, and test automation setup.',
     'icon': 'fas fa-vial'
   },
   {
@@ -133,7 +136,7 @@ let prompts = [
     'title': 'Create Full App Prototype',
     'category': 'generate',
     'description': 'Build complete application prototypes',
-    'template': 'Build a simple [app type, e.g., task manager] app in [stack, e.g., React with Node backend]. Include [key features, e.g., user login, CRUD operations].',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a full-stack developer. Build a simple [app type, e.g., task manager] app in [stack, e.g., React with Node backend]. Include [key features, e.g., user login, CRUD operations].',
     'icon': 'fas fa-rocket'
   },
   {
@@ -141,7 +144,7 @@ let prompts = [
     'title': 'System Architecture Design',
     'category': 'architecture',
     'description': 'Design scalable system architectures',
-    'template': 'Design a scalable microservices architecture for [app type] with [specific requirements]. Include service boundaries, API contracts, data flow diagrams, and deployment strategy.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a system architect. Design a scalable microservices architecture for [app type] with [specific requirements]. Include service boundaries, API contracts, data flow diagrams, and deployment strategy.',
     'icon': 'fas fa-sitemap'
   },
   {
@@ -149,7 +152,7 @@ let prompts = [
     'title': 'Database Schema Design',
     'category': 'database',
     'description': 'Design optimized database structures',
-    'template': 'Design a normalized database schema for [application] with proper relationships, indexes, and constraints. Include migration scripts and performance optimization strategies.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a database designer. Design a normalized database schema for [application] with proper relationships, indexes, and constraints. Include migration scripts and performance optimization strategies.',
     'icon': 'fas fa-database'
   },
   {
@@ -157,7 +160,7 @@ let prompts = [
     'title': 'Performance Profiling',
     'category': 'performance',
     'description': 'Identify and fix performance bottlenecks',
-    'template': 'Profile and optimize this [code] for [specific metric: speed/memory/CPU]. Identify bottlenecks, suggest algorithmic improvements, and provide benchmarking code.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a performance profiler. Profile and optimize this [language] code for [specific metric: speed/memory/CPU]. Identify bottlenecks, suggest algorithmic improvements, and provide benchmarking code.',
     'icon': 'fas fa-tachometer-alt'
   },
   {
@@ -165,7 +168,7 @@ let prompts = [
     'title': 'CI/CD Pipeline',
     'category': 'devops',
     'description': 'Automated deployment pipelines',
-    'template': 'Generate a complete CI/CD pipeline for [tech stack] including: automated testing, security scanning, deployment to [platform], monitoring setup, and rollback strategies.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a DevOps engineer. Generate a complete CI/CD pipeline for [tech stack] including: automated testing, security scanning, deployment to [platform], monitoring setup, and rollback strategies.',
     'icon': 'fas fa-cogs'
   },
   {
@@ -173,7 +176,7 @@ let prompts = [
     'title': 'Technical Debt Analysis',
     'category': 'analysis',
     'description': 'Identify and prioritize technical debt',
-    'template': 'Analyze this codebase for technical debt and provide a prioritized refactoring plan with effort estimates, risk assessments, and business impact analysis.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a technical debt analyst. Analyze this codebase for technical debt and provide a prioritized refactoring plan with effort estimates, risk assessments, and business impact analysis.',
     'icon': 'fas fa-chart-line'
   },
   {
@@ -181,7 +184,7 @@ let prompts = [
     'title': 'Convert Code Languages',
     'category': 'convert',
     'description': 'Translate code between programming languages',
-    'template': 'Convert this [source language] code to [target language]: [paste code here]. Preserve all functionality and add comments.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code translator. Convert this [source language] code to [target language]: [paste code here]. Preserve all functionality and add comments.',
     'icon': 'fas fa-exchange-alt'
   },
   {
@@ -189,7 +192,7 @@ let prompts = [
     'title': 'Migration Guide',
     'category': 'convert',
     'description': 'Migrate code between frameworks, libraries, or versions',
-    'template': 'Help migrate this [current tech/library] code to [target tech/library]: [paste code here]. Include: breaking changes to handle, new patterns to adopt, testing strategy, and rollback plan.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a migration expert. Help migrate this [current tech/library] code to [target tech/library]: [paste code here]. Include: breaking changes to handle, new patterns to adopt, testing strategy, and rollback plan.',
     'icon': 'fas fa-arrows-alt'
   },
   {
@@ -197,7 +200,7 @@ let prompts = [
     'title': 'Configuration Issues',
     'category': 'debug',
     'description': 'Debug and fix configuration problems',
-    'template': 'Debug this configuration issue: [describe problem, e.g., \'app won\'t start\' or \'feature not working\']. Configuration files: [paste relevant configs]. Environment: [describe setup]. Identify root cause and provide solution.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a config troubleshooter. Debug this configuration issue: [describe problem, e.g., \'app won\'t start\' or \'feature not working\']. Configuration files: [paste relevant configs]. Environment: [describe setup]. Identify root cause and provide solution.',
     'icon': 'fas fa-cogs'
   },
   {
@@ -205,7 +208,7 @@ let prompts = [
     'title': 'Deployment Issues',
     'category': 'devops',
     'description': 'Troubleshoot and fix deployment problems',
-    'template': 'Fix this deployment issue: [describe problem, e.g., \'build fails in CI\' or \'app crashes in production\']. Environment: [dev/staging/prod]. Logs: [paste relevant logs]. Deployment config: [paste config]. Provide root cause and fix.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a deployment specialist. Fix this deployment issue: [describe problem, e.g., \'build fails in CI\' or \'app crashes in production\']. Environment: [dev/staging/prod]. Logs: [paste relevant logs]. Deployment config: [paste config]. Provide root cause and fix.',
     'icon': 'fas fa-server'
   },
   {
@@ -213,7 +216,7 @@ let prompts = [
     'title': 'Concurrency Analysis',
     'category': 'concurrency',
     'description': 'Thread safety and concurrent programming',
-    'template': 'Review this [language] code for concurrency issues, race conditions, deadlocks, and thread safety problems. Suggest proper synchronization patterns and testing strategies.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a concurrency expert. Review this [language] code for concurrency issues, race conditions, deadlocks, and thread safety problems. Suggest proper synchronization patterns and testing strategies.',
     'icon': 'fas fa-sync'
   },
   {
@@ -221,7 +224,7 @@ let prompts = [
     'title': 'Code Documentation',
     'category': 'documentation',
     'description': 'Comprehensive documentation generation',
-    'template': 'Generate comprehensive documentation for [code/project] including: API references, usage examples, architecture diagrams, setup instructions, and troubleshooting guides.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a documentation engineer. Generate comprehensive documentation for [code/project] including: API references, usage examples, architecture diagrams, setup instructions, and troubleshooting guides.',
     'icon': 'fas fa-book-open'
   },
   {
@@ -229,7 +232,7 @@ let prompts = [
     'title': 'Document API Endpoint',
     'category': 'document',
     'description': 'Document APIs with request/response formats',
-    'template': 'Document this API endpoint: [paste code or describe]. Include request/response formats, error handling, and example calls.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as an API documenter. Document this API endpoint: [paste code or describe]. Include request/response formats, error handling, and example calls.',
     'icon': 'fas fa-plug'
   },
   {
@@ -237,7 +240,7 @@ let prompts = [
     'title': 'Clean Up with Style Guide',
     'category': 'cleanup',
     'description': 'Follow specific coding standards and style guides',
-    'template': 'Clean up this code to follow [style guide, e.g., PEP 8 for Python]: [paste code here]. Focus on indentation, variable naming, and removing unused imports.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a style enforcer. Clean up this [language] code to follow [style guide, e.g., PEP 8 for Python]: [paste code here]. Focus on indentation, variable naming, and removing unused imports.',
     'icon': 'fas fa-palette'
   },
   {
@@ -245,7 +248,7 @@ let prompts = [
     'title': 'Refactor for Scalability',
     'category': 'refactor',
     'description': 'Optimize code for production scalability',
-    'template': 'Refactor this code for scalability [changes, e.g., add caching and parallel processing]: [paste code here]. Test for performance gains.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a scalability engineer. Refactor this [language] code for scalability [changes, e.g., add caching and parallel processing]: [paste code here]. Test for performance gains.',
     'icon': 'fas fa-chart-line'
   },
   {
@@ -253,7 +256,7 @@ let prompts = [
     'title': 'Rapid Prototyping',
     'category': 'prototype',
     'description': 'Quick working prototypes',
-    'template': 'Build a working prototype of [feature] using [tech stack] with authentication, database integration, basic UI, error handling, and input validation. Focus on core functionality.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a prototyper. Build a working prototype of [feature] using [tech stack] with authentication, database integration, basic UI, error handling, and input validation. Focus on core functionality.',
     'icon': 'fas fa-rocket'
   },
   {
@@ -261,7 +264,7 @@ let prompts = [
     'title': 'Repair Runtime Issues',
     'category': 'repair',
     'description': 'Fix crashing code with stack trace analysis',
-    'template': 'Repair this code that\'s crashing at runtime: [paste code here]. The stack trace is [paste trace]. Suggest preventive measures.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a runtime fixer. Repair this [language] code that\'s crashing at runtime: [paste code here]. The stack trace is [paste trace]. Suggest preventive measures.',
     'icon': 'fas fa-exclamation-triangle'
   },
   {
@@ -269,7 +272,7 @@ let prompts = [
     'title': 'Explain with Comparison',
     'category': 'explain',
     'description': 'Compare code approaches and their trade-offs',
-    'template': 'Explain this code and compare it to [alternative approach]: [paste code here]. Highlight pros, cons, and when to use each.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code comparator. Explain this [language] code and compare it to [alternative approach]: [paste code here]. Highlight pros, cons, and when to use each.',
     'icon': 'fas fa-balance-scale'
   },
   {
@@ -277,7 +280,7 @@ let prompts = [
     'title': 'Add Feature with Library',
     'category': 'feature',
     'description': 'Add features using specific libraries or frameworks',
-    'template': 'Add [feature, e.g., email notifications] using [library, e.g., SendGrid] to this code: [paste code here]. Ensure it\'s secure and testable.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a library integrator. Add [feature, e.g., email notifications] using [library, e.g., SendGrid] to this [language] code: [paste code here]. Ensure it\'s secure and testable.',
     'icon': 'fas fa-cubes'
   },
   {
@@ -285,7 +288,7 @@ let prompts = [
     'title': 'Remove References',
     'category': 'remove',
     'description': 'Remove libraries, variables, or deprecated elements',
-    'template': 'Remove all references to [specify what to remove, e.g., a library or variable] from this code: [paste code here]. Replace with alternatives if needed to keep it functional.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a cleanup specialist. Remove all references to [specify what to remove, e.g., a library or variable] from this [language] code: [paste code here]. Replace with alternatives if needed to keep it functional.',
     'icon': 'fas fa-trash'
   },
   {
@@ -293,7 +296,7 @@ let prompts = [
     'title': 'Remove Deprecated Elements',
     'category': 'remove',
     'description': 'Update deprecated code to modern equivalents',
-    'template': 'Remove deprecated [element, e.g., API calls] from this code and update to modern equivalents: [paste code here].',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a modernization expert. Remove deprecated [element, e.g., API calls] from this [language] code and update to modern equivalents: [paste code here].',
     'icon': 'fas fa-recycle'
   },
   {
@@ -301,7 +304,7 @@ let prompts = [
     'title': 'Edge Case Testing',
     'category': 'test',
     'description': 'Identify and test edge cases thoroughly',
-    'template': 'Analyze this function/code for edge cases: [paste code here]. Identify: boundary conditions, error inputs, race conditions, and unusual but valid scenarios. Write tests covering all edge cases.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as an edge case tester. Analyze this [language] function/code for edge cases: [paste code here]. Identify: boundary conditions, error inputs, race conditions, and unusual but valid scenarios. Write tests covering all edge cases.',
     'icon': 'fas fa-exclamation-circle'
   },
   {
@@ -309,7 +312,7 @@ let prompts = [
     'title': 'Code Review Feedback',
     'category': 'review',
     'description': 'Provide constructive feedback on code changes',
-    'template': 'Review this code change/diff: [paste code or diff]. Provide constructive feedback on: code quality, potential bugs, performance implications, security concerns, and best practices. Suggest specific improvements.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a peer reviewer. Review this code change/diff: [paste code or diff]. Provide constructive feedback on: code quality, potential bugs, performance implications, security concerns, and best practices. Suggest specific improvements.',
     'icon': 'fas fa-comments'
   }
 ];
@@ -323,42 +326,60 @@ async function loadPrompts() {
       if (response.ok) {
         const externalPrompts = await response.json();
         if (externalPrompts && externalPrompts.length > 0) {
-          prompts = externalPrompts;
-          console.log(`Loaded ${prompts.length} prompts from external file`);
+          AppState.prompts = externalPrompts;
+          console.log(`Loaded ${AppState.prompts.length} prompts from external file`);
+          return;
         }
       }
     }
+    // Fallback to embedded prompts
+    AppState.prompts = embeddedPrompts;
+    console.log('Using embedded prompts (fetch not available or failed)');
   } catch (error) {
-    console.log('Using embedded prompts (fetch not available or failed):', error.message);
+    console.log('Error loading prompts:', error.message);
+    AppState.prompts = embeddedPrompts;
   }
 }
 
 // Initialize state with error handling
-try {
-  const storedFavorites = localStorage.getItem('clineFavorites');
-  favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
-} catch (error) {
-  console.warn('Failed to load favorites from localStorage:', error);
-  favorites = [];
-}
+async function initializeState() {
+  await loadPrompts();
 
-try {
-  const storedStats = localStorage.getItem('clineUsageStats');
-  usageStats = storedStats ? JSON.parse(storedStats) : {};
-} catch (error) {
-  console.warn('Failed to load usage stats from localStorage:', error);
-  usageStats = {};
+  try {
+    const storedFavorites = localStorage.getItem('clineFavorites');
+    AppState.favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
+  } catch (error) {
+    console.warn('Failed to load favorites from localStorage:', error);
+    AppState.favorites = [];
+  }
+
+  try {
+    const storedStats = localStorage.getItem('clineUsageStats');
+    AppState.usageStats = storedStats ? JSON.parse(storedStats) : {};
+  } catch (error) {
+    console.warn('Failed to load usage stats from localStorage:', error);
+    AppState.usageStats = {};
+  }
 }
 
 // Utility functions
 function saveToStorage() {
   try {
-    localStorage.setItem('clineFavorites', JSON.stringify(favorites));
-    localStorage.setItem('clineUsageStats', JSON.stringify(usageStats));
+    localStorage.setItem('clineFavorites', JSON.stringify(AppState.favorites));
+    localStorage.setItem('clineUsageStats', JSON.stringify(AppState.usageStats));
   } catch (error) {
     console.warn('Failed to save to localStorage:', error);
     showToast('Failed to save preferences', 'error');
   }
+}
+
+// Debounce utility for performance optimization
+function debounce(fn, delay) {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn(...args), delay);
+  };
 }
 
 // Fuzzy search implementation
@@ -389,16 +410,16 @@ function highlightMatches(text, query) {
 
 function trackUsage(promptId) {
   const today = new Date().toDateString();
-  usageStats[today] = (usageStats[today] || 0) + 1;
+  AppState.usageStats[today] = (AppState.usageStats[today] || 0) + 1;
   saveToStorage();
 }
 
 function toggleFavorite(promptId) {
-  const index = favorites.indexOf(promptId);
+  const index = AppState.favorites.indexOf(promptId);
   if (index > -1) {
-    favorites.splice(index, 1);
+    AppState.favorites.splice(index, 1);
   } else {
-    favorites.push(promptId);
+    AppState.favorites.push(promptId);
   }
   saveToStorage();
   renderPrompts();
@@ -406,16 +427,16 @@ function toggleFavorite(promptId) {
 }
 
 function isFavorite(promptId) {
-  return favorites.includes(promptId);
+  return AppState.favorites.includes(promptId);
 }
 
 function renderPrompts() {
   const grid = document.getElementById('promptsGrid');
-  const filteredPrompts = prompts.filter(prompt => {
-    const matchesCategory = selectedCategories.has('all') || selectedCategories.has(prompt.category);
-    const matchesSearch = fuzzyMatch(prompt.title, searchTerm) ||
-                            fuzzyMatch(prompt.description, searchTerm) ||
-                            fuzzyMatch(prompt.template, searchTerm);
+  const filteredPrompts = AppState.prompts.filter(prompt => {
+    const matchesCategory = AppState.selectedCategories.has('all') || AppState.selectedCategories.has(prompt.category);
+    const matchesSearch = fuzzyMatch(prompt.title, AppState.searchTerm) ||
+                          fuzzyMatch(prompt.description, AppState.searchTerm) ||
+                          fuzzyMatch(prompt.template, AppState.searchTerm);
     return matchesCategory && matchesSearch;
   });
 
@@ -426,9 +447,9 @@ function renderPrompts() {
     const safeIcon = DOMPurify.sanitize(prompt.icon);
 
     const templateWithPlaceholders = prompt.template.replace(/\[([^\]]+)\]/g, '<span class="placeholder" onclick="fillPlaceholder(\'$1\')">[$1]</span>');
-    const highlightedTitle = highlightMatches(safeTitle, searchTerm);
-    const highlightedDescription = highlightMatches(safeDescription, searchTerm);
-    const highlightedTemplate = highlightMatches(templateWithPlaceholders, searchTerm);
+    const highlightedTitle = highlightMatches(safeTitle, AppState.searchTerm);
+    const highlightedDescription = highlightMatches(safeDescription, AppState.searchTerm);
+    const highlightedTemplate = highlightMatches(templateWithPlaceholders, AppState.searchTerm);
     const isFav = isFavorite(prompt.id);
 
     return `
@@ -444,10 +465,10 @@ function renderPrompts() {
                 <div class="prompt-description">${highlightedDescription}</div>
                 <div class="prompt-template">${highlightedTemplate}</div>
                 <div class="prompt-actions">
-                    <button class="btn btn-primary" onclick="copyToClipboard('${prompt.template.replace(/'/g, '\\\'')}', ${prompt.id})">
+                    <button class="btn btn-primary copy-btn" data-template="${JSON.stringify(prompt.template).slice(1, -1)}" data-prompt-id="${prompt.id}">
                         <i class="fas fa-copy"></i> Copy
                     </button>
-                    <button class="btn btn-secondary" onclick="editPrompt('${prompt.template.replace(/'/g, '\\\'')}', ${prompt.id})">
+                    <button class="btn btn-secondary edit-btn" data-template="${JSON.stringify(prompt.template).slice(1, -1)}" data-prompt-id="${prompt.id}">
                         <i class="fas fa-edit"></i> Edit
                     </button>
                 </div>
@@ -455,7 +476,7 @@ function renderPrompts() {
         `;
   }).join('');
 
-  grid.innerHTML = DOMPurify.sanitize(sanitizedHTML, { ALLOWED_TAGS: ['div', 'span', 'button', 'i', 'mark'], ALLOWED_ATTR: ['class', 'onclick', 'title'] });
+  grid.innerHTML = DOMPurify.sanitize(sanitizedHTML, { ALLOWED_TAGS: ['div', 'span', 'button', 'i', 'mark'], ALLOWED_ATTR: ['class', 'onclick', 'title', 'data-template', 'data-prompt-id'] });
 
   // Add animation delay to cards
   const cards = grid.querySelectorAll('.prompt-card');
@@ -463,19 +484,39 @@ function renderPrompts() {
     card.style.animationDelay = `${index * 0.1}s`;
     card.classList.add('pulse');
   });
+
+  // Add event listeners for copy and edit buttons
+  const copyButtons = grid.querySelectorAll('.copy-btn');
+  const editButtons = grid.querySelectorAll('.edit-btn');
+
+  copyButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      const template = e.target.closest('.copy-btn').dataset.template;
+      const promptId = parseInt(e.target.closest('.copy-btn').dataset.promptId);
+      copyToClipboard(template, promptId);
+    });
+  });
+
+  editButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      const template = e.target.closest('.edit-btn').dataset.template;
+      const promptId = parseInt(e.target.closest('.edit-btn').dataset.promptId);
+      editPrompt(template, promptId);
+    });
+  });
 }
 
 function renderFavorites() {
   const favoritesSection = document.getElementById('favoritesSection');
   const favoritesGrid = document.getElementById('favoritesGrid');
 
-  if (favorites.length === 0) {
+  if (AppState.favorites.length === 0) {
     favoritesSection.style.display = 'none';
     return;
   }
 
   favoritesSection.style.display = 'block';
-  const favoritePrompts = prompts.filter(prompt => favorites.includes(prompt.id));
+  const favoritePrompts = AppState.prompts.filter(prompt => AppState.favorites.includes(prompt.id));
 
   favoritesGrid.innerHTML = favoritePrompts.map(prompt => `
         <div class="favorite-chip" onclick="scrollToPrompt(${prompt.id})">
@@ -492,6 +533,7 @@ function scrollToPrompt(promptId) {
 }
 
 function copyToClipboard(text, promptId) {
+  // Enhanced clipboard handling with better error feedback
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
       showToast('Copied to clipboard! 📋', 'success');
@@ -516,17 +558,35 @@ function fallbackCopyToClipboard(text, promptId) {
     textArea.focus();
     textArea.select();
 
-    if (document.execCommand('copy')) {
+    const successful = document.execCommand('copy');
+    document.body.removeChild(textArea);
+
+    if (successful) {
       showToast('Copied to clipboard! 📋', 'success');
       if (promptId) trackUsage(promptId);
     } else {
       throw new Error('execCommand failed');
     }
-
-    document.body.removeChild(textArea);
   } catch (error) {
     console.error('Fallback copy failed:', error);
     showToast('Copy failed. Please select and copy manually.', 'error');
+    // Fallback: Select the text in a temporary element for manual copy
+    const tempDiv = document.createElement('div');
+    tempDiv.textContent = text;
+    tempDiv.style.position = 'fixed';
+    tempDiv.style.left = '-999999px';
+    tempDiv.style.opacity = '0';
+    document.body.appendChild(tempDiv);
+    const range = document.createRange();
+    range.selectNodeContents(tempDiv);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    showToast('Text selected for manual copy.', 'info');
+    setTimeout(() => {
+      document.body.removeChild(tempDiv);
+      selection.removeAllRanges();
+    }, 5000);
   }
 }
 
@@ -563,7 +623,9 @@ function quickAction(type) {
     'document': 'Add comprehensive documentation to this code: [paste code here]. Include function descriptions, parameter explanations, and usage examples.'
   };
 
-  copyToClipboard(templates[type]);
+  if (templates[type]) {
+    copyToClipboard(templates[type]);
+  }
 }
 
 // Modal functions
@@ -651,9 +713,9 @@ function saveCustomTemplate() {
 
 function exportPrompts() {
   const data = {
-    prompts: prompts,
-    favorites: favorites,
-    usageStats: usageStats,
+    prompts: AppState.prompts,
+    favorites: AppState.favorites,
+    usageStats: AppState.usageStats,
     exportedAt: new Date().toISOString()
   };
 
@@ -670,8 +732,8 @@ function exportPrompts() {
 
 function showAnalytics() {
   const content = document.getElementById('analyticsContent');
-  const totalUsage = Object.values(usageStats).reduce((a, b) => a + b, 0);
-  const favoriteCategories = favorites.map(id => prompts.find(p => p.id === id)?.category)
+  const totalUsage = Object.values(AppState.usageStats).reduce((a, b) => a + b, 0);
+  const favoriteCategories = AppState.favorites.map(id => AppState.prompts.find(p => p.id === id)?.category)
     .reduce((acc, cat) => {
       acc[cat] = (acc[cat] || 0) + 1;
       return acc;
@@ -693,11 +755,11 @@ function showAnalytics() {
                 <div style="color: var(--text-secondary);">Total Uses</div>
             </div>
             <div style="text-align: center; padding: 20px; background: var(--bg-card); border-radius: 12px;">
-                <div style="font-size: 2em; font-weight: bold; color: #ffd700;">${favorites.length}</div>
+                <div style="font-size: 2em; font-weight: bold; color: #ffd700;">${AppState.favorites.length}</div>
                 <div style="color: var(--text-secondary);">Favorites</div>
             </div>
             <div style="text-align: center; padding: 20px; background: var(--bg-card); border-radius: 12px;">
-                <div style="font-size: 2em; font-weight: bold; color: var(--success-color);">${prompts.length}</div>
+                <div style="font-size: 2em; font-weight: bold; color: var(--success-color);">${AppState.prompts.length}</div>
                 <div style="color: var(--text-secondary);">Prompts</div>
             </div>
         </div>
@@ -770,7 +832,7 @@ document.addEventListener('keydown', (e) => {
     break;
   case 'escape':
     document.getElementById('searchInput').value = '';
-    searchTerm = '';
+    AppState.searchTerm = '';
     renderPrompts();
     break;
   case 'enter':
@@ -798,10 +860,10 @@ function toggleFavoritesView() {
 }
 
 // Event listeners
-document.getElementById('searchInput').addEventListener('input', (e) => {
-  searchTerm = e.target.value;
+document.getElementById('searchInput').addEventListener('input', debounce((e) => {
+  AppState.searchTerm = e.target.value;
   renderPrompts();
-});
+}, 300));
 
 document.getElementById('categories').addEventListener('click', (e) => {
   if (e.target.classList.contains('category-btn')) {
@@ -809,27 +871,27 @@ document.getElementById('categories').addEventListener('click', (e) => {
 
     if (category === 'all') {
       // "All" category is special - clicking it selects only "all"
-      selectedCategories.clear();
-      selectedCategories.add('all');
+      AppState.selectedCategories.clear();
+      AppState.selectedCategories.add('all');
       document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
       e.target.classList.add('active');
     } else {
       // Multi-select for other categories
-      if (selectedCategories.has('all')) {
-        selectedCategories.clear();
+      if (AppState.selectedCategories.has('all')) {
+        AppState.selectedCategories.clear();
         document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
       }
 
-      if (selectedCategories.has(category)) {
-        selectedCategories.delete(category);
+      if (AppState.selectedCategories.has(category)) {
+        AppState.selectedCategories.delete(category);
         e.target.classList.remove('active');
         // If no categories selected, default to "all"
-        if (selectedCategories.size === 0) {
-          selectedCategories.add('all');
+        if (AppState.selectedCategories.size === 0) {
+          AppState.selectedCategories.add('all');
           document.querySelector('[data-category="all"]').classList.add('active');
         }
       } else {
-        selectedCategories.add(category);
+        AppState.selectedCategories.add(category);
         e.target.classList.add('active');
       }
     }
@@ -849,7 +911,7 @@ document.querySelectorAll('.modal').forEach(modal => {
 
 // Initialize application
 async function initializeApp() {
-  await loadPrompts();
+  await initializeState();
   renderPrompts();
   renderFavorites();
 }

@@ -3,304 +3,304 @@
     "id": 1,
     "title": "Evaluate Completed App",
     "category": "review",
-    "description": "Comprehensive assessment of finished applications",
-    "template": "Evaluate this completed application: [paste app code/details]. Assess: overall functionality, performance bottlenecks, security vulnerabilities, code quality, scalability potential, user experience, and maintainability. Provide detailed feedback with prioritized improvement recommendations and implementation suggestions.",
+    "description": "Comprehensive assessment of finished applications with actionable insights",
+    "template": "Act as a senior software architect with 10+ years of experience. Evaluate this completed application: [paste app code/details]. Context: [describe app purpose, tech stack, target users]. Assess: 1) Overall functionality & UX (usability, accessibility, responsiveness), 2) Performance bottlenecks & scalability potential (load testing, database optimization), 3) Security vulnerabilities (OWASP Top 10, authentication, data protection), 4) Code quality (maintainability, technical debt, documentation), 5) Architecture patterns & best practices. Provide: prioritized improvement recommendations with effort estimates, implementation suggestions, and success metrics. Output in Markdown: ## Executive Summary, ## Detailed Assessment, ## Critical Issues, ## Enhancement Roadmap, ## Success Metrics.",
     "icon": "fas fa-clipboard-check"
   },
   {
     "id": 2,
     "title": "Clean Up Code",
     "category": "cleanup",
-    "description": "Remove redundancies, format properly, and suggest improvements",
-    "template": "Clean up this code for better readability and efficiency: [paste code here]. Focus on: removing unused imports/variables, improving naming, fixing formatting, eliminating redundancies, and adding comments where needed. Preserve all functionality.",
+    "description": "Remove redundancies, format properly, and suggest improvements with quality metrics",
+    "template": "Act as a senior code quality engineer. Clean up this [language] code for better readability and efficiency: [paste code here]. Context: [describe codebase size, team size, project phase]. Focus on: removing unused imports/variables/functions, improving naming conventions (descriptive, consistent), fixing formatting/indentation (follow [language] style guide), eliminating code duplication, adding meaningful comments, optimizing imports. Preserve all functionality. Run quality checks: [specify linters/tools like ESLint, Prettier, SonarQube]. Output: 1) Cleaned code in a code block, 2) Quality metrics before/after (complexity, duplication %), 3) Automated checks results, 4) Suggestions for further improvements with priority levels.",
     "icon": "fas fa-broom"
   },
   {
     "id": 3,
     "title": "Debug Code",
     "category": "debug",
-    "description": "Find and fix issues with step-by-step reasoning",
-    "template": "Debug this code: [paste code here]. It's not working as expected—[describe symptom, e.g., 'throws error X' or 'returns wrong value']. Provide step-by-step reasoning: check inputs, examine logic flow, identify potential causes, and suggest targeted fixes with explanations.",
+    "description": "Find and fix issues with systematic debugging methodology",
+    "template": "Act as a senior debugger with expertise in [language] runtime issues. Debug this [language] code: [paste code here]. Issue: [describe symptom, e.g., 'throws error X on line Y' or 'returns wrong value Z']. Environment: [OS, [language] version, dependencies, input data]. Step-by-step debugging: 1) Reproduce the issue with minimal test case, 2) Analyze stack trace and error messages, 3) Check inputs, data flow, and logic paths, 4) Identify root causes (null checks, async issues, type mismatches, race conditions), 5) Verify assumptions with logging/debugging tools. Suggest targeted fixes with explanations. Output: 1) Root cause analysis, 2) Fixed code in code block, 3) Unit tests to prevent regression, 4) Debugging checklist for similar issues, 5) Performance impact assessment.",
     "icon": "fas fa-bug"
   },
   {
     "id": 4,
     "title": "Explain Code",
     "category": "explain",
-    "description": "Break down code step by step with analysis",
-    "template": "Explain this code step by step: [paste code here]. Break down what each part does, why it's structured this way, and any potential issues.",
+    "description": "Break down code step by step with analysis and educational insights",
+    "template": "Act as a senior code educator and technical mentor. Explain this [language] code step by step: [paste code here]. Context: [describe code purpose, complexity level, target audience]. Break down: 1) Overall purpose and architecture, 2) Key components and their responsibilities, 3) Data flow and control flow, 4) Important algorithms/patterns used, 5) Dependencies and external interactions, 6) Error handling and edge cases, 7) Performance considerations. Use analogies where helpful. Identify potential issues and improvements. Output in structured Markdown: ## Overview & Purpose, ## Architecture Breakdown, ## Line-by-Line Analysis, ## Key Patterns & Algorithms, ## Dependencies & Interactions, ## Error Handling, ## Performance Insights, ## Potential Issues, ## Improvement Suggestions.",
     "icon": "fas fa-search"
   },
   {
     "id": 5,
     "title": "Add Specific Feature",
     "category": "feature",
-    "description": "Integrate new functionality seamlessly",
-    "template": "Add [describe feature, e.g., user authentication] to this existing code: [paste code here]. Integrate it seamlessly and handle any dependencies.",
+    "description": "Integrate new functionality seamlessly with comprehensive testing",
+    "template": "Act as a senior feature engineer specializing in [language] development. Add [describe feature, e.g., 'JWT-based user authentication with role-based access control'] to this existing [language] code: [paste code here]. Context: [describe current architecture, existing patterns, integration points]. Requirements: [specify functional and non-functional requirements]. Integration approach: 1) Analyze existing codebase for patterns, 2) Design feature architecture (components, data models, APIs), 3) Implement with backward compatibility, 4) Handle dependencies and version conflicts, 5) Add comprehensive error handling and validation, 6) Ensure security best practices. Output: 1) Updated code in code blocks (modular changes), 2) Integration explanation and design decisions, 3) Unit and integration tests, 4) API documentation updates, 5) Migration guide for existing data/code, 6) Performance and security impact assessment.",
     "icon": "fas fa-plus-circle"
   },
   {
     "id": 6,
     "title": "Generate Tests",
     "category": "test",
-    "description": "Create comprehensive unit tests",
-    "template": "Write unit tests for this function: [paste code here]. Cover edge cases and use [framework, e.g., Jest].",
+    "description": "Create comprehensive unit tests with high coverage and quality metrics",
+    "template": "Act as a senior QA automation engineer. Write comprehensive unit tests for this [language] function/code: [paste code here]. Context: [describe function purpose, input/output types, edge cases]. Testing framework: [Jest for JS, pytest for Python, JUnit for Java, RSpec for Ruby]. Coverage requirements: 1) Happy paths (normal operation), 2) Edge cases (boundary values, null/empty inputs), 3) Error conditions (exceptions, invalid inputs), 4) Performance benchmarks (large datasets, concurrent access), 5) Integration points (external dependencies, database calls). Aim for 90%+ coverage with mutation testing. Output: 1) Test code in code blocks (organized by test type), 2) Test setup and mocking strategies, 3) Coverage report and gap analysis, 4) CI/CD integration commands, 5) Performance benchmarks, 6) Maintenance guidelines for tests.",
     "icon": "fas fa-vial"
   },
   {
     "id": 7,
     "title": "Optimize Code",
     "category": "optimize",
-    "description": "Improve performance, memory usage, or speed",
-    "template": "Optimize this code for [aspect, e.g., speed/memory/CPU usage]: [paste code here]. Focus on: algorithmic improvements, memory management, reducing complexity, and eliminating bottlenecks. Provide before/after performance comparisons.",
+    "description": "Improve performance, memory usage, or speed with measurable results",
+    "template": "Act as a senior performance engineer specializing in [language] optimization. Optimize this [language] code for [primary aspect: speed/memory/CPU usage]: [paste code here]. Context: [describe current performance issues, target environment, usage patterns]. Optimization strategy: 1) Profile current performance (use tools: Chrome DevTools, Py-Spy, VisualVM, etc.), 2) Identify bottlenecks (CPU, memory, I/O, network), 3) Apply algorithmic improvements (Big O analysis), 4) Implement memory optimizations (object pooling, lazy loading), 5) Reduce complexity (caching, parallelization), 6) Database query optimization if applicable. Measure improvements quantitatively. Output: 1) Optimized code in code block, 2) Performance metrics before/after (response time, memory usage, throughput), 3) Profiling results and bottleneck analysis, 4) Trade-off analysis (readability vs performance), 5) Monitoring recommendations, 6) Scalability projections.",
     "icon": "fas fa-tachometer-alt"
   },
   {
     "id": 8,
     "title": "Document Features",
     "category": "document",
-    "description": "Add detailed comments and documentation",
-    "template": "Add detailed documentation to this code or feature: [paste code or describe feature]. Include comments explaining each section, inputs, outputs, and usage examples.",
+    "description": "Add detailed comments and documentation following industry standards",
+    "template": "Act as a senior technical writer and documentation architect. Add comprehensive documentation to this code/feature: [paste code or describe feature]. Context: [describe audience, documentation format, existing docs]. Documentation scope: 1) Inline comments explaining complex logic, 2) Function/method documentation (parameters, return values, side effects), 3) Class/module overviews and responsibilities, 4) API documentation (OpenAPI/Swagger for APIs), 5) Usage examples and code samples, 6) Architecture diagrams (text-based), 7) Troubleshooting guides, 8) Migration/upgrade notes. Follow standards: [JSDoc for JS, docstrings for Python, JavaDoc for Java]. Output: 1) Fully documented code in code block, 2) Separate README/documentation files, 3) API specification documents, 4) Usage examples and tutorials, 5) Documentation quality metrics (completeness, clarity, accuracy).",
     "icon": "fas fa-book"
   },
   {
     "id": 9,
     "title": "Refactor with Changes",
     "category": "refactor",
-    "description": "Apply specific refactoring changes",
-    "template": "Refactor this code with these specific changes: [list changes, e.g., make it asynchronous and optimize loops]: [paste code here]. Maintain original behavior.",
+    "description": "Apply specific refactoring changes while maintaining behavior and improving quality",
+    "template": "Act as a senior refactoring specialist with TDD experience. Refactor this [language] code with these specific changes: [list changes, e.g., 'extract methods', 'introduce design patterns', 'improve error handling']: [paste code here]. Context: [describe codebase size, team practices, quality goals]. Refactoring principles: 1) Maintain original behavior (comprehensive tests required), 2) Improve code structure (SOLID principles, design patterns), 3) Enhance readability and maintainability, 4) Reduce complexity (cyclomatic complexity < 10), 5) Improve testability (dependency injection, single responsibility), 6) Follow language-specific best practices. Output: 1) Refactored code in code blocks (modular changes), 2) Diff highlighting key changes, 3) Design pattern rationale and alternatives considered, 4) Test coverage verification, 5) Code quality metrics improvement, 6) Performance impact assessment, 7) Future maintenance recommendations.",
     "icon": "fas fa-code-branch"
   },
   {
     "id": 10,
     "title": "Security Audit",
     "category": "security",
-    "description": "Identify and fix security vulnerabilities",
-    "template": "Perform a security audit on this code: [paste code here]. Identify vulnerabilities like [specific concerns, e.g., SQL injection] and suggest fixes.",
+    "description": "Identify and fix security vulnerabilities with risk assessment",
+    "template": "Act as a senior security auditor and penetration tester. Perform a comprehensive security audit on this [language] code: [paste code here]. Context: [describe application type, data sensitivity, compliance requirements]. Audit framework: OWASP Top 10, SANS Top 25, language-specific vulnerabilities. Analysis areas: 1) Input validation & sanitization (XSS, SQL injection, command injection), 2) Authentication & authorization (session management, access controls), 3) Data protection (encryption, secure storage, transmission), 4) Error handling (information leakage), 5) Dependencies (vulnerable libraries, supply chain attacks), 6) Configuration security (secrets management, hardening), 7) Business logic flaws. Risk assessment: Critical/High/Medium/Low. Output in Markdown: ## Executive Summary, ## Vulnerability Findings (table: Issue, Severity, CVSS Score, Location), ## Detailed Analysis, ## Remediation Plan, ## Fixed Code, ## Testing Strategy, ## Prevention Measures.",
     "icon": "fas fa-shield-alt"
   },
   {
     "id": 11,
     "title": "API Development",
     "category": "api",
-    "description": "Build robust RESTful APIs",
-    "template": "Create a RESTful API for [resource] with CRUD operations, input validation, error handling, rate limiting, caching, and comprehensive OpenAPI documentation.",
+    "description": "Build robust RESTful APIs with comprehensive documentation and testing",
+    "template": "Act as a senior backend API architect. Create a production-ready RESTful API for [resource, e.g., 'user management system'] in [language/framework, e.g., 'Node.js with Express' or 'Python with FastAPI']. Context: [describe business requirements, expected load, integration points]. API specification: 1) RESTful design (proper HTTP methods, status codes, resource naming), 2) CRUD operations with proper routing, 3) Input validation (schema validation, sanitization), 4) Error handling (structured error responses, logging), 5) Rate limiting and throttling, 6) Caching strategy (Redis/memory), 7) Authentication & authorization (JWT/OAuth), 8) Comprehensive OpenAPI/Swagger documentation, 9) Database integration with migrations, 10) Testing (unit, integration, contract tests). Output: 1) Complete API code in organized files, 2) OpenAPI specification, 3) Database schema and migrations, 4) Authentication implementation, 5) Test suites, 6) Deployment configuration, 7) API usage examples, 8) Performance benchmarks.",
     "icon": "fas fa-plug"
   },
   {
     "id": 12,
     "title": "Repair Code",
     "category": "repair",
-    "description": "Fix bugs and explain the changes made",
-    "template": "Repair this broken code: [paste code here]. It's producing [describe error or issue]. Fix the bugs and explain the changes.",
+    "description": "Fix bugs and explain changes with regression prevention",
+    "template": "Act as a senior code repair specialist with debugging expertise. Repair this broken [language] code: [paste code here]. Issue: [describe error or unexpected behavior in detail]. Context: [describe when/where the issue occurs, environment, reproduction steps]. Diagnostic approach: 1) Analyze error messages and stack traces, 2) Review code logic and data flow, 3) Check for common issues (null pointers, type mismatches, async problems), 4) Verify assumptions with targeted tests, 5) Implement fixes with minimal changes. Prevention measures: 1) Add comprehensive error handling, 2) Implement input validation, 3) Add logging for debugging, 4) Create regression tests. Output: 1) Root cause analysis, 2) Repaired code in code block, 3) Step-by-step explanation of fixes, 4) Unit tests to prevent regression, 5) Error handling improvements, 6) Code review checklist for similar issues.",
     "icon": "fas fa-tools"
   },
   {
     "id": 13,
     "title": "Generate New Code",
     "category": "generate",
-    "description": "Create new scripts or applications from scratch",
-    "template": "Generate a [language] script that [full description, e.g., fetches weather data via API and displays it in a CLI]. Include error handling.",
+    "description": "Create new scripts or applications from scratch with production-ready quality",
+    "template": "Act as a senior full-stack developer and software architect. Generate a production-ready [language] script/application that [full description, e.g., 'fetches weather data from OpenWeatherMap API and displays it in an interactive CLI dashboard']. Context: [describe requirements, constraints, target environment]. Implementation requirements: 1) Modular architecture (separation of concerns), 2) Comprehensive error handling and logging, 3) Input validation and sanitization, 4) Configuration management (environment variables, config files), 5) Testing framework integration, 6) Documentation (README, code comments), 7) Security best practices (no hardcoded secrets), 8) Performance optimization, 9) Cross-platform compatibility, 10) Deployment packaging. Output: 1) Complete project structure with all files, 2) Main application code, 3) Configuration and environment setup, 4) Test suites, 5) Documentation and usage examples, 6) Deployment scripts, 7) Performance benchmarks, 8) Security audit results.",
     "icon": "fas fa-magic"
   },
   {
     "id": 14,
     "title": "Code Review Analysis",
     "category": "review",
-    "description": "Comprehensive code review and feedback",
-    "template": "Perform a comprehensive code review of [paste code] focusing on: maintainability, performance bottlenecks, security vulnerabilities, and best practices. Provide actionable recommendations.",
+    "description": "Comprehensive code review with actionable feedback and quality metrics",
+    "template": "Act as a senior code reviewer and technical lead. Perform a comprehensive code review of this [language] code: [paste code or provide diff]. Context: [describe PR purpose, codebase size, team experience level, timeline]. Review dimensions: 1) Functionality & requirements compliance, 2) Code quality (readability, maintainability, complexity), 3) Performance implications (algorithms, database queries, memory usage), 4) Security vulnerabilities (input validation, authentication, data exposure), 5) Testing coverage and quality, 6) Documentation completeness, 7) Architecture & design patterns, 8) Best practices adherence, 9) Scalability considerations, 10) Technical debt impact. Output in structured Markdown: ## Executive Summary (Approval/Changes Required), ## Critical Issues (Blockers), ## Major Concerns (Must Fix), ## Minor Issues (Should Fix), ## Suggestions (Nice to Have), ## Security Findings, ## Performance Analysis, ## Testing Gaps, ## Overall Score (1-10), ## Approval Recommendation.",
     "icon": "fas fa-search-plus"
   },
   {
     "id": 15,
     "title": "Testing Strategy",
     "category": "testing",
-    "description": "Complete testing strategies and plans",
-    "template": "Generate a complete testing strategy for [application/feature] including: unit tests, integration tests, E2E tests, performance benchmarks, and test automation setup.",
+    "description": "Create comprehensive testing strategies with modern methodologies and tools",
+    "template": "Act as a senior test engineering lead and QA architect. Generate a comprehensive testing strategy for [application/feature]: [describe application, tech stack, user base]. Context: [describe development methodology, release cycle, quality requirements]. Testing framework: 1) Unit tests (isolated functions, mocking, TDD), 2) Integration tests (API endpoints, database interactions, microservices), 3) End-to-end tests (user journeys, critical workflows), 4) Performance tests (load, stress, spike testing), 5) Security tests (penetration testing, vulnerability scanning), 6) Accessibility tests (WCAG compliance, screen readers), 7) Cross-browser/device testing, 8) API contract tests. Tools: [Jest/Cypress for JS, pytest/Selenium for Python, JUnit/TestNG for Java]. Coverage goals: 90%+ unit, 80%+ integration, 70%+ E2E. Output: 1) Detailed test plan in Markdown, 2) Test automation framework setup, 3) CI/CD integration (GitHub Actions, Jenkins), 4) Test data management strategy, 5) Reporting and metrics dashboard, 6) Risk-based testing prioritization, 7) Maintenance and evolution plan.",
     "icon": "fas fa-vial"
   },
   {
     "id": 16,
     "title": "Create Full App Prototype",
     "category": "generate",
-    "description": "Build complete application prototypes",
-    "template": "Build a simple [app type, e.g., task manager] app in [stack, e.g., React with Node backend]. Include [key features, e.g., user login, CRUD operations].",
+    "description": "Build complete application prototypes with production considerations",
+    "template": "Act as a senior full-stack architect and product engineer. Build a production-ready prototype of [app type, e.g., 'real-time collaborative task management platform'] in [stack, e.g., 'React + Node.js + PostgreSQL']. Context: [describe target users, key features, success metrics]. Architecture requirements: 1) Scalable microservices/backend-for-frontend pattern, 2) Real-time features (WebSocket/Socket.io), 3) Database design (normalized schema, indexes, migrations), 4) Authentication & authorization (JWT, role-based access), 5) API design (REST/GraphQL, OpenAPI docs), 6) Frontend architecture (component library, state management), 7) Security (CORS, CSRF, input validation), 8) Performance (caching, lazy loading, CDN), 9) Testing (unit, integration, E2E), 10) Deployment (Docker, Kubernetes, CI/CD). Output: 1) Complete project structure, 2) All source code files, 3) Database schema and migrations, 4) API documentation, 5) Test suites, 6) Deployment configurations, 7) Performance benchmarks, 8) Security audit, 9) User documentation, 10) Development roadmap.",
     "icon": "fas fa-rocket"
   },
   {
     "id": 17,
     "title": "System Architecture Design",
     "category": "architecture",
-    "description": "Design scalable system architectures",
-    "template": "Design a scalable microservices architecture for [app type] with [specific requirements]. Include service boundaries, API contracts, data flow diagrams, and deployment strategy.",
+    "description": "Design scalable system architectures with cloud-native considerations",
+    "template": "Act as a senior enterprise architect and cloud solutions expert. Design a scalable, cloud-native architecture for [app type, e.g., 'e-commerce platform handling 10k concurrent users'] with [specific requirements, e.g., '99.9% uptime, sub-500ms response times']. Context: [describe business domain, compliance requirements, budget constraints]. Architecture framework: 1) Microservices decomposition (domain-driven design, bounded contexts), 2) API gateway & service mesh (Kong, Istio), 3) Event-driven architecture (Kafka, event sourcing), 4) Database strategy (CQRS, polyglot persistence), 5) Caching layers (Redis, CDN), 6) Security (zero-trust, encryption, secrets management), 7) Observability (monitoring, logging, tracing), 8) Infrastructure as Code (Terraform, CloudFormation), 9) CI/CD pipelines (GitOps, automated testing), 10) Disaster recovery & scalability. Cloud provider: [AWS/GCP/Azure]. Output in Markdown: ## Architecture Overview (diagrams), ## Service Boundaries, ## Technology Stack Rationale, ## Data Flow Diagrams, ## Scalability Projections, ## Security Architecture, ## Deployment Strategy, ## Cost Analysis, ## Risk Assessment, ## Migration Roadmap.",
     "icon": "fas fa-sitemap"
   },
   {
     "id": 18,
     "title": "Database Schema Design",
     "category": "database",
-    "description": "Design optimized database structures",
-    "template": "Design a normalized database schema for [application] with proper relationships, indexes, and constraints. Include migration scripts and performance optimization strategies.",
+    "description": "Design optimized database structures with performance and scalability in mind",
+    "template": "Act as a senior database architect and performance optimization expert. Design a production-ready database schema for [application, e.g., 'SaaS project management tool'] in [DB type, e.g., 'PostgreSQL' or 'MongoDB']. Context: [describe data volume, query patterns, concurrency requirements]. Schema design: 1) Normalized structure (3NF/BCNF), 2) Indexing strategy (B-tree, GIN, composite indexes), 3) Partitioning strategy (range, hash, list), 4) Constraints and triggers, 5) Views and materialized views, 6) Audit tables and change tracking, 7) Performance optimization (query analysis, execution plans), 8) Backup and recovery strategy, 9) Migration scripts (Flyway, Liquibase), 10) Monitoring and alerting. Consider: read/write ratios, data growth projections, compliance requirements. Output: 1) Complete SQL schema in code blocks, 2) ER diagram (text-based), 3) Index recommendations with rationale, 4) Query optimization examples, 5) Performance benchmarks, 6) Backup/recovery procedures, 7) Migration strategy, 8) Monitoring dashboard setup, 9) Scaling recommendations.",
     "icon": "fas fa-database"
   },
   {
     "id": 19,
     "title": "Performance Profiling",
     "category": "performance",
-    "description": "Identify and fix performance bottlenecks",
-    "template": "Profile and optimize this [code] for [specific metric: speed/memory/CPU]. Identify bottlenecks, suggest algorithmic improvements, and provide benchmarking code.",
+    "description": "Identify and fix performance bottlenecks with comprehensive analysis",
+    "template": "Act as a senior performance engineer and systems optimizer. Profile and optimize this [language] code for [specific metric: response time/memory usage/throughput]: [paste code here]. Context: [describe performance requirements, current bottlenecks, target environment]. Profiling methodology: 1) Establish baseline metrics (APM tools: New Relic, DataDog, custom benchmarks), 2) CPU profiling (hotspots, thread contention), 3) Memory analysis (leaks, heap dumps, garbage collection), 4) I/O optimization (disk, network, database queries), 5) Algorithm complexity analysis (Big O, space-time tradeoffs), 6) Caching strategy (Redis, in-memory, CDN), 7) Database optimization (query tuning, connection pooling), 8) Concurrent processing (async, parallelization, thread pools), 9) Resource monitoring (custom metrics, alerting), 10) Load testing (JMeter, k6, Artillery). Output: 1) Performance analysis report, 2) Optimized code with explanations, 3) Before/after metrics comparison, 4) Profiling tool configurations, 5) Monitoring dashboard setup, 6) Scaling recommendations, 7) Cost-benefit analysis, 8) Future optimization roadmap.",
     "icon": "fas fa-tachometer-alt"
   },
   {
     "id": 20,
     "title": "CI/CD Pipeline",
     "category": "devops",
-    "description": "Automated deployment pipelines",
-    "template": "Generate a complete CI/CD pipeline for [tech stack] including: automated testing, security scanning, deployment to [platform], monitoring setup, and rollback strategies.",
+    "description": "Automated deployment pipelines with security and quality gates",
+    "template": "Act as a senior DevOps architect and automation expert. Generate a production-ready CI/CD pipeline for [tech stack, e.g., 'Node.js microservices on Kubernetes'] using [platform, e.g., 'GitHub Actions + AWS' or 'GitLab CI + GCP']. Context: [describe team size, deployment frequency, compliance requirements]. Pipeline stages: 1) Code quality (linting, formatting, complexity analysis), 2) Security scanning (SAST, DAST, dependency checks), 3) Testing (unit, integration, contract tests), 4) Build optimization (multi-stage Docker, layer caching), 5) Artifact management (registry, versioning), 6) Deployment strategies (blue-green, canary, rolling updates), 7) Infrastructure provisioning (IaC, configuration management), 8) Monitoring setup (logs, metrics, alerts), 9) Rollback procedures (automated, manual), 10) Compliance gates (audit trails, approvals). Tools: [Docker, Kubernetes, Terraform, SonarQube, OWASP ZAP]. Output: 1) Complete pipeline YAML/configuration, 2) Infrastructure as Code templates, 3) Security policy configurations, 4) Monitoring and alerting setup, 5) Deployment documentation, 6) Disaster recovery procedures, 7) Cost optimization strategies, 8) Team onboarding guide.",
     "icon": "fas fa-cogs"
   },
   {
     "id": 21,
     "title": "Technical Debt Analysis",
     "category": "analysis",
-    "description": "Identify and prioritize technical debt",
-    "template": "Analyze this codebase for technical debt and provide a prioritized refactoring plan with effort estimates, risk assessments, and business impact analysis.",
+    "description": "Identify and prioritize technical debt with remediation strategies",
+    "template": "Act as a senior technical debt analyst and refactoring strategist. Analyze technical debt in this codebase: [describe codebase or paste relevant code]. Context: [describe team size, project age, business priorities]. Debt assessment framework: 1) Code quality metrics (complexity, duplication, maintainability index), 2) Architecture issues (tight coupling, circular dependencies, god classes), 3) Testing gaps (coverage, flaky tests, missing integration tests), 4) Security vulnerabilities (outdated dependencies, insecure patterns), 5) Performance bottlenecks (N+1 queries, memory leaks, inefficient algorithms), 6) Documentation debt (missing docs, outdated comments), 7) Infrastructure debt (legacy systems, manual processes), 8) Knowledge debt (bus factor, undocumented processes). Prioritization: Impact × Effort matrix, business value alignment. Output in Markdown: ## Debt Inventory (table: Issue, Severity, Impact, Effort, Priority), ## Root Cause Analysis, ## Remediation Roadmap (phased approach), ## Quick Wins vs Major Refactoring, ## Cost-Benefit Analysis, ## Risk Assessment, ## Success Metrics, ## Prevention Strategies.",
     "icon": "fas fa-chart-line"
   },
   {
     "id": 22,
     "title": "Convert Code Languages",
     "category": "convert",
-    "description": "Translate code between programming languages",
-    "template": "Convert this [source language] code to [target language]: [paste code here]. Preserve all functionality and add comments.",
+    "description": "Translate code between programming languages with fidelity and optimization",
+    "template": "Act as a senior polyglot developer and language migration expert. Convert this [source language] code to [target language]: [paste code here]. Context: [describe migration reason, performance requirements, team skills]. Conversion strategy: 1) Analyze source code structure and dependencies, 2) Identify language-specific idioms and patterns, 3) Map data types and control structures, 4) Handle platform-specific features (async, concurrency, memory management), 5) Optimize for target language best practices, 6) Preserve functionality and performance characteristics, 7) Update error handling patterns, 8) Adapt testing approaches, 9) Consider ecosystem differences (libraries, tooling), 10) Plan incremental migration. Output: 1) Converted code in target language, 2) Line-by-line mapping explanations, 3) Performance comparison benchmarks, 4) Test suite adaptation, 5) Dependency migration guide, 6) Gotchas and considerations, 7) Refactoring opportunities, 8) Integration testing strategy, 9) Documentation updates, 10) Team training recommendations.",
     "icon": "fas fa-exchange-alt"
   },
   {
     "id": 23,
     "title": "Migration Guide",
     "category": "convert",
-    "description": "Migrate code between frameworks, libraries, or versions",
-    "template": "Help migrate this [current tech/library] code to [target tech/library]: [paste code here]. Include: breaking changes to handle, new patterns to adopt, testing strategy, and rollback plan.",
+    "description": "Migrate code between frameworks, libraries, or versions with comprehensive planning",
+    "template": "Act as a senior migration architect and technical lead. Help migrate this [current tech/library/version] code to [target tech/library/version]: [paste code here]. Context: [describe migration drivers, timeline, risk tolerance]. Migration framework: 1) Impact assessment (breaking changes, compatibility issues), 2) Dependency analysis (transitive dependencies, version conflicts), 3) Risk evaluation (downtime, data migration, rollback complexity), 4) Incremental migration strategy (strangler pattern, feature flags), 5) Testing strategy (backward compatibility, contract tests), 6) Performance validation (benchmarking, load testing), 7) Security review (new vulnerabilities, authentication changes), 8) Documentation updates (API changes, breaking changes), 9) Team training and knowledge transfer, 10) Monitoring and alerting setup. Tools: [migration tools, testing frameworks, monitoring solutions]. Output: 1) Detailed migration plan with phases, 2) Risk mitigation strategies, 3) Code changes with explanations, 4) Testing procedures and scripts, 5) Rollback procedures, 6) Performance impact analysis, 7) Documentation updates, 8) Training materials, 9) Success criteria and metrics, 10) Post-migration monitoring plan.",
     "icon": "fas fa-arrows-alt"
   },
   {
     "id": 24,
     "title": "Configuration Issues",
     "category": "debug",
-    "description": "Debug and fix configuration problems",
-    "template": "Debug this configuration issue: [describe problem, e.g., 'app won't start' or 'feature not working']. Configuration files: [paste relevant configs]. Environment: [describe setup]. Identify root cause and provide solution.",
+    "description": "Debug and fix configuration problems with systematic troubleshooting",
+    "template": "Act as a senior DevOps engineer and configuration management expert. Debug this configuration issue: [describe problem, e.g., 'application fails to start in production']. Configuration files: [paste relevant configs (Docker, Kubernetes, environment variables, app configs)]. Environment: [describe dev/staging/prod differences, infrastructure]. Troubleshooting methodology: 1) Verify configuration syntax and validation, 2) Check environment variable precedence and overrides, 3) Validate service dependencies and connectivity, 4) Review resource limits and allocations, 5) Analyze logs for configuration-related errors, 6) Test configuration isolation (single service), 7) Verify secrets management and access controls, 8) Check network policies and security groups, 9) Validate monitoring and alerting configurations, 10) Test failover and recovery procedures. Tools: [kubectl, docker, envsubst, config validators]. Output: 1) Root cause analysis, 2) Fixed configuration files, 3) Step-by-step resolution explanation, 4) Configuration validation scripts, 5) Monitoring improvements, 6) Documentation updates, 7) Prevention measures, 8) Troubleshooting checklist for similar issues.",
     "icon": "fas fa-cogs"
   },
   {
     "id": 25,
     "title": "Deployment Issues",
     "category": "devops",
-    "description": "Troubleshoot and fix deployment problems",
-    "template": "Fix this deployment issue: [describe problem, e.g., 'build fails in CI' or 'app crashes in production']. Environment: [dev/staging/prod]. Logs: [paste relevant logs]. Deployment config: [paste config]. Provide root cause and fix.",
+    "description": "Troubleshoot and fix deployment problems with comprehensive diagnostics",
+    "template": "Act as a senior site reliability engineer and deployment specialist. Fix this deployment issue: [describe problem, e.g., 'container crashes during startup' or 'service unavailable after deployment']. Environment: [dev/staging/prod, cloud provider, orchestration]. Logs: [paste relevant application, system, and orchestration logs]. Configuration: [paste deployment configs, Dockerfiles, Kubernetes manifests]. Diagnostic approach: 1) Analyze deployment pipeline and rollback status, 2) Review resource constraints and limits, 3) Check health checks and readiness probes, 4) Validate service dependencies and networking, 5) Examine security policies and permissions, 6) Test incremental deployment strategies, 7) Verify configuration management and secrets, 8) Analyze performance metrics and bottlenecks, 9) Check monitoring and alerting configurations, 10) Validate backup and recovery procedures. Tools: [kubectl, docker, helm, prometheus, grafana]. Output: 1) Root cause analysis with evidence, 2) Fixed deployment configurations, 3) Step-by-step resolution guide, 4) Monitoring improvements, 5) Automated testing additions, 6) Documentation updates, 7) Prevention strategies, 8) Incident response improvements.",
     "icon": "fas fa-server"
   },
   {
     "id": 26,
     "title": "Concurrency Analysis",
     "category": "concurrency",
-    "description": "Thread safety and concurrent programming",
-    "template": "Review this [language] code for concurrency issues, race conditions, deadlocks, and thread safety problems. Suggest proper synchronization patterns and testing strategies.",
+    "description": "Thread safety and concurrent programming analysis with solutions",
+    "template": "Act as a senior concurrent programming expert and systems architect. Review this [language] code for concurrency issues: [paste code here]. Context: [describe application type, concurrency requirements, performance expectations]. Concurrency analysis: 1) Race condition identification (shared state, critical sections), 2) Deadlock detection (circular dependencies, lock ordering), 3) Thread safety assessment (immutable objects, atomic operations), 4) Memory model understanding (happens-before relationships), 5) Synchronization overhead evaluation, 6) Lock contention analysis, 7) Parallel processing opportunities, 8) Async/await patterns review, 9) Resource sharing problems, 10) Performance implications of concurrency. Language-specific: [Go channels, Java threads, JS event loop, Python GIL]. Output: 1) Concurrency issue analysis, 2) Fixed code with proper synchronization, 3) Performance benchmarks (before/after), 4) Testing strategies for concurrent code, 5) Monitoring and profiling setup, 6) Best practices recommendations, 7) Alternative architecture considerations, 8) Documentation updates.",
     "icon": "fas fa-sync"
   },
   {
     "id": 27,
     "title": "Code Documentation",
     "category": "documentation",
-    "description": "Comprehensive documentation generation",
-    "template": "Generate comprehensive documentation for [code/project] including: API references, usage examples, architecture diagrams, setup instructions, and troubleshooting guides.",
+    "description": "Comprehensive documentation generation following industry standards",
+    "template": "Act as a senior technical writer and documentation architect. Generate comprehensive documentation for [code/project]: [paste code or describe]. Context: [describe audience, existing docs, maintenance requirements]. Documentation framework: 1) API documentation (OpenAPI/Swagger, JSDoc, Sphinx), 2) Architecture documentation (ADRs, system diagrams), 3) Code comments (inline, function, class documentation), 4) User guides and tutorials, 5) Deployment and operations guides, 6) Troubleshooting and FAQ sections, 7) Contributing guidelines and development setup, 8) API versioning and deprecation notices, 9) Performance and scalability notes, 10) Security considerations and best practices. Standards: [OpenAPI 3.0, RFC 2119, ISO/IEC 26514]. Tools: [Swagger, Docusaurus, MkDocs, Read the Docs]. Output: 1) Complete documentation structure, 2) API specifications and schemas, 3) Code with comprehensive comments, 4) User guides and examples, 5) Architecture diagrams (text-based), 6) Deployment documentation, 7) Testing documentation, 8) Maintenance and contribution guides, 9) Documentation quality metrics, 10) Continuous integration for docs.",
     "icon": "fas fa-book-open"
   },
   {
     "id": 28,
     "title": "Document API Endpoint",
     "category": "document",
-    "description": "Document APIs with request/response formats",
-    "template": "Document this API endpoint: [paste code or describe]. Include request/response formats, error handling, and example calls.",
+    "description": "Document APIs with comprehensive specifications and examples",
+    "template": "Act as a senior API documentation specialist and technical writer. Document this API endpoint: [paste code or describe endpoint]. Context: [describe API purpose, client types, usage patterns]. API documentation framework: 1) Endpoint specification (HTTP method, path, parameters), 2) Request/response schemas (JSON Schema, OpenAPI), 3) Authentication requirements (Bearer tokens, API keys), 4) Error responses and status codes, 5) Rate limiting and quotas, 6) Request/response examples, 7) SDK/code samples (cURL, Python, JavaScript), 8) Changelog and versioning, 9) Deprecation notices and migration guides, 10) Testing instructions and sandbox access. Standards: [OpenAPI 3.0, RFC 7231, JSON Schema]. Tools: [Swagger UI, Postman, Insomnia]. Output: 1) Complete OpenAPI specification, 2) Interactive documentation, 3) Code samples in multiple languages, 4) Error handling examples, 5) Testing procedures, 6) Performance characteristics, 7) Security considerations, 8) Monitoring and analytics, 9) Support and troubleshooting, 10) API governance guidelines.",
     "icon": "fas fa-plug"
   },
   {
     "id": 29,
     "title": "Clean Up with Style Guide",
     "category": "cleanup",
-    "description": "Follow specific coding standards and style guides",
-    "template": "Clean up this code to follow [style guide, e.g., PEP 8 for Python]: [paste code here]. Focus on indentation, variable naming, and removing unused imports.",
+    "description": "Follow specific coding standards and style guides with automated enforcement",
+    "template": "Act as a senior code quality engineer and style guide enforcer. Clean up this [language] code to follow [style guide, e.g., 'Airbnb JavaScript Style Guide' or 'PEP 8 for Python']: [paste code here]. Context: [describe team preferences, existing codebase standards, CI requirements]. Style guide compliance: 1) Code formatting (indentation, line length, spacing), 2) Naming conventions (variables, functions, classes), 3) Code structure (imports, exports, file organization), 4) Documentation standards (comments, docstrings), 5) Error handling patterns, 6) Testing conventions, 7) Performance guidelines, 8) Security best practices, 9) Accessibility standards, 10) Framework-specific patterns. Tools: [ESLint, Prettier, Black, Flake8, SonarQube]. Output: 1) Reformatted code following standards, 2) Linting configuration files, 3) Pre-commit hooks setup, 4) CI/CD quality gates, 5) Team documentation updates, 6) Code review checklist, 7) Automated refactoring scripts, 8) Quality metrics dashboard, 9) Training materials, 10) Continuous improvement plan.",
     "icon": "fas fa-palette"
   },
   {
     "id": 30,
     "title": "Refactor for Scalability",
     "category": "refactor",
-    "description": "Optimize code for production scalability",
-    "template": "Refactor this code for scalability [changes, e.g., add caching and parallel processing]: [paste code here]. Test for performance gains.",
+    "description": "Optimize code for production scalability with architectural improvements",
+    "template": "Act as a senior scalability architect and performance engineer. Refactor this [language] code for scalability [specific improvements, e.g., 'handle 100x traffic increase']: [paste code here]. Context: [describe current bottlenecks, growth projections, infrastructure]. Scalability framework: 1) Architecture assessment (monolithic vs microservices), 2) Database optimization (sharding, read replicas, caching), 3) Caching strategy (Redis, CDN, application-level), 4) Asynchronous processing (queues, background jobs), 5) Load distribution (load balancers, CDNs), 6) Resource optimization (memory, CPU, I/O), 7) Monitoring and alerting setup, 8) Auto-scaling configuration, 9) Performance testing and benchmarking, 10) Disaster recovery planning. Output: 1) Refactored architecture design, 2) Optimized code with explanations, 3) Infrastructure recommendations, 4) Performance benchmarks (before/after), 5) Monitoring dashboard setup, 6) Scaling policies and procedures, 7) Cost analysis and optimization, 8) Migration strategy, 9) Risk assessment and mitigation, 10) Future scaling roadmap.",
     "icon": "fas fa-chart-line"
   },
   {
     "id": 31,
     "title": "Rapid Prototyping",
     "category": "prototype",
-    "description": "Quick working prototypes",
-    "template": "Build a working prototype of [feature] using [tech stack] with authentication, database integration, basic UI, error handling, and input validation. Focus on core functionality.",
+    "description": "Quick working prototypes with production-ready foundations",
+    "template": "Act as a senior product engineer and rapid prototyping expert. Build a working prototype of [feature/concept, e.g., 'AI-powered code review assistant'] using [tech stack, e.g., 'Next.js + OpenAI API']. Context: [describe problem solved, target users, success criteria]. Prototype requirements: 1) Core functionality MVP (80/20 rule), 2) User experience design (intuitive interface), 3) Technical architecture (scalable foundations), 4) Data management (storage, validation), 5) Security basics (input sanitization, authentication), 6) Performance optimization (fast loading, responsive), 7) Error handling and logging, 8) Testing framework setup, 9) Deployment configuration, 10) Documentation and handoff. Tools: [Figma for design, Vercel for deployment, Supabase for backend]. Output: 1) Working prototype with source code, 2) User interface screenshots/mockups, 3) Technical architecture diagram, 4) API documentation, 5) User testing results, 6) Performance metrics, 7) Security assessment, 8) Deployment guide, 9) Future development roadmap, 10) Lessons learned and recommendations.",
     "icon": "fas fa-rocket"
   },
   {
     "id": 32,
     "title": "Repair Runtime Issues",
     "category": "repair",
-    "description": "Fix crashing code with stack trace analysis",
-    "template": "Repair this code that's crashing at runtime: [paste code here]. The stack trace is [paste trace]. Suggest preventive measures.",
+    "description": "Fix crashing code with comprehensive root cause analysis",
+    "template": "Act as a senior runtime debugging expert and systems engineer. Repair this [language] code that crashes at runtime: [paste code here]. Stack trace: [paste full stack trace]. Context: [describe when/where crashes occur, environment, reproduction steps]. Runtime analysis: 1) Stack trace interpretation (call stack, error types), 2) Memory analysis (leaks, corruption, out-of-memory), 3) Threading issues (race conditions, deadlocks), 4) Resource management (file handles, network connections), 5) Exception handling review, 6) Input validation gaps, 7) Third-party library issues, 8) Environment-specific problems, 9) Performance-related crashes, 10) Security vulnerabilities causing crashes. Tools: [gdb, lldb, Valgrind, Visual Studio Debugger, Chrome DevTools]. Output: 1) Root cause analysis with evidence, 2) Fixed code with explanations, 3) Comprehensive test suite, 4) Error handling improvements, 5) Logging and monitoring enhancements, 6) Performance optimizations, 7) Security hardening, 8) Documentation updates, 9) Prevention strategies, 10) Incident response procedures.",
     "icon": "fas fa-exclamation-triangle"
   },
   {
     "id": 33,
     "title": "Explain with Comparison",
     "category": "explain",
-    "description": "Compare code approaches and their trade-offs",
-    "template": "Explain this code and compare it to [alternative approach]: [paste code here]. Highlight pros, cons, and when to use each.",
+    "description": "Compare code approaches with detailed analysis and recommendations",
+    "template": "Act as a senior software architect and technical decision-maker. Explain this [language] code and compare it to [alternative approach, e.g., 'functional programming paradigm']: [paste code here]. Context: [describe problem domain, constraints, team preferences]. Comparative analysis framework: 1) Current implementation assessment (strengths, weaknesses), 2) Alternative approach evaluation (pros, cons, tradeoffs), 3) Performance comparison (speed, memory, scalability), 4) Maintainability analysis (readability, testability, extensibility), 5) Team productivity impact (learning curve, development speed), 6) Ecosystem and tooling support, 7) Long-term viability and evolution, 8) Risk assessment and mitigation, 9) Cost-benefit analysis, 10) Migration feasibility. Output in Markdown: ## Current Implementation Analysis, ## Alternative Approach Overview, ## Detailed Comparison Matrix, ## Performance Benchmarks, ## Maintainability Assessment, ## Team Impact Analysis, ## Risk Evaluation, ## Cost-Benefit Summary, ## Migration Strategy, ## Final Recommendation with Rationale.",
     "icon": "fas fa-balance-scale"
   },
   {
     "id": 34,
     "title": "Add Feature with Library",
     "category": "feature",
-    "description": "Add features using specific libraries or frameworks",
-    "template": "Add [feature, e.g., email notifications] using [library, e.g., SendGrid] to this code: [paste code here]. Ensure it's secure and testable.",
+    "description": "Add features using specific libraries with integration best practices",
+    "template": "Act as a senior integration engineer and library specialist. Add [feature, e.g., 'real-time notifications with WebSocket support'] using [library/framework, e.g., 'Socket.io' or 'SignalR'] to this [language] code: [paste code here]. Context: [describe existing architecture, integration points, performance requirements]. Integration strategy: 1) Library evaluation (alternatives, maturity, community support), 2) Architecture impact assessment, 3) Dependency management and version conflicts, 4) Security implications and best practices, 5) Performance optimization and monitoring, 6) Error handling and fallback mechanisms, 7) Testing strategy (unit, integration, E2E), 8) Documentation and code examples, 9) Migration path and backward compatibility, 10) Maintenance and update procedures. Output: 1) Integrated code with comprehensive comments, 2) Configuration and setup instructions, 3) API usage examples and patterns, 4) Test suites covering integration points, 5) Performance benchmarks and monitoring, 6) Security assessment and hardening, 7) Documentation updates, 8) Troubleshooting guide, 9) Future maintenance recommendations, 10) Alternative library comparisons.",
     "icon": "fas fa-cubes"
   },
   {
     "id": 35,
     "title": "Remove References",
     "category": "remove",
-    "description": "Remove libraries, variables, or deprecated elements",
-    "template": "Remove all references to [specify what to remove, e.g., a library or variable] from this code: [paste code here]. Replace with alternatives if needed to keep it functional.",
+    "description": "Remove libraries, variables, or deprecated elements with impact analysis",
+    "template": "Act as a senior code maintenance engineer and dependency manager. Remove all references to [specify what to remove, e.g., 'deprecated jQuery library' or 'unused authentication module'] from this [language] code: [paste code here]. Context: [describe removal reason, timeline, risk tolerance]. Removal strategy: 1) Impact analysis (usage throughout codebase), 2) Dependency mapping (direct and transitive), 3) Breaking change assessment, 4) Alternative solution identification, 5) Incremental removal plan, 6) Testing strategy for regressions, 7) Documentation updates, 8) Team communication plan, 9) Rollback procedures, 10) Monitoring and validation. Tools: [bundler analyzer, code search tools, dependency checkers]. Output: 1) Impact analysis report, 2) Modified code with changes highlighted, 3) Removal checklist and timeline, 4) Test cases for validation, 5) Documentation updates, 6) Migration guide for affected code, 7) Performance impact assessment, 8) Security implications review, 9) Future prevention measures, 10) Success metrics and validation.",
     "icon": "fas fa-trash"
   },
   {
     "id": 36,
     "title": "Remove Deprecated Elements",
     "category": "remove",
-    "description": "Update deprecated code to modern equivalents",
-    "template": "Remove deprecated [element, e.g., API calls] from this code and update to modern equivalents: [paste code here].",
+    "description": "Update deprecated code to modern equivalents with migration planning",
+    "template": "Act as a senior modernization engineer and technical debt specialist. Remove deprecated [element, e.g., 'API endpoints' or 'library versions'] from this [language] code and update to modern equivalents: [paste code here]. Context: [describe deprecation timeline, security risks, performance impact]. Modernization framework: 1) Deprecation impact assessment (usage analysis, downstream effects), 2) Modern alternative evaluation (feature parity, performance, security), 3) Migration strategy (incremental, big bang, hybrid), 4) Breaking change management, 5) Testing strategy (backward compatibility, regression prevention), 6) Performance validation (benchmarking, optimization), 7) Security improvements, 8) Documentation updates, 9) Team training and knowledge transfer, 10) Monitoring and alerting setup. Output: 1) Modernized code with explanations, 2) Migration plan with phases, 3) Risk assessment and mitigation, 4) Testing procedures and results, 5) Performance comparison (before/after), 6) Security improvements, 7) Documentation updates, 8) Training materials, 9) Monitoring setup, 10) Success criteria and metrics.",
     "icon": "fas fa-recycle"
   },
   {
     "id": 37,
     "title": "Edge Case Testing",
     "category": "test",
-    "description": "Identify and test edge cases thoroughly",
-    "template": "Analyze this function/code for edge cases: [paste code here]. Identify: boundary conditions, error inputs, race conditions, and unusual but valid scenarios. Write tests covering all edge cases.",
+    "description": "Identify and test edge cases with comprehensive coverage analysis",
+    "template": "Act as a senior QA engineer specializing in edge case testing and quality assurance. Analyze this [language] function/code for edge cases: [paste code here]. Context: [describe function purpose, input domain, failure consequences]. Edge case framework: 1) Boundary value analysis (min/max values, off-by-one errors), 2) Equivalence partitioning (valid/invalid input classes), 3) Error condition testing (null/undefined/empty inputs), 4) Resource exhaustion (memory, disk, network limits), 5) Concurrent access patterns (race conditions, deadlocks), 6) Time-sensitive operations (timezones, leap years, daylight saving), 7) Internationalization (unicode, localization, encoding), 8) Security edge cases (injection attacks, privilege escalation), 9) Performance edge cases (large datasets, high concurrency), 10) Integration edge cases (third-party failures, network issues). Output: 1) Comprehensive edge case inventory, 2) Test cases with expected results, 3) Test automation code, 4) Coverage analysis report, 5) Risk assessment for untested scenarios, 6) Performance implications, 7) Security considerations, 8) Monitoring recommendations, 9) Documentation updates, 10) Continuous testing strategy.",
     "icon": "fas fa-exclamation-circle"
   },
   {
     "id": 38,
     "title": "Code Review Feedback",
     "category": "review",
-    "description": "Provide constructive feedback on code changes",
-    "template": "Review this code change/diff: [paste code or diff]. Provide constructive feedback on: code quality, potential bugs, performance implications, security concerns, and best practices. Suggest specific improvements.",
+    "description": "Provide constructive feedback on code changes with improvement prioritization",
+    "template": "Act as a senior code reviewer, technical lead, and mentoring engineer. Review this code change/diff: [paste code or diff]. Context: [describe PR purpose, codebase impact, timeline, team experience]. Review framework: 1) Functionality verification (requirements compliance, edge cases), 2) Code quality assessment (readability, maintainability, complexity), 3) Architecture evaluation (design patterns, SOLID principles), 4) Performance analysis (algorithms, database queries, memory usage), 5) Security review (vulnerabilities, best practices), 6) Testing coverage (unit, integration, regression), 7) Documentation completeness (comments, API docs), 8) Scalability considerations (growth projections, bottlenecks), 9) Technical debt impact (maintainability, future costs), 10) Best practices adherence (language idioms, team standards). Output in structured Markdown: ## Executive Summary (Approval Status), ## Critical Issues (Blockers - Must Fix), ## Major Concerns (High Priority), ## Minor Issues (Should Fix), ## Suggestions (Nice to Have), ## Security Findings, ## Performance Analysis, ## Testing Gaps, ## Documentation Needs, ## Overall Assessment (Score: 1-10), ## Approval Recommendation with Conditions.",
     "icon": "fas fa-comments"
   }
 ]
