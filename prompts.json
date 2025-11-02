@@ -1,0 +1,306 @@
+[
+  {
+    "id": 1,
+    "title": "Evaluate Completed App",
+    "category": "review",
+    "description": "Comprehensive assessment of finished applications",
+    "template": "Evaluate this completed application: [paste app code/details]. Assess: overall functionality, performance bottlenecks, security vulnerabilities, code quality, scalability potential, user experience, and maintainability. Provide detailed feedback with prioritized improvement recommendations and implementation suggestions.",
+    "icon": "fas fa-clipboard-check"
+  },
+  {
+    "id": 2,
+    "title": "Clean Up Code",
+    "category": "cleanup",
+    "description": "Remove redundancies, format properly, and suggest improvements",
+    "template": "Clean up this code for better readability and efficiency: [paste code here]. Focus on: removing unused imports/variables, improving naming, fixing formatting, eliminating redundancies, and adding comments where needed. Preserve all functionality.",
+    "icon": "fas fa-broom"
+  },
+  {
+    "id": 3,
+    "title": "Debug Code",
+    "category": "debug",
+    "description": "Find and fix issues with step-by-step reasoning",
+    "template": "Debug this code: [paste code here]. It's not working as expected—[describe symptom, e.g., 'throws error X' or 'returns wrong value']. Provide step-by-step reasoning: check inputs, examine logic flow, identify potential causes, and suggest targeted fixes with explanations.",
+    "icon": "fas fa-bug"
+  },
+  {
+    "id": 4,
+    "title": "Explain Code",
+    "category": "explain",
+    "description": "Break down code step by step with analysis",
+    "template": "Explain this code step by step: [paste code here]. Break down what each part does, why it's structured this way, and any potential issues.",
+    "icon": "fas fa-search"
+  },
+  {
+    "id": 5,
+    "title": "Add Specific Feature",
+    "category": "feature",
+    "description": "Integrate new functionality seamlessly",
+    "template": "Add [describe feature, e.g., user authentication] to this existing code: [paste code here]. Integrate it seamlessly and handle any dependencies.",
+    "icon": "fas fa-plus-circle"
+  },
+  {
+    "id": 6,
+    "title": "Generate Tests",
+    "category": "test",
+    "description": "Create comprehensive unit tests",
+    "template": "Write unit tests for this function: [paste code here]. Cover edge cases and use [framework, e.g., Jest].",
+    "icon": "fas fa-vial"
+  },
+  {
+    "id": 7,
+    "title": "Optimize Code",
+    "category": "optimize",
+    "description": "Improve performance, memory usage, or speed",
+    "template": "Optimize this code for [aspect, e.g., speed/memory/CPU usage]: [paste code here]. Focus on: algorithmic improvements, memory management, reducing complexity, and eliminating bottlenecks. Provide before/after performance comparisons.",
+    "icon": "fas fa-tachometer-alt"
+  },
+  {
+    "id": 8,
+    "title": "Document Features",
+    "category": "document",
+    "description": "Add detailed comments and documentation",
+    "template": "Add detailed documentation to this code or feature: [paste code or describe feature]. Include comments explaining each section, inputs, outputs, and usage examples.",
+    "icon": "fas fa-book"
+  },
+  {
+    "id": 9,
+    "title": "Refactor with Changes",
+    "category": "refactor",
+    "description": "Apply specific refactoring changes",
+    "template": "Refactor this code with these specific changes: [list changes, e.g., make it asynchronous and optimize loops]: [paste code here]. Maintain original behavior.",
+    "icon": "fas fa-code-branch"
+  },
+  {
+    "id": 10,
+    "title": "Security Audit",
+    "category": "security",
+    "description": "Identify and fix security vulnerabilities",
+    "template": "Perform a security audit on this code: [paste code here]. Identify vulnerabilities like [specific concerns, e.g., SQL injection] and suggest fixes.",
+    "icon": "fas fa-shield-alt"
+  },
+  {
+    "id": 11,
+    "title": "API Development",
+    "category": "api",
+    "description": "Build robust RESTful APIs",
+    "template": "Create a RESTful API for [resource] with CRUD operations, input validation, error handling, rate limiting, caching, and comprehensive OpenAPI documentation.",
+    "icon": "fas fa-plug"
+  },
+  {
+    "id": 12,
+    "title": "Repair Code",
+    "category": "repair",
+    "description": "Fix bugs and explain the changes made",
+    "template": "Repair this broken code: [paste code here]. It's producing [describe error or issue]. Fix the bugs and explain the changes.",
+    "icon": "fas fa-tools"
+  },
+  {
+    "id": 13,
+    "title": "Generate New Code",
+    "category": "generate",
+    "description": "Create new scripts or applications from scratch",
+    "template": "Generate a [language] script that [full description, e.g., fetches weather data via API and displays it in a CLI]. Include error handling.",
+    "icon": "fas fa-magic"
+  },
+  {
+    "id": 14,
+    "title": "Code Review Analysis",
+    "category": "review",
+    "description": "Comprehensive code review and feedback",
+    "template": "Perform a comprehensive code review of [paste code] focusing on: maintainability, performance bottlenecks, security vulnerabilities, and best practices. Provide actionable recommendations.",
+    "icon": "fas fa-search-plus"
+  },
+  {
+    "id": 15,
+    "title": "Testing Strategy",
+    "category": "testing",
+    "description": "Complete testing strategies and plans",
+    "template": "Generate a complete testing strategy for [application/feature] including: unit tests, integration tests, E2E tests, performance benchmarks, and test automation setup.",
+    "icon": "fas fa-vial"
+  },
+  {
+    "id": 16,
+    "title": "Create Full App Prototype",
+    "category": "generate",
+    "description": "Build complete application prototypes",
+    "template": "Build a simple [app type, e.g., task manager] app in [stack, e.g., React with Node backend]. Include [key features, e.g., user login, CRUD operations].",
+    "icon": "fas fa-rocket"
+  },
+  {
+    "id": 17,
+    "title": "System Architecture Design",
+    "category": "architecture",
+    "description": "Design scalable system architectures",
+    "template": "Design a scalable microservices architecture for [app type] with [specific requirements]. Include service boundaries, API contracts, data flow diagrams, and deployment strategy.",
+    "icon": "fas fa-sitemap"
+  },
+  {
+    "id": 18,
+    "title": "Database Schema Design",
+    "category": "database",
+    "description": "Design optimized database structures",
+    "template": "Design a normalized database schema for [application] with proper relationships, indexes, and constraints. Include migration scripts and performance optimization strategies.",
+    "icon": "fas fa-database"
+  },
+  {
+    "id": 19,
+    "title": "Performance Profiling",
+    "category": "performance",
+    "description": "Identify and fix performance bottlenecks",
+    "template": "Profile and optimize this [code] for [specific metric: speed/memory/CPU]. Identify bottlenecks, suggest algorithmic improvements, and provide benchmarking code.",
+    "icon": "fas fa-tachometer-alt"
+  },
+  {
+    "id": 20,
+    "title": "CI/CD Pipeline",
+    "category": "devops",
+    "description": "Automated deployment pipelines",
+    "template": "Generate a complete CI/CD pipeline for [tech stack] including: automated testing, security scanning, deployment to [platform], monitoring setup, and rollback strategies.",
+    "icon": "fas fa-cogs"
+  },
+  {
+    "id": 21,
+    "title": "Technical Debt Analysis",
+    "category": "analysis",
+    "description": "Identify and prioritize technical debt",
+    "template": "Analyze this codebase for technical debt and provide a prioritized refactoring plan with effort estimates, risk assessments, and business impact analysis.",
+    "icon": "fas fa-chart-line"
+  },
+  {
+    "id": 22,
+    "title": "Convert Code Languages",
+    "category": "convert",
+    "description": "Translate code between programming languages",
+    "template": "Convert this [source language] code to [target language]: [paste code here]. Preserve all functionality and add comments.",
+    "icon": "fas fa-exchange-alt"
+  },
+  {
+    "id": 23,
+    "title": "Migration Guide",
+    "category": "convert",
+    "description": "Migrate code between frameworks, libraries, or versions",
+    "template": "Help migrate this [current tech/library] code to [target tech/library]: [paste code here]. Include: breaking changes to handle, new patterns to adopt, testing strategy, and rollback plan.",
+    "icon": "fas fa-arrows-alt"
+  },
+  {
+    "id": 24,
+    "title": "Configuration Issues",
+    "category": "debug",
+    "description": "Debug and fix configuration problems",
+    "template": "Debug this configuration issue: [describe problem, e.g., 'app won't start' or 'feature not working']. Configuration files: [paste relevant configs]. Environment: [describe setup]. Identify root cause and provide solution.",
+    "icon": "fas fa-cogs"
+  },
+  {
+    "id": 25,
+    "title": "Deployment Issues",
+    "category": "devops",
+    "description": "Troubleshoot and fix deployment problems",
+    "template": "Fix this deployment issue: [describe problem, e.g., 'build fails in CI' or 'app crashes in production']. Environment: [dev/staging/prod]. Logs: [paste relevant logs]. Deployment config: [paste config]. Provide root cause and fix.",
+    "icon": "fas fa-server"
+  },
+  {
+    "id": 26,
+    "title": "Concurrency Analysis",
+    "category": "concurrency",
+    "description": "Thread safety and concurrent programming",
+    "template": "Review this [language] code for concurrency issues, race conditions, deadlocks, and thread safety problems. Suggest proper synchronization patterns and testing strategies.",
+    "icon": "fas fa-sync"
+  },
+  {
+    "id": 27,
+    "title": "Code Documentation",
+    "category": "documentation",
+    "description": "Comprehensive documentation generation",
+    "template": "Generate comprehensive documentation for [code/project] including: API references, usage examples, architecture diagrams, setup instructions, and troubleshooting guides.",
+    "icon": "fas fa-book-open"
+  },
+  {
+    "id": 28,
+    "title": "Document API Endpoint",
+    "category": "document",
+    "description": "Document APIs with request/response formats",
+    "template": "Document this API endpoint: [paste code or describe]. Include request/response formats, error handling, and example calls.",
+    "icon": "fas fa-plug"
+  },
+  {
+    "id": 29,
+    "title": "Clean Up with Style Guide",
+    "category": "cleanup",
+    "description": "Follow specific coding standards and style guides",
+    "template": "Clean up this code to follow [style guide, e.g., PEP 8 for Python]: [paste code here]. Focus on indentation, variable naming, and removing unused imports.",
+    "icon": "fas fa-palette"
+  },
+  {
+    "id": 30,
+    "title": "Refactor for Scalability",
+    "category": "refactor",
+    "description": "Optimize code for production scalability",
+    "template": "Refactor this code for scalability [changes, e.g., add caching and parallel processing]: [paste code here]. Test for performance gains.",
+    "icon": "fas fa-chart-line"
+  },
+  {
+    "id": 31,
+    "title": "Rapid Prototyping",
+    "category": "prototype",
+    "description": "Quick working prototypes",
+    "template": "Build a working prototype of [feature] using [tech stack] with authentication, database integration, basic UI, error handling, and input validation. Focus on core functionality.",
+    "icon": "fas fa-rocket"
+  },
+  {
+    "id": 32,
+    "title": "Repair Runtime Issues",
+    "category": "repair",
+    "description": "Fix crashing code with stack trace analysis",
+    "template": "Repair this code that's crashing at runtime: [paste code here]. The stack trace is [paste trace]. Suggest preventive measures.",
+    "icon": "fas fa-exclamation-triangle"
+  },
+  {
+    "id": 33,
+    "title": "Explain with Comparison",
+    "category": "explain",
+    "description": "Compare code approaches and their trade-offs",
+    "template": "Explain this code and compare it to [alternative approach]: [paste code here]. Highlight pros, cons, and when to use each.",
+    "icon": "fas fa-balance-scale"
+  },
+  {
+    "id": 34,
+    "title": "Add Feature with Library",
+    "category": "feature",
+    "description": "Add features using specific libraries or frameworks",
+    "template": "Add [feature, e.g., email notifications] using [library, e.g., SendGrid] to this code: [paste code here]. Ensure it's secure and testable.",
+    "icon": "fas fa-cubes"
+  },
+  {
+    "id": 35,
+    "title": "Remove References",
+    "category": "remove",
+    "description": "Remove libraries, variables, or deprecated elements",
+    "template": "Remove all references to [specify what to remove, e.g., a library or variable] from this code: [paste code here]. Replace with alternatives if needed to keep it functional.",
+    "icon": "fas fa-trash"
+  },
+  {
+    "id": 36,
+    "title": "Remove Deprecated Elements",
+    "category": "remove",
+    "description": "Update deprecated code to modern equivalents",
+    "template": "Remove deprecated [element, e.g., API calls] from this code and update to modern equivalents: [paste code here].",
+    "icon": "fas fa-recycle"
+  },
+  {
+    "id": 37,
+    "title": "Edge Case Testing",
+    "category": "test",
+    "description": "Identify and test edge cases thoroughly",
+    "template": "Analyze this function/code for edge cases: [paste code here]. Identify: boundary conditions, error inputs, race conditions, and unusual but valid scenarios. Write tests covering all edge cases.",
+    "icon": "fas fa-exclamation-circle"
+  },
+  {
+    "id": 38,
+    "title": "Code Review Feedback",
+    "category": "review",
+    "description": "Provide constructive feedback on code changes",
+    "template": "Review this code change/diff: [paste code or diff]. Provide constructive feedback on: code quality, potential bugs, performance implications, security concerns, and best practices. Suggest specific improvements.",
+    "icon": "fas fa-comments"
+  }
+]
