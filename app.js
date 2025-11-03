@@ -628,7 +628,6 @@ function generatePromptCardHTML(prompt) {
 function addCardAnimations(cards) {
   cards.forEach((card, index) => {
     card.style.animationDelay = `${index * 0.1}s`;
-    card.classList.add('pulse');
   });
 }
 
@@ -711,8 +710,6 @@ function scrollToPrompt(promptId) {
   const promptCard = document.querySelector(`[data-prompt-id="${promptId}"]`).closest('.prompt-card');
   if (promptCard) {
     promptCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    promptCard.classList.add('pulse');
-    setTimeout(() => promptCard.classList.remove('pulse'), 1000);
   }
 }
 
@@ -799,49 +796,7 @@ function editPrompt(template, promptId) {
   }
 }
 
-/**
- * Handle quick action button clicks - copy predefined prompts to clipboard
- * @param {string} type - The type of quick action (error-handling, optimize, refactor, beautify, document)
- */
-function quickAction(type) {
-  const templates = {
-    'error-handling': 'Add comprehensive error handling to this code: [paste code here]. Include try-catch blocks, input validation, and graceful error messages.',
-    'optimize': 'Optimize this code for better performance: [paste code here]. Focus on [speed/memory/CPU usage] and suggest algorithmic improvements.',
-    'refactor': 'Refactor this code for better maintainability: [paste code here]. Improve structure, naming, and remove code smells while preserving functionality.',
-    'beautify': 'Beautify this code by refactoring its style to match [specific style/theme, e.g., \'Material Design\' or \'minimalist approach\'] or default to VSCode dark theme if no specific style provided: [paste code here]. Focus on consistent indentation, color schemes, accessibility, and visual appeal.',
-    'document': 'Add comprehensive documentation to this code: [paste code here]. Include function descriptions, parameter explanations, and usage examples.'
-  };
 
-  const actionNames = {
-    'error-handling': 'Error Handling',
-    'optimize': 'Performance Optimization',
-    'refactor': 'Code Refactoring',
-    'beautify': 'Code Beautification',
-    'document': 'Documentation'
-  };
-
-  if (templates[type]) {
-    const text = templates[type];
-    const actionName = actionNames[type];
-
-    // Try modern clipboard API first
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(() => {
-        showToast(`"${actionName}" prompt copied to clipboard! 🚀`, 'success');
-      }).catch((error) => {
-        console.warn('Clipboard API failed:', error);
-        // Fallback to legacy method with custom message
-        fallbackCopyToClipboardWithMessage(text, `"${actionName}" prompt copied to clipboard! 🚀`);
-      });
-    } else {
-      // Use fallback method directly
-      fallbackCopyToClipboardWithMessage(text, `"${actionName}" prompt copied to clipboard! 🚀`);
-    }
-  } else {
-    console.warn(`Unknown quick action type: ${type}`);
-    showToast('Unknown action type', 'error');
-  }
-}
 
 /**
  * Fallback clipboard copy method with custom success message
@@ -1178,27 +1133,12 @@ document.querySelectorAll('.modal').forEach(modal => {
   });
 });
 
-/**
- * Set up event listeners for quick action buttons
- */
-function setupQuickActionListeners() {
-  const quickActionButtons = document.querySelectorAll('.quick-action-btn');
-  quickActionButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      e.preventDefault();
-      const type = button.getAttribute('data-type');
-      if (type) {
-        quickAction(type);
-      }
-    });
-  });
-}
+
 
 // Initialize application
 async function initializeApp() {
   await initializeState();
   renderPrompts();
-  setupQuickActionListeners();
 }
 
 // Start the application
