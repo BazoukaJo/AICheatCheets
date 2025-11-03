@@ -1,5 +1,24 @@
-// Cline AI Prompt Assistant - Main Application Logic
-// State management with error handling
+/**
+ * Cline AI Prompt Assistant - Main Application Logic
+ * A web application for managing and using AI coding prompts
+ *
+ * @fileoverview Main application logic for the Cline AI Prompt Assistant
+ * @author AI Assistant
+ * @version 1.0.0
+ */
+
+/**
+ * Global application state management
+ * @typedef {Object} AppState
+ * @property {string} currentCategory - Currently selected category
+ * @property {Set<string>} selectedCategories - Set of selected category filters
+ * @property {string} searchTerm - Current search query
+ * @property {number[]} favorites - Array of favorite prompt IDs
+ * @property {Object.<string, number>} usageStats - Usage statistics by date
+ * @property {Prompt[]} prompts - Array of available prompts
+ */
+
+/** @type {AppState} */
 const AppState = {
   currentCategory: 'all',
   selectedCategories: new Set(['all']),
@@ -18,6 +37,14 @@ const embeddedPrompts = [
     'description': 'Comprehensive assessment of finished applications',
     'template': 'You are a helpful AI coding assistant focused on software development. Act as a senior software architect. Evaluate this completed application: [paste app code/details]. Assess: overall functionality and user experience. Identify performance bottlenecks and scalability potential. Check for security vulnerabilities and code quality issues. Evaluate maintainability. Provide detailed feedback with prioritized improvement recommendations and implementation suggestions.',
     'icon': 'fas fa-clipboard-check'
+  },
+  {
+    'id': 41,
+    'title': 'Evaluate Partially Completed App',
+    'category': 'review',
+    'description': 'Assessment of work-in-progress applications with guidance for completion',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a senior software architect and mentor. Evaluate this partially completed application: [paste current app code/details]. Assess: current progress and completion status. Identify missing features and incomplete implementations. Evaluate code quality and architecture decisions so far. Provide guidance on next steps and priorities. Suggest improvements to existing code. Help prioritize remaining work and estimate completion effort. Offer specific recommendations for finishing the application successfully.',
+    'icon': 'fas fa-tasks'
   },
   {
     'id': 2,
@@ -138,6 +165,46 @@ const embeddedPrompts = [
     'description': 'Build complete application prototypes',
     'template': 'You are a helpful AI coding assistant focused on software development. Act as a full-stack developer. Build a simple [app type, e.g., task manager] app in [stack, e.g., React with Node backend]. Include [key features, e.g., user login, CRUD operations].',
     'icon': 'fas fa-rocket'
+  },
+  {
+    'id': 42,
+    'title': 'Create New React App',
+    'category': 'generate',
+    'description': 'Generate a complete React application with modern best practices',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a senior React developer. Create a new React application with the following specifications: [describe app requirements, e.g., e-commerce site, dashboard, blog]. Include: modern React patterns (hooks, functional components), responsive design with [CSS framework, e.g., Tailwind, Material-UI], state management with [Redux/Context/Zustand], routing with React Router, proper folder structure, TypeScript support, testing setup with Jest/React Testing Library, and deployment configuration. Provide complete code with explanations.',
+    'icon': 'fab fa-react'
+  },
+  {
+    'id': 43,
+    'title': 'REST API Integration',
+    'category': 'api',
+    'description': 'Integrate and consume REST APIs in your application',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a backend integration specialist. Integrate a REST API into this [language/framework] application: [describe API purpose, e.g., weather data, user management]. API details: Base URL: [API endpoint], Authentication: [Bearer token/API key/Basic auth], Endpoints needed: [list required endpoints]. Include: proper error handling, loading states, data transformation, caching strategy, and TypeScript interfaces if applicable. Provide complete integration code with usage examples.',
+    'icon': 'fas fa-plug'
+  },
+  {
+    'id': 44,
+    'title': 'GraphQL API Queries',
+    'category': 'api',
+    'description': 'Create and optimize GraphQL queries and mutations',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a GraphQL specialist. Create efficient GraphQL queries and mutations for this application: [describe data requirements]. Schema information: [paste GraphQL schema or describe types]. Include: optimized queries with proper field selection, mutations for data modification, error handling, loading states, caching with Apollo Client or similar, and TypeScript type generation. Provide query examples and integration code.',
+    'icon': 'fas fa-project-diagram'
+  },
+  {
+    'id': 45,
+    'title': 'Third-Party API Integration',
+    'category': 'api',
+    'description': 'Integrate popular third-party APIs (Stripe, Google Maps, social media, etc.)',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as an API integration expert. Integrate [API service, e.g., Stripe payments, Google Maps, Twitter API] into this [language/framework] application. Requirements: [describe integration needs]. Include: SDK/library setup, authentication configuration, error handling, security best practices, testing approach, and usage examples. Provide complete integration code with proper documentation.',
+    'icon': 'fas fa-external-link-square-alt'
+  },
+  {
+    'id': 46,
+    'title': 'API Testing & Mocking',
+    'category': 'testing',
+    'description': 'Create comprehensive API tests and mock servers',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a QA automation engineer. Create comprehensive API tests and mocks for this [API type, e.g., REST/GraphQL] endpoint: [describe API]. Include: unit tests for API functions, integration tests with mock servers, contract testing, load testing scripts, error scenario testing, and CI/CD integration. Use [testing framework, e.g., Jest, Postman, Cypress] and provide test examples with assertions.',
+    'icon': 'fas fa-flask'
   },
   {
     'id': 17,
@@ -314,30 +381,77 @@ const embeddedPrompts = [
     'description': 'Provide constructive feedback on code changes',
     'template': 'You are a helpful AI coding assistant focused on software development. Act as a peer reviewer. Review this code change/diff: [paste code or diff]. Provide constructive feedback on: code quality, potential bugs, performance implications, security concerns, and best practices. Suggest specific improvements.',
     'icon': 'fas fa-comments'
+  },
+  {
+    'id': 39,
+    'title': 'Beautify Code',
+    'category': 'beautify',
+    'description': 'Refactor code formatting, indentation, and structure for improved readability and consistency',
+    'template': 'Act as a senior code formatting expert. Beautify this code by improving its structure, formatting, and readability: [paste code here]. Focus on: 1) Consistent indentation and spacing (2 or 4 spaces, no tabs), 2) Proper line breaks and code organization, 3) Consistent naming conventions (camelCase, PascalCase, snake_case), 4) Removal of unnecessary whitespace and comments, 5) Logical code grouping and separation, 6) Consistent bracket and parenthesis placement. Programming language: [specify language]. Code style: [specify style like Airbnb, Google, or custom]. Output the beautified code with explanations of changes made.',
+    'icon': 'fas fa-code',
+    'important': true
+  },
+  {
+    'id': 40,
+    'title': 'Beautify UI/UX',
+    'category': 'beautify',
+    'description': 'Design and optimize user interface and user experience for better visual appeal and usability',
+    'template': 'Act as a senior UI/UX designer and frontend developer. Beautify this user interface by improving its design, layout, and user experience: [describe current UI/UX or paste relevant code]. Focus on: 1) Visual hierarchy and layout optimization, 2) Color scheme and typography improvements, 3) Responsive design and mobile-first approach, 4) Accessibility considerations (WCAG compliance, screen readers, keyboard navigation), 5) User interaction patterns and micro-interactions, 6) Performance optimization for UI rendering, 7) Cross-browser compatibility and progressive enhancement. Target platform: [web/mobile/desktop]. Design system: [Material Design, Ant Design, custom]. Output: 1) Redesigned UI/UX specifications, 2) Updated code implementation, 3) Accessibility improvements, 4) Performance recommendations, 5) Before/after design comparison.',
+    'icon': 'fas fa-palette'
   }
 ];
 
-// Load prompts from external JSON file (optional enhancement)
+/**
+ * Load prompts from external JSON file with comprehensive error handling
+ * @returns {Promise<void>}
+ */
 async function loadPrompts() {
   try {
+    // Validate embedded prompts first
+    if (!Array.isArray(embeddedPrompts) || embeddedPrompts.length === 0) {
+      throw new Error('Embedded prompts data is invalid or empty');
+    }
+
     // Only attempt to load if we're running on a server (not file:// protocol)
     if (window.location.protocol !== 'file:') {
       const response = await fetch('prompts.json');
       if (response.ok) {
         const externalPrompts = await response.json();
-        if (externalPrompts && externalPrompts.length > 0) {
-          AppState.prompts = externalPrompts;
-          console.log(`Loaded ${AppState.prompts.length} prompts from external file`);
-          return;
+
+        // Validate external prompts structure
+        if (Array.isArray(externalPrompts) && externalPrompts.length > 0) {
+          // Additional validation for prompt structure
+          const isValid = externalPrompts.every(prompt =>
+            prompt &&
+            typeof prompt.id === 'number' &&
+            typeof prompt.title === 'string' &&
+            typeof prompt.category === 'string' &&
+            typeof prompt.template === 'string'
+          );
+
+          if (isValid) {
+            AppState.prompts = externalPrompts;
+            console.log(`Loaded ${AppState.prompts.length} prompts from external file`);
+            return;
+          } else {
+            console.warn('External prompts data structure is invalid, falling back to embedded prompts');
+          }
+        } else {
+          console.warn('External prompts data is not a valid array or is empty, falling back to embedded prompts');
         }
+      } else {
+        console.warn(`Failed to fetch external prompts: ${response.status} ${response.statusText}`);
       }
     }
+
     // Fallback to embedded prompts
-    AppState.prompts = embeddedPrompts;
+    AppState.prompts = [...embeddedPrompts]; // Create a copy to avoid mutations
     console.log('Using embedded prompts (fetch not available or failed)');
   } catch (error) {
-    console.log('Error loading prompts:', error.message);
-    AppState.prompts = embeddedPrompts;
+    console.error('Error loading prompts:', error);
+    // Ensure we always have prompts available
+    AppState.prompts = [...embeddedPrompts];
+    showToast('Failed to load prompts, using defaults', 'warning');
   }
 }
 
@@ -373,12 +487,28 @@ function saveToStorage() {
   }
 }
 
-// Debounce utility for performance optimization
-function debounce(fn, delay) {
+// Enhanced debounce utility for performance optimization with immediate execution option
+function debounce(fn, delay, immediate = false) {
   let timeout;
   return (...args) => {
+    const callNow = immediate && !timeout;
     clearTimeout(timeout);
-    timeout = setTimeout(() => fn(...args), delay);
+    timeout = setTimeout(() => {
+      timeout = null;
+      if (!immediate) fn(...args);
+    }, delay);
+    if (callNow) fn(...args);
+  };
+}
+
+// Throttle utility for performance optimization
+function throttle(fn, delay) {
+  let lastCall = 0;
+  return (...args) => {
+    const now = new Date().getTime();
+    if (now - lastCall < delay) return;
+    lastCall = now;
+    return fn(...args);
   };
 }
 
@@ -423,113 +553,167 @@ function toggleFavorite(promptId) {
   }
   saveToStorage();
   renderPrompts();
-  renderFavorites();
 }
 
 function isFavorite(promptId) {
   return AppState.favorites.includes(promptId);
 }
 
-function renderPrompts() {
-  const grid = document.getElementById('promptsGrid');
-  const filteredPrompts = AppState.prompts.filter(prompt => {
-    const matchesCategory = AppState.selectedCategories.has('all') || AppState.selectedCategories.has(prompt.category);
+/**
+ * Filter prompts based on current search and category filters
+ * @param {Array} prompts - Array of prompt objects
+ * @returns {Array} Filtered prompts
+ */
+function filterPrompts(prompts) {
+  return prompts.filter(prompt => {
+    let matchesCategory = AppState.selectedCategories.has('all') || AppState.selectedCategories.has(prompt.category);
+
+    // Special handling for favorites category
+    if (AppState.selectedCategories.has('favorites')) {
+      matchesCategory = AppState.selectedCategories.has('favorites') && AppState.favorites.includes(prompt.id);
+    }
+
     const matchesSearch = fuzzyMatch(prompt.title, AppState.searchTerm) ||
                           fuzzyMatch(prompt.description, AppState.searchTerm) ||
                           fuzzyMatch(prompt.template, AppState.searchTerm);
     return matchesCategory && matchesSearch;
   });
+}
 
-  const sanitizedHTML = filteredPrompts.map(prompt => {
-    // Sanitize user inputs
-    const safeTitle = DOMPurify.sanitize(prompt.title);
-    const safeDescription = DOMPurify.sanitize(prompt.description);
-    const safeIcon = DOMPurify.sanitize(prompt.icon);
+/**
+ * Generate HTML for a single prompt card
+ * @param {Object} prompt - Prompt object
+ * @returns {string} HTML string for the prompt card
+ */
+function generatePromptCardHTML(prompt) {
+  // Sanitize user inputs
+  const safeTitle = DOMPurify.sanitize(prompt.title);
+  const safeDescription = DOMPurify.sanitize(prompt.description);
+  const safeIcon = DOMPurify.sanitize(prompt.icon);
 
-    const templateWithPlaceholders = prompt.template.replace(/\[([^\]]+)\]/g, '<span class="placeholder" onclick="fillPlaceholder(\'$1\')">[$1]</span>');
-    const highlightedTitle = highlightMatches(safeTitle, AppState.searchTerm);
-    const highlightedDescription = highlightMatches(safeDescription, AppState.searchTerm);
-    const highlightedTemplate = highlightMatches(templateWithPlaceholders, AppState.searchTerm);
-    const isFav = isFavorite(prompt.id);
+  const templateWithPlaceholders = prompt.template.replace(/\[([^\]]+)\]/g, '<span class="placeholder" onclick="fillPlaceholder(\'$1\')">[$1]</span>');
+  const highlightedTitle = highlightMatches(safeTitle, AppState.searchTerm);
+  const highlightedDescription = highlightMatches(safeDescription, AppState.searchTerm);
+  const highlightedTemplate = highlightMatches(templateWithPlaceholders, AppState.searchTerm);
+  const isFav = isFavorite(prompt.id);
 
-    return `
-            <div class="prompt-card ${isFav ? 'favorite' : ''}">
-                <div class="prompt-header">
-                    <div class="prompt-title">
-                        <i class="${safeIcon}"></i> ${highlightedTitle}
-                    </div>
-                    <button class="favorite-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(${prompt.id})" title="Add to favorites">
-                        <i class="fas fa-star"></i>
-                    </button>
-                </div>
-                <div class="prompt-description">${highlightedDescription}</div>
-                <div class="prompt-template">${highlightedTemplate}</div>
-                <div class="prompt-actions">
-                    <button class="btn btn-primary copy-btn" data-template="${JSON.stringify(prompt.template).slice(1, -1)}" data-prompt-id="${prompt.id}">
-                        <i class="fas fa-copy"></i> Copy
-                    </button>
-                    <button class="btn btn-secondary edit-btn" data-template="${JSON.stringify(prompt.template).slice(1, -1)}" data-prompt-id="${prompt.id}">
-                        <i class="fas fa-edit"></i> Edit
-                    </button>
-                </div>
+  return `
+    <div class="prompt-card ${isFav ? 'favorite' : ''}">
+        <div class="prompt-header">
+            <div class="prompt-title">
+                <i class="${safeIcon}"></i> ${highlightedTitle}
             </div>
-        `;
-  }).join('');
+            <button class="favorite-btn ${isFav ? 'active' : ''}" data-prompt-id="${prompt.id}" title="Add to favorites">
+                <i class="fas fa-star"></i>
+            </button>
+        </div>
+        <div class="prompt-description">${highlightedDescription}</div>
+        <div class="prompt-template">${highlightedTemplate}</div>
+        <div class="prompt-actions">
+            <button class="btn btn-primary copy-btn" data-template="${JSON.stringify(prompt.template).slice(1, -1)}" data-prompt-id="${prompt.id}">
+                <i class="fas fa-copy"></i> Copy
+            </button>
+            <button class="btn btn-secondary edit-btn" data-template="${JSON.stringify(prompt.template).slice(1, -1)}" data-prompt-id="${prompt.id}">
+                <i class="fas fa-edit"></i> Edit
+            </button>
+        </div>
+    </div>
+  `;
+}
 
-  grid.innerHTML = DOMPurify.sanitize(sanitizedHTML, { ALLOWED_TAGS: ['div', 'span', 'button', 'i', 'mark'], ALLOWED_ATTR: ['class', 'onclick', 'title', 'data-template', 'data-prompt-id'] });
-
-  // Add animation delay to cards
-  const cards = grid.querySelectorAll('.prompt-card');
+/**
+ * Add animation effects to prompt cards
+ * @param {NodeList} cards - Collection of prompt card elements
+ */
+function addCardAnimations(cards) {
   cards.forEach((card, index) => {
     card.style.animationDelay = `${index * 0.1}s`;
     card.classList.add('pulse');
   });
+}
 
-  // Add event listeners for copy and edit buttons
+/**
+ * Set up event listeners for prompt card interactions
+ * @param {Element} grid - The grid container element
+ */
+function setupCardEventListeners(grid) {
   const copyButtons = grid.querySelectorAll('.copy-btn');
   const editButtons = grid.querySelectorAll('.edit-btn');
+  const favoriteButtons = grid.querySelectorAll('.favorite-btn');
 
   copyButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      const template = e.target.closest('.copy-btn').dataset.template;
-      const promptId = parseInt(e.target.closest('.copy-btn').dataset.promptId);
-      copyToClipboard(template, promptId);
-    });
+    button.addEventListener('click', handleCopyClick);
   });
 
   editButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      const template = e.target.closest('.edit-btn').dataset.template;
-      const promptId = parseInt(e.target.closest('.edit-btn').dataset.promptId);
-      editPrompt(template, promptId);
-    });
+    button.addEventListener('click', handleEditClick);
+  });
+
+  favoriteButtons.forEach(button => {
+    button.addEventListener('click', handleFavoriteClick);
   });
 }
 
-function renderFavorites() {
-  const favoritesSection = document.getElementById('favoritesSection');
-  const favoritesGrid = document.getElementById('favoritesGrid');
-
-  if (AppState.favorites.length === 0) {
-    favoritesSection.style.display = 'none';
-    return;
-  }
-
-  favoritesSection.style.display = 'block';
-  const favoritePrompts = AppState.prompts.filter(prompt => AppState.favorites.includes(prompt.id));
-
-  favoritesGrid.innerHTML = favoritePrompts.map(prompt => `
-        <div class="favorite-chip" onclick="scrollToPrompt(${prompt.id})">
-            <i class="${prompt.icon}"></i> ${prompt.title}
-        </div>
-    `).join('');
+/**
+ * Handle copy button click events
+ * @param {Event} e - Click event
+ */
+function handleCopyClick(e) {
+  const template = e.target.closest('.copy-btn').dataset.template;
+  const promptId = parseInt(e.target.closest('.copy-btn').dataset.promptId);
+  copyToClipboard(template, promptId);
 }
 
+/**
+ * Handle edit button click events
+ * @param {Event} e - Click event
+ */
+function handleEditClick(e) {
+  const template = e.target.closest('.edit-btn').dataset.template;
+  const promptId = parseInt(e.target.closest('.edit-btn').dataset.promptId);
+  editPrompt(template, promptId);
+}
+
+/**
+ * Handle favorite button click events
+ * @param {Event} e - Click event
+ */
+function handleFavoriteClick(e) {
+  const promptId = parseInt(e.target.closest('.favorite-btn').dataset.promptId);
+  toggleFavorite(promptId);
+}
+
+/**
+ * Render filtered prompts to the DOM
+ */
+function renderPrompts() {
+  const grid = document.getElementById('promptsGrid');
+  const filteredPrompts = filterPrompts(AppState.prompts);
+
+  const sanitizedHTML = filteredPrompts.map(generatePromptCardHTML).join('');
+
+  grid.innerHTML = DOMPurify.sanitize(sanitizedHTML, {
+    ALLOWED_TAGS: ['div', 'span', 'button', 'i', 'mark'],
+    ALLOWED_ATTR: ['class', 'onclick', 'title', 'data-template', 'data-prompt-id']
+  });
+
+  // Add animation delay to cards
+  const cards = grid.querySelectorAll('.prompt-card');
+  addCardAnimations(cards);
+
+  // Set up event listeners
+  setupCardEventListeners(grid);
+}
+
+
+
 function scrollToPrompt(promptId) {
-  const promptCard = document.querySelector(`[onclick*="toggleFavorite(${promptId})"]`).closest('.prompt-card');
-  promptCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  promptCard.classList.add('pulse');
-  setTimeout(() => promptCard.classList.remove('pulse'), 1000);
+  const promptCard = document.querySelector(`[data-prompt-id="${promptId}"]`).closest('.prompt-card');
+  if (promptCard) {
+    promptCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    promptCard.classList.add('pulse');
+    setTimeout(() => promptCard.classList.remove('pulse'), 1000);
+  }
 }
 
 function copyToClipboard(text, promptId) {
@@ -615,16 +799,94 @@ function editPrompt(template, promptId) {
   }
 }
 
+/**
+ * Handle quick action button clicks - copy predefined prompts to clipboard
+ * @param {string} type - The type of quick action (error-handling, optimize, refactor, beautify, document)
+ */
 function quickAction(type) {
   const templates = {
     'error-handling': 'Add comprehensive error handling to this code: [paste code here]. Include try-catch blocks, input validation, and graceful error messages.',
     'optimize': 'Optimize this code for better performance: [paste code here]. Focus on [speed/memory/CPU usage] and suggest algorithmic improvements.',
     'refactor': 'Refactor this code for better maintainability: [paste code here]. Improve structure, naming, and remove code smells while preserving functionality.',
+    'beautify': 'Beautify this code by refactoring its style to match [specific style/theme, e.g., \'Material Design\' or \'minimalist approach\'] or default to VSCode dark theme if no specific style provided: [paste code here]. Focus on consistent indentation, color schemes, accessibility, and visual appeal.',
     'document': 'Add comprehensive documentation to this code: [paste code here]. Include function descriptions, parameter explanations, and usage examples.'
   };
 
+  const actionNames = {
+    'error-handling': 'Error Handling',
+    'optimize': 'Performance Optimization',
+    'refactor': 'Code Refactoring',
+    'beautify': 'Code Beautification',
+    'document': 'Documentation'
+  };
+
   if (templates[type]) {
-    copyToClipboard(templates[type]);
+    const text = templates[type];
+    const actionName = actionNames[type];
+
+    // Try modern clipboard API first
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`"${actionName}" prompt copied to clipboard! 🚀`, 'success');
+      }).catch((error) => {
+        console.warn('Clipboard API failed:', error);
+        // Fallback to legacy method with custom message
+        fallbackCopyToClipboardWithMessage(text, `"${actionName}" prompt copied to clipboard! 🚀`);
+      });
+    } else {
+      // Use fallback method directly
+      fallbackCopyToClipboardWithMessage(text, `"${actionName}" prompt copied to clipboard! 🚀`);
+    }
+  } else {
+    console.warn(`Unknown quick action type: ${type}`);
+    showToast('Unknown action type', 'error');
+  }
+}
+
+/**
+ * Fallback clipboard copy method with custom success message
+ * @param {string} text - Text to copy
+ * @param {string} successMessage - Message to show on success
+ */
+function fallbackCopyToClipboardWithMessage(text, successMessage) {
+  try {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    const successful = document.execCommand('copy');
+    document.body.removeChild(textArea);
+
+    if (successful) {
+      showToast(successMessage, 'success');
+    } else {
+      throw new Error('execCommand failed');
+    }
+  } catch (error) {
+    console.error('Fallback copy failed:', error);
+    showToast('Copy failed. Please select and copy manually.', 'error');
+    // Fallback: Select the text in a temporary element for manual copy
+    const tempDiv = document.createElement('div');
+    tempDiv.textContent = text;
+    tempDiv.style.position = 'fixed';
+    tempDiv.style.left = '-999999px';
+    tempDiv.style.opacity = '0';
+    document.body.appendChild(tempDiv);
+    const range = document.createRange();
+    range.selectNodeContents(tempDiv);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    showToast('Text selected for manual copy.', 'info');
+    setTimeout(() => {
+      document.body.removeChild(tempDiv);
+      selection.removeAllRanges();
+    }, 5000);
   }
 }
 
@@ -647,6 +909,7 @@ function openPromptBuilder() {
                 <option value="debug">Debug an issue</option>
                 <option value="feature">Add a feature</option>
                 <option value="optimize">Optimize performance</option>
+                <option value="beautify">Beautify code</option>
                 <option value="document">Add documentation</option>
                 <option value="refactor">Refactor code</option>
             </select>
@@ -875,9 +1138,15 @@ document.getElementById('categories').addEventListener('click', (e) => {
       AppState.selectedCategories.add('all');
       document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
       e.target.classList.add('active');
+    } else if (category === 'favorites') {
+      // "Favorites" category is special - clicking it selects only "favorites"
+      AppState.selectedCategories.clear();
+      AppState.selectedCategories.add('favorites');
+      document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+      e.target.classList.add('active');
     } else {
       // Multi-select for other categories
-      if (AppState.selectedCategories.has('all')) {
+      if (AppState.selectedCategories.has('all') || AppState.selectedCategories.has('favorites')) {
         AppState.selectedCategories.clear();
         document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
       }
@@ -909,11 +1178,27 @@ document.querySelectorAll('.modal').forEach(modal => {
   });
 });
 
+/**
+ * Set up event listeners for quick action buttons
+ */
+function setupQuickActionListeners() {
+  const quickActionButtons = document.querySelectorAll('.quick-action-btn');
+  quickActionButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      const type = button.getAttribute('data-type');
+      if (type) {
+        quickAction(type);
+      }
+    });
+  });
+}
+
 // Initialize application
 async function initializeApp() {
   await initializeState();
   renderPrompts();
-  renderFavorites();
+  setupQuickActionListeners();
 }
 
 // Start the application

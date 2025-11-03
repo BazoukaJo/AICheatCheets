@@ -302,5 +302,14 @@
     "description": "Provide constructive feedback on code changes with improvement prioritization",
     "template": "Act as a senior code reviewer, technical lead, and mentoring engineer. Review this code change/diff: [paste code or diff]. Context: [describe PR purpose, codebase impact, timeline, team experience]. Review framework: 1) Functionality verification (requirements compliance, edge cases), 2) Code quality assessment (readability, maintainability, complexity), 3) Architecture evaluation (design patterns, SOLID principles), 4) Performance analysis (algorithms, database queries, memory usage), 5) Security review (vulnerabilities, best practices), 6) Testing coverage (unit, integration, regression), 7) Documentation completeness (comments, API docs), 8) Scalability considerations (growth projections, bottlenecks), 9) Technical debt impact (maintainability, future costs), 10) Best practices adherence (language idioms, team standards). Output in structured Markdown: ## Executive Summary (Approval Status), ## Critical Issues (Blockers - Must Fix), ## Major Concerns (High Priority), ## Minor Issues (Should Fix), ## Suggestions (Nice to Have), ## Security Findings, ## Performance Analysis, ## Testing Gaps, ## Documentation Needs, ## Overall Assessment (Score: 1-10), ## Approval Recommendation with Conditions.",
     "icon": "fas fa-comments"
+  },
+  {
+    "id": 39,
+    "title": "Beautify Code",
+    "category": "refactor",
+    "description": "IMPORTANT: Refactor code style to match specific themes or default to VSCode dark theme for improved readability",
+    "template": "Act as a senior code styling expert and UI/UX designer. Beautify this code by refactoring its style to match [specific style/theme, e.g., 'Material Design' or 'minimalist approach'] or default to VSCode dark theme if no specific style provided: [paste code here]. Context: [describe target environment, existing style preferences, readability requirements]. Styling requirements: 1) Consistent indentation and spacing following theme standards, 2) Proper naming conventions and color schemes, 3) Syntax highlighting optimization for the specified theme, 4) Accessibility considerations (contrast ratios, font choices), 5) Theme-specific formatting rules, 6) IDE/editor compatibility and extensions. Focus on visual appeal and developer experience. Output: 1) Beautified code with improved styling, 2) Style guide compliance explanation, 3) Theme configuration recommendations, 4) Accessibility improvements made, 5) IDE setup instructions for maintaining style, 6) Before/after visual comparison notes.",
+    "icon": "fas fa-palette",
+    "important": true
   }
 ]

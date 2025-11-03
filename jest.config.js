@@ -1,4 +1,4 @@
-dmodule.exports = {
+module.exports = {
   testEnvironment: 'jsdom',
   collectCoverageFrom: [
     'app.js',

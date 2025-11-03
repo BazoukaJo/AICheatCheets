@@ -208,20 +208,7 @@ h1 {
     border-color: var(--vscode-keyword);
 }
 
-.shortcut-number {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    font-size: 0.7em;
-    font-weight: bold;
-    padding: 2px 4px;
-    border-radius: 3px;
-    margin-right: 4px;
-    min-width: 14px;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 1;
-}
+
 
 .favorites-section {
     background: var(--vscode-bg-secondary);
