@@ -1,5 +1,5 @@
 /**
- * Utility functions for the AI Prompt Assistant
+ * Utility functions for the AI Prompt Templates
  */
 
 /**

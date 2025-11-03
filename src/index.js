@@ -1,5 +1,5 @@
 /**
- * Main entry point for the AI Prompt Assistant
+ * Main entry point for the AI Prompt Templates
  * Initializes the application and sets up event listeners
  */
 

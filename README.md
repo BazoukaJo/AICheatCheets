@@ -1,4 +1,4 @@
-# 🚀 AI Prompt Assistant
+# 🚀 AI Prompt Templates
 
 **Vibe Coding Made Easy - Quick Copy-Paste Queries for Faster AI Communication!**
 
@@ -18,7 +18,7 @@
 
 ## 🎯 Overview
 
-The **AI Prompt Assistant** is a web-based tool designed to supercharge your workflow when communicating with AI coding assistants. Instead of crafting prompts from scratch, browse through our curated collection of professionally written prompt templates covering everything from code cleanup to complex debugging scenarios.
+The **AI Prompt Templates** is a web-based tool designed to supercharge your workflow when communicating with AI coding assistants. Instead of crafting prompts from scratch, browse through our curated collection of professionally written prompt templates covering everything from code cleanup to complex debugging scenarios.
 
 Whether you're a seasoned developer looking to optimize your AI interactions or a newcomer learning to communicate effectively with coding assistants, this tool provides ready-to-use prompts that you can copy-paste and customize for your specific needs.
 
@@ -99,8 +99,8 @@ Visit the live demo at: [Deploy to GitHub Pages or your preferred hosting platfo
 
 1. **Clone or Download** the project files:
    ```bash
-   git clone https://github.com/yourusername/ai-prompt-assistant.git
-   cd ai-prompt-assistant
+   git clone https://github.com/yourusername/ai-prompt-templates.git
+   cd ai-prompt-templates
    ```
 
 2. **Install Dependencies** (optional, for development):

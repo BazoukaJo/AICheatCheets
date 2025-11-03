@@ -1,5 +1,5 @@
 {
-  "name": "ai-prompt-assistant",
+  "name": "ai-prompt-templates",
   "version": "1.0.0",
   "description": "Vibe Coding Made Easy - Quick Copy-Paste Queries for Faster AI Communication",
   "main": "src/index.js",
@@ -19,11 +19,11 @@
     "ai",
     "prompts",
     "coding",
-    "assistant",
+    "templates",
     "cline",
     "development"
   ],
-  "author": "AI Prompt Assistant",
+  "author": "AI Prompt Templates",
   "license": "MIT",
   "devDependencies": {
     "http-server": "^14.1.1",

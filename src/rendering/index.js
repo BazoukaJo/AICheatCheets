@@ -1,5 +1,5 @@
 /**
- * Rendering functions for the AI Prompt Assistant
+ * Rendering functions for the AI Prompt Templates
  */
 
 import { AppState, isFavorite, toggleFavorite, trackUsage } from '../state/index.js';
