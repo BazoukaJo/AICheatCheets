@@ -898,7 +898,14 @@ function openModal(modalId) {
 }
 
 function closeModal(modalId) {
-  document.getElementById(modalId).classList.remove('show');
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.classList.remove('show');
+    // Clear editing state if edit modal was closed
+    if (modalId === 'editPromptModal') {
+      window.currentEditingPromptId = null;
+    }
+  }
 }
 
 
@@ -1025,13 +1032,34 @@ document.getElementById('categories').addEventListener('click', (e) => {
   }
 });
 
-// Close modals when clicking outside
+// Close modals when clicking outside or on close/cancel buttons
 document.querySelectorAll('.modal').forEach(modal => {
   modal.addEventListener('click', (e) => {
+    // Close if clicking on the overlay background
     if (e.target === modal) {
       modal.classList.remove('show');
+      // Clear editing state if edit modal was closed
+      if (modal.id === 'editPromptModal') {
+        window.currentEditingPromptId = null;
+      }
     }
   });
+});
+
+// Ensure modal close buttons work properly
+document.addEventListener('click', (e) => {
+  // Handle modal close button (X)
+  if (e.target.classList.contains('modal-close') || e.target.closest('.modal-close')) {
+    const modal = e.target.closest('.modal');
+    if (modal) {
+      closeModal(modal.id);
+    }
+  }
+
+  // Handle cancel button in edit modal
+  if (e.target.classList.contains('btn-secondary') && e.target.textContent.includes('Cancel')) {
+    closeModal('editPromptModal');
+  }
 });
 
 // Keyboard support for modals
