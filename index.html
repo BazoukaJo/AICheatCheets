@@ -15,9 +15,14 @@
             <h1>🚀 AI Prompt Assistant</h1>
         </header>
 
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="🔍 Search prompts... (e.g., 'clean up', 'debug', 'add feature')" autocomplete="off">
-            <div class="categories" id="categories">
+        <main role="main">
+            <div class="search-container" role="search">
+                <div class="search-field">
+                    <input type="text" id="searchInput" placeholder=" " autocomplete="off" aria-label="Search prompts" aria-describedby="search-help">
+                    <label for="searchInput">🔍 Search prompts... (e.g., 'clean up', 'debug', 'add feature')</label>
+                    <div id="search-help" class="sr-only">Search through available AI prompts by title, description, or content</div>
+                </div>
+                <nav class="categories" id="categories" role="navigation" aria-label="Prompt categories">
                 <button class="category-btn active" data-category="all">All</button>
                 <button class="category-btn" data-category="favorites" style="background: #ffd700; color: #1e1e1e;"><i class="fas fa-star"></i> Favorites</button>
                 <button class="category-btn" data-category="cleanup">Clean Up</button>
@@ -36,6 +41,7 @@
                 <button class="category-btn" data-category="security">Security</button>
                 <button class="category-btn" data-category="architecture">Architecture</button>
                 <button class="category-btn" data-category="review">Review</button>
+                <button class="category-btn" data-category="eval">Eval</button>
                 <button class="category-btn" data-category="testing">Testing</button>
                 <button class="category-btn" data-category="performance">Performance</button>
                 <button class="category-btn" data-category="database">Database</button>
@@ -45,41 +51,47 @@
                 <button class="category-btn" data-category="concurrency">Concurrency</button>
                 <button class="category-btn" data-category="prototype">Prototype</button>
                 <button class="category-btn" data-category="documentation">Documentation</button>
+                </nav>
             </div>
-        </div>
 
-        <div class="prompts-grid" id="promptsGrid">
-            <!-- Prompts will be populated by JavaScript -->
-        </div>
+            <section class="prompts-section" role="region" aria-label="Available prompts">
+                <div class="prompts-grid" id="promptsGrid" aria-live="polite" aria-atomic="false">
+                    <!-- Prompts will be populated by JavaScript -->
+                </div>
+            </section>
+        </main>
     </div>
 
     <!-- Modals -->
 
-    <div class="modal" id="editPromptModal">
+    <div class="modal" id="editPromptModal" role="dialog" aria-modal="true" aria-labelledby="editPromptTitle" aria-describedby="editPromptContent">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Edit Prompt Template</h3>
-                <button class="modal-close" onclick="closeModal('editPromptModal')">&times;</button>
+                <h3 class="modal-title" id="editPromptTitle">Edit Prompt Template</h3>
+                <button class="modal-close" onclick="closeModal('editPromptModal')" aria-label="Close edit prompt modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div id="editPromptContent">
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 8px; font-weight: 500;">Prompt Template:</label>
-                    <textarea id="editPromptTextarea" rows="8" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); resize: vertical; font-family: 'JetBrains Mono', monospace;" placeholder="Enter your prompt template..."></textarea>
+            <form id="editPromptContent" onsubmit="saveEditedPrompt(); return false;">
+                <div style="margin-bottom: var(--md-space-5);">
+                    <label for="editPromptTextarea" style="display: block; margin-bottom: var(--md-space-2); font-weight: 500; color: var(--md-text-primary);">Prompt Template:</label>
+                    <textarea id="editPromptTextarea" rows="8" aria-describedby="textarea-help" placeholder="Enter your prompt template..." required></textarea>
+                    <div id="textarea-help" class="sr-only">Enter the prompt template text. Use placeholders like [language] or [code] that will be filled when using the prompt.</div>
                 </div>
                 <div class="button-group">
-                    <button class="btn btn-secondary" onclick="closeModal('editPromptModal'); return false;">
-                        <i class="fas fa-times"></i> Cancel
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('editPromptModal'); return false;">
+                        <i class="fas fa-times" aria-hidden="true"></i> Cancel
                     </button>
-                    <button class="btn btn-primary" onclick="saveEditedPrompt(); return false;">
-                        <i class="fas fa-save"></i> Save Changes
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save" aria-hidden="true"></i> Save Changes
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
     <div class="toast" id="toast">Copied to clipboard! 📋</div>
 
-    <script src="app.js"></script>
+    <script src="dist/bundle.js"></script>
 </body>
 </html>
