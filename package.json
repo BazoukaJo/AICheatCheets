@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "http-server . -p 3000 -c-1",
-    "dev": "http-server . -p 3001 -c-1 --cors",
+    "dev": "http-server . -p 3200 -c-1 --cors",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",

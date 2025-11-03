@@ -4,7 +4,7 @@
  */
 
 import { closeModal, renderPrompts, saveEditedPrompt } from './rendering/index.js';
-import { debounce, showToast, toggleFavoritesView } from './utils/index.js';
+import { debounce, fillPlaceholder, showToast, toggleFavoritesView } from './utils/index.js';
 
 import { AppState } from './state/index.js';
 import { initializeState } from './state/index.js';
@@ -14,6 +14,14 @@ import { initializeState } from './state/index.js';
  * @returns {Promise<void>}
  */
 async function initializeApp() {
+  // Show warning if opened from file:// protocol
+  if (window.location.protocol === 'file:') {
+    const warningDiv = document.getElementById('fileProtocolWarning');
+    if (warningDiv) {
+      warningDiv.style.display = 'block';
+    }
+  }
+
   await initializeState();
   renderPrompts();
 }
@@ -136,7 +144,7 @@ document.addEventListener('keydown', (e) => {
     return;
   }
 
-  switch(key) {
+  switch (key) {
   case 'k': {
     if (isCtrlOrCmd) {
       e.preventDefault();
@@ -181,6 +189,7 @@ document.addEventListener('keydown', (e) => {
 // Make functions globally available for HTML onclick handlers
 window.saveEditedPrompt = saveEditedPrompt;
 window.closeModal = closeModal;
+window.fillPlaceholder = fillPlaceholder;
 
 // Start the application
 initializeApp();

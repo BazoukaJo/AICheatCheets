@@ -33,9 +33,9 @@ export function filterPrompts(prompts) {
  */
 export function generatePromptCardHTML(prompt) {
   // Sanitize user inputs
-  const safeTitle = DOMPurify.sanitize(prompt.title);
-  const safeDescription = DOMPurify.sanitize(prompt.description);
-  const safeIcon = DOMPurify.sanitize(prompt.icon);
+  const safeTitle = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(prompt.title) : prompt.title;
+  const safeDescription = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(prompt.description) : prompt.description;
+  const safeIcon = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(prompt.icon) : prompt.icon;
 
   const templateWithPlaceholders = prompt.template.replace(/\[([^\]]+)\]/g, '<span class="placeholder" onclick="fillPlaceholder(\'$1\')">[$1]</span>');
   const highlightedTitle = highlightMatches(safeTitle, AppState.searchTerm);
@@ -133,10 +133,10 @@ export function renderPrompts() {
     filteredPrompts.forEach((prompt, index) => {
       const cardHTML = generatePromptCardHTML(prompt);
       const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = DOMPurify.sanitize(cardHTML, {
+      tempDiv.innerHTML = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(cardHTML, {
         ALLOWED_TAGS: ['div', 'span', 'button', 'i', 'mark'],
-        ALLOWED_ATTR: ['class', 'onclick', 'title', 'data-template', 'data-prompt-id', 'aria-label', 'role', 'tabindex']
-      });
+        ALLOWED_ATTR: ['class', 'onclick', 'title', 'data-template', 'data-prompt-id', 'aria-label', 'role', 'tabindex'],
+      }) : cardHTML;
 
       const card = tempDiv.firstElementChild;
       if (card) {

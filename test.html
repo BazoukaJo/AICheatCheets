@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+</head>
+<body>
+    <div id="test"></div>
+    <script>
+        // Test if DOMPurify is available
+        console.log('DOMPurify available:', typeof DOMPurify !== 'undefined');
+
+        // Test basic DOM manipulation
+        const testDiv = document.getElementById('test');
+        testDiv.innerHTML = '<p>Test content</p>';
+        console.log('DOM manipulation works');
+
+        // Test fetch
+        fetch('prompts.json')
+            .then(response => {
+                console.log('Fetch response:', response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Fetched data length:', data.length);
+            })
+            .catch(error => {
+                console.log('Fetch error:', error);
+            });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+</body>
+</html>

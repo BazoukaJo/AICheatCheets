@@ -114,7 +114,7 @@ export const embeddedPrompts = [
     'description': 'Identify and fix security vulnerabilities',
     'template': 'Act as a senior cybersecurity engineer and penetration tester. Perform a comprehensive security audit of this [language] code: [paste code here].\n\nAudit scope:\n1. **Input Validation**: SQL injection, XSS, command injection prevention\n2. **Authentication & Authorization**: Session management, access controls\n3. **Data Protection**: Encryption, secure storage, transmission security\n4. **Error Handling**: Information leakage prevention\n5. **Dependencies**: Vulnerable third-party libraries\n6. **Configuration**: Secure defaults, secrets management\n\nRisk prioritization: Critical → High → Medium → Low → Info\n\nFor each finding provide:\n- **Severity**: CVSS score and risk level\n- **Description**: What the vulnerability is\n- **Impact**: Potential consequences\n- **Remediation**: Specific code fixes with examples\n- **Prevention**: Ongoing security practices\n\nOutput: Executive summary with risk scorecard, detailed findings, and prioritized remediation plan.',
     'icon': 'fas fa-shield-alt'
-  }
+  },
 ];
 
 /**
@@ -130,39 +130,50 @@ export async function loadPrompts() {
 
     // Only attempt to load if we're running on a server (not file:// protocol)
     if (window.location.protocol !== 'file:') {
-      const response = await fetch('prompts.json');
-      if (response.ok) {
-        const externalPrompts = await response.json();
+      try {
+        const promptsUrl = window.location.origin + '/prompts.json';
+        console.log('Attempting to fetch prompts.json from:', promptsUrl);
+        const response = await fetch(promptsUrl);
+        console.log('Fetch response status:', response.status);
+        if (response.ok) {
+          const externalPrompts = await response.json();
+          console.log('External prompts loaded:', externalPrompts.length);
 
-        // Validate external prompts structure
-        if (Array.isArray(externalPrompts) && externalPrompts.length > 0) {
-          // Additional validation for prompt structure
-          const isValid = externalPrompts.every(prompt =>
-            prompt &&
-            typeof prompt.id === 'number' &&
-            typeof prompt.title === 'string' &&
-            typeof prompt.category === 'string' &&
-            typeof prompt.template === 'string'
-          );
+          // Validate external prompts structure
+          if (Array.isArray(externalPrompts) && externalPrompts.length > 0) {
+            console.log('External prompts array length:', externalPrompts.length);
+            // Additional validation for prompt structure
+            const invalidPrompts = externalPrompts.filter(prompt => !(
+              prompt &&
+              typeof prompt.id === 'number' &&
+              typeof prompt.title === 'string' &&
+              typeof prompt.category === 'string' &&
+              typeof prompt.template === 'string'
+            ));
 
-          if (isValid) {
-            AppState.prompts = externalPrompts;
-            console.log(`Loaded ${AppState.prompts.length} prompts from external file`);
-            return;
+            if (invalidPrompts.length === 0) {
+              console.log('All external prompts are valid, using them');
+              AppState.prompts = externalPrompts;
+              return;
+            } else {
+              console.warn('Found invalid prompts:', invalidPrompts.length, 'out of', externalPrompts.length);
+              console.warn('First invalid prompt:', invalidPrompts[0]);
+            }
           } else {
-            console.warn('External prompts data structure is invalid, falling back to embedded prompts');
+            console.warn('External prompts is not a valid array or is empty, got:', typeof externalPrompts, externalPrompts);
           }
         } else {
-          console.warn('External prompts data is not a valid array or is empty, falling back to embedded prompts');
+          console.warn('Failed to fetch external prompts, status:', response.status);
         }
-      } else {
-        console.warn(`Failed to fetch external prompts: ${response.status} ${response.statusText}`);
+      } catch (fetchError) {
+        console.error('Error fetching external prompts:', fetchError);
       }
+    } else {
+      console.log('Running from file:// protocol, skipping external fetch');
     }
 
     // Fallback to embedded prompts
     AppState.prompts = [...embeddedPrompts]; // Create a copy to avoid mutations
-    console.log('Using embedded prompts (fetch not available or failed)');
   } catch (error) {
     console.error('Error loading prompts:', error);
     // Ensure we always have prompts available
