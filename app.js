@@ -28,32 +28,9 @@ const AppState = {
   prompts: []
 };
 
-// Embedded prompts data for static app compatibility
+// Embedded prompts data for static app compatibility - Sorted by priority/usefulness
 const embeddedPrompts = [
-  {
-    'id': 1,
-    'title': 'Evaluate Completed App',
-    'category': 'review',
-    'description': 'Comprehensive assessment of finished applications',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a senior software architect. Evaluate this completed application: [paste app code/details]. Assess: overall functionality and user experience. Identify performance bottlenecks and scalability potential. Check for security vulnerabilities and code quality issues. Evaluate maintainability. Provide detailed feedback with prioritized improvement recommendations and implementation suggestions.',
-    'icon': 'fas fa-clipboard-check'
-  },
-  {
-    'id': 41,
-    'title': 'Evaluate Partially Completed App',
-    'category': 'review',
-    'description': 'Assessment of work-in-progress applications with guidance for completion',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a senior software architect and mentor. Evaluate this partially completed application: [paste current app code/details]. Assess: current progress and completion status. Identify missing features and incomplete implementations. Evaluate code quality and architecture decisions so far. Provide guidance on next steps and priorities. Suggest improvements to existing code. Help prioritize remaining work and estimate completion effort. Offer specific recommendations for finishing the application successfully.',
-    'icon': 'fas fa-tasks'
-  },
-  {
-    'id': 2,
-    'title': 'Clean Up Code',
-    'category': 'cleanup',
-    'description': 'Remove redundancies, format properly, and suggest improvements',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code style expert. Clean up this [language] code for better readability and efficiency: [paste code here]. Focus on: removing unused imports/variables. Improving naming conventions. Fixing formatting and indentation. Eliminating redundancies. Adding comments where needed. Preserve all functionality. Output: cleaned code in a code block, followed by suggestions for further improvements.',
-    'icon': 'fas fa-broom'
-  },
+  // HIGH PRIORITY - Most frequently used and critical tasks
   {
     'id': 3,
     'title': 'Debug Code',
@@ -69,6 +46,14 @@ const embeddedPrompts = [
     'description': 'Break down code step by step with analysis',
     'template': 'You are a helpful AI coding assistant focused on software development. Act as a code educator. Explain this [language] code step by step: [paste code here]. Break down what each part does, why it\'s structured this way, and any potential issues.',
     'icon': 'fas fa-search'
+  },
+  {
+    'id': 2,
+    'title': 'Clean Up Code',
+    'category': 'cleanup',
+    'description': 'Remove redundancies, format properly, and suggest improvements',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code style expert. Clean up this [language] code for better readability and efficiency: [paste code here]. Focus on: removing unused imports/variables. Improving naming conventions. Fixing formatting and indentation. Eliminating redundancies. Adding comments where needed. Preserve all functionality. Output: cleaned code in a code block, followed by suggestions for further improvements.',
+    'icon': 'fas fa-broom'
   },
   {
     'id': 5,
@@ -95,52 +80,12 @@ const embeddedPrompts = [
     'icon': 'fas fa-tachometer-alt'
   },
   {
-    'id': 8,
-    'title': 'Document Features',
-    'category': 'document',
-    'description': 'Add detailed comments and documentation',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a technical writer. Add detailed documentation to this code or feature: [paste code or describe feature]. Include comments explaining each section, inputs, outputs, and usage examples.',
-    'icon': 'fas fa-book'
-  },
-  {
-    'id': 9,
-    'title': 'Refactor with Changes',
-    'category': 'refactor',
-    'description': 'Apply specific refactoring changes',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a refactoring specialist. Refactor this [language] code with these specific changes: [list changes, e.g., make it asynchronous and optimize loops]: [paste code here]. Maintain original behavior.',
-    'icon': 'fas fa-code-branch'
-  },
-  {
     'id': 10,
     'title': 'Security Audit',
     'category': 'security',
     'description': 'Identify and fix security vulnerabilities',
     'template': 'You are a helpful AI coding assistant focused on software development. Act as a security expert. Perform a security audit on this [language] code: [paste code here]. Identify vulnerabilities like [specific concerns, e.g., SQL injection] and suggest fixes.',
     'icon': 'fas fa-shield-alt'
-  },
-  {
-    'id': 11,
-    'title': 'API Development',
-    'category': 'api',
-    'description': 'Build robust RESTful APIs',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a backend developer. Create a RESTful API for [resource] with CRUD operations, input validation, error handling, rate limiting, caching, and comprehensive OpenAPI documentation.',
-    'icon': 'fas fa-plug'
-  },
-  {
-    'id': 12,
-    'title': 'Repair Code',
-    'category': 'repair',
-    'description': 'Fix bugs and explain the changes made',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code repair specialist. Repair this broken [language] code: [paste code here]. It\'s producing [describe error or issue]. Fix the bugs and explain the changes.',
-    'icon': 'fas fa-tools'
-  },
-  {
-    'id': 13,
-    'title': 'Generate New Code',
-    'category': 'generate',
-    'description': 'Create new scripts or applications from scratch',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code generator. Generate a [language] script that [full description, e.g., fetches weather data via API and displays it in a CLI]. Include error handling.',
-    'icon': 'fas fa-magic'
   },
   {
     'id': 14,
@@ -151,12 +96,120 @@ const embeddedPrompts = [
     'icon': 'fas fa-search-plus'
   },
   {
+    'id': 12,
+    'title': 'Repair Code',
+    'category': 'repair',
+    'description': 'Fix bugs and explain the changes made',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code repair specialist. Repair this broken [language] code: [paste code here]. It\'s producing [describe error or issue]. Fix the bugs and explain the changes.',
+    'icon': 'fas fa-tools'
+  },
+  {
+    'id': 9,
+    'title': 'Refactor with Changes',
+    'category': 'refactor',
+    'description': 'Apply specific refactoring changes',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a refactoring specialist. Refactor this [language] code with these specific changes: [list changes, e.g., make it asynchronous and optimize loops]: [paste code here]. Maintain original behavior.',
+    'icon': 'fas fa-code-branch'
+  },
+
+  // MEDIUM PRIORITY - Useful but less frequently used
+  {
+    'id': 13,
+    'title': 'Generate New Code',
+    'category': 'generate',
+    'description': 'Create new scripts or applications from scratch',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code generator. Generate a [language] script that [full description, e.g., fetches weather data via API and displays it in a CLI]. Include error handling.',
+    'icon': 'fas fa-magic'
+  },
+  {
+    'id': 8,
+    'title': 'Document Features',
+    'category': 'document',
+    'description': 'Add detailed comments and documentation',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a technical writer. Add detailed documentation to this code or feature: [paste code or describe feature]. Include comments explaining each section, inputs, outputs, and usage examples.',
+    'icon': 'fas fa-book'
+  },
+  {
+    'id': 11,
+    'title': 'API Development',
+    'category': 'api',
+    'description': 'Build robust RESTful APIs',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a backend developer. Create a RESTful API for [resource] with CRUD operations, input validation, error handling, rate limiting, caching, and comprehensive OpenAPI documentation.',
+    'icon': 'fas fa-plug'
+  },
+  {
+    'id': 18,
+    'title': 'Database Schema Design',
+    'category': 'database',
+    'description': 'Design optimized database structures',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a database designer. Design a normalized database schema for [application] with proper relationships, indexes, and constraints. Include migration scripts and performance optimization strategies.',
+    'icon': 'fas fa-database'
+  },
+  {
+    'id': 17,
+    'title': 'System Architecture Design',
+    'category': 'architecture',
+    'description': 'Design scalable system architectures',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a system architect. Design a scalable microservices architecture for [app type] with [specific requirements]. Include service boundaries, API contracts, data flow diagrams, and deployment strategy.',
+    'icon': 'fas fa-sitemap'
+  },
+  {
     'id': 15,
     'title': 'Testing Strategy',
     'category': 'testing',
     'description': 'Complete testing strategies and plans',
     'template': 'You are a helpful AI coding assistant focused on software development. Act as a test strategist. Generate a complete testing strategy for [application/feature] including: unit tests, integration tests, E2E tests, performance benchmarks, and test automation setup.',
     'icon': 'fas fa-vial'
+  },
+  {
+    'id': 19,
+    'title': 'Performance Profiling',
+    'category': 'performance',
+    'description': 'Identify and fix performance bottlenecks',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a performance profiler. Profile and optimize this [language] code for [specific metric: speed/memory/CPU]. Identify bottlenecks, suggest algorithmic improvements, and provide benchmarking code.',
+    'icon': 'fas fa-tachometer-alt'
+  },
+  {
+    'id': 20,
+    'title': 'CI/CD Pipeline',
+    'category': 'devops',
+    'description': 'Automated deployment pipelines',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a DevOps engineer. Generate a complete CI/CD pipeline for [tech stack] including: automated testing, security scanning, deployment to [platform], monitoring setup, and rollback strategies.',
+    'icon': 'fas fa-cogs'
+  },
+  {
+    'id': 21,
+    'title': 'Technical Debt Analysis',
+    'category': 'analysis',
+    'description': 'Identify and prioritize technical debt',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a technical debt analyst. Analyze this codebase for technical debt and provide a prioritized refactoring plan with effort estimates, risk assessments, and business impact analysis.',
+    'icon': 'fas fa-chart-line'
+  },
+  {
+    'id': 22,
+    'title': 'Convert Code Languages',
+    'category': 'convert',
+    'description': 'Translate code between programming languages',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code translator. Convert this [source language] code to [target language]: [paste code here]. Preserve all functionality and add comments.',
+    'icon': 'fas fa-exchange-alt'
+  },
+
+  // LOWER PRIORITY - Specialized or less common tasks
+  {
+    'id': 1,
+    'title': 'Evaluate Completed App',
+    'category': 'review',
+    'description': 'Comprehensive assessment of finished applications',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a senior software architect. Evaluate this completed application: [paste app code/details]. Assess: overall functionality and user experience. Identify performance bottlenecks and scalability potential. Check for security vulnerabilities and code quality issues. Evaluate maintainability. Provide detailed feedback with prioritized improvement recommendations and implementation suggestions.',
+    'icon': 'fas fa-clipboard-check'
+  },
+  {
+    'id': 41,
+    'title': 'Evaluate Partially Completed App',
+    'category': 'review',
+    'description': 'Assessment of work-in-progress applications with guidance for completion',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a senior software architect and mentor. Evaluate this partially completed application: [paste current app code/details]. Assess: current progress and completion status. Identify missing features and incomplete implementations. Evaluate code quality and architecture decisions so far. Provide guidance on next steps and priorities. Suggest improvements to existing code. Help prioritize remaining work and estimate completion effort. Offer specific recommendations for finishing the application successfully.',
+    'icon': 'fas fa-tasks'
   },
   {
     'id': 16,
@@ -205,54 +258,6 @@ const embeddedPrompts = [
     'description': 'Create comprehensive API tests and mock servers',
     'template': 'You are a helpful AI coding assistant focused on software development. Act as a QA automation engineer. Create comprehensive API tests and mocks for this [API type, e.g., REST/GraphQL] endpoint: [describe API]. Include: unit tests for API functions, integration tests with mock servers, contract testing, load testing scripts, error scenario testing, and CI/CD integration. Use [testing framework, e.g., Jest, Postman, Cypress] and provide test examples with assertions.',
     'icon': 'fas fa-flask'
-  },
-  {
-    'id': 17,
-    'title': 'System Architecture Design',
-    'category': 'architecture',
-    'description': 'Design scalable system architectures',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a system architect. Design a scalable microservices architecture for [app type] with [specific requirements]. Include service boundaries, API contracts, data flow diagrams, and deployment strategy.',
-    'icon': 'fas fa-sitemap'
-  },
-  {
-    'id': 18,
-    'title': 'Database Schema Design',
-    'category': 'database',
-    'description': 'Design optimized database structures',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a database designer. Design a normalized database schema for [application] with proper relationships, indexes, and constraints. Include migration scripts and performance optimization strategies.',
-    'icon': 'fas fa-database'
-  },
-  {
-    'id': 19,
-    'title': 'Performance Profiling',
-    'category': 'performance',
-    'description': 'Identify and fix performance bottlenecks',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a performance profiler. Profile and optimize this [language] code for [specific metric: speed/memory/CPU]. Identify bottlenecks, suggest algorithmic improvements, and provide benchmarking code.',
-    'icon': 'fas fa-tachometer-alt'
-  },
-  {
-    'id': 20,
-    'title': 'CI/CD Pipeline',
-    'category': 'devops',
-    'description': 'Automated deployment pipelines',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a DevOps engineer. Generate a complete CI/CD pipeline for [tech stack] including: automated testing, security scanning, deployment to [platform], monitoring setup, and rollback strategies.',
-    'icon': 'fas fa-cogs'
-  },
-  {
-    'id': 21,
-    'title': 'Technical Debt Analysis',
-    'category': 'analysis',
-    'description': 'Identify and prioritize technical debt',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a technical debt analyst. Analyze this codebase for technical debt and provide a prioritized refactoring plan with effort estimates, risk assessments, and business impact analysis.',
-    'icon': 'fas fa-chart-line'
-  },
-  {
-    'id': 22,
-    'title': 'Convert Code Languages',
-    'category': 'convert',
-    'description': 'Translate code between programming languages',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code translator. Convert this [source language] code to [target language]: [paste code here]. Preserve all functionality and add comments.',
-    'icon': 'fas fa-exchange-alt'
   },
   {
     'id': 23,
@@ -339,7 +344,7 @@ const embeddedPrompts = [
     'title': 'Explain with Comparison',
     'category': 'explain',
     'description': 'Compare code approaches and their trade-offs',
-    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code comparator. Explain this [language] code and compare it to [alternative approach]: [paste code here]. Highlight pros, cons, and when to use each.',
+    'template': 'You are a helpful AI coding assistant focused on software development. Act as a code comparator. Explain this [language] code and compare it to [alternative approach]: [paste code here]. Highlight pros, cons, and when to use each approach.',
     'icon': 'fas fa-balance-scale'
   },
   {
@@ -790,10 +795,52 @@ function fillPlaceholder(placeholder) {
 }
 
 function editPrompt(template, promptId) {
-  const newTemplate = prompt('Edit the prompt template:', template);
-  if (newTemplate && newTemplate !== template) {
-    showToast('Template editing coming soon! 💡', 'warning');
+  // Store the current prompt ID for saving
+  window.currentEditingPromptId = promptId;
+
+  // Populate the modal with the current template
+  const textarea = document.getElementById('editPromptTextarea');
+  textarea.value = template;
+
+  // Open the edit modal
+  openModal('editPromptModal');
+
+  // Focus the textarea for better UX
+  setTimeout(() => textarea.focus(), 100);
+}
+
+function saveEditedPrompt() {
+  const textarea = document.getElementById('editPromptTextarea');
+  const newTemplate = textarea.value.trim();
+  const promptId = window.currentEditingPromptId;
+
+  if (!newTemplate) {
+    showToast('Template cannot be empty', 'error');
+    return;
   }
+
+  // Find and update the prompt in the state
+  const prompt = AppState.prompts.find(p => p.id === promptId);
+  if (prompt) {
+    const oldTemplate = prompt.template;
+    if (newTemplate !== oldTemplate) {
+      prompt.template = newTemplate;
+      showToast('Prompt template updated successfully! ✨', 'success');
+
+      // Re-render the prompts to show the changes
+      renderPrompts();
+    } else {
+      showToast('No changes made to the template', 'info');
+    }
+  } else {
+    showToast('Error: Prompt not found', 'error');
+  }
+
+  // Close the modal
+  closeModal('editPromptModal');
+
+  // Clear the stored prompt ID
+  window.currentEditingPromptId = null;
 }
 
 
@@ -854,153 +901,7 @@ function closeModal(modalId) {
   document.getElementById(modalId).classList.remove('show');
 }
 
-function openPromptBuilder() {
-  const content = document.getElementById('promptBuilderContent');
-  content.innerHTML = `
-        <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 8px; font-weight: 500;">What do you want to do?</label>
-            <select id="actionType" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary);">
-                <option value="cleanup">Clean up code</option>
-                <option value="debug">Debug an issue</option>
-                <option value="feature">Add a feature</option>
-                <option value="optimize">Optimize performance</option>
-                <option value="beautify">Beautify code</option>
-                <option value="document">Add documentation</option>
-                <option value="refactor">Refactor code</option>
-            </select>
-        </div>
-        <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Programming language:</label>
-            <input type="text" id="language" placeholder="e.g., JavaScript, Python, Java" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary);">
-        </div>
-        <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Specific details:</label>
-            <textarea id="details" placeholder="Describe what you need help with..." rows="4" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); resize: vertical;"></textarea>
-        </div>
-        <button class="btn btn-primary" onclick="generateCustomPrompt()" style="width: 100%;">
-            <i class="fas fa-magic"></i> Generate Custom Prompt
-        </button>
-    `;
-  openModal('promptBuilderModal');
-}
 
-function generateCustomPrompt() {
-  const action = document.getElementById('actionType').value;
-  const language = document.getElementById('language').value;
-  const details = document.getElementById('details').value;
-
-  const customPrompt = `Please ${action} this ${language || 'code'}: [paste code here]. ${details ? 'Additional details: ' + details : ''}. Provide a complete solution with explanations.`;
-
-  copyToClipboard(customPrompt);
-  closeModal('promptBuilderModal');
-}
-
-function openTemplateEditor() {
-  const content = document.getElementById('templateEditorContent');
-  content.innerHTML = `
-        <div style="margin-bottom: 20px;">
-            <p>Create your own custom prompt template. Use [placeholder] syntax for fillable fields.</p>
-        </div>
-        <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Template Title:</label>
-            <input type="text" id="templateTitle" placeholder="My Custom Prompt" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary);">
-        </div>
-        <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Prompt Template:</label>
-            <textarea id="customTemplate" placeholder="Please [action] this [language] code: [paste code here]. [additional instructions]" rows="6" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); resize: vertical; font-family: 'JetBrains Mono', monospace;"></textarea>
-        </div>
-        <button class="btn btn-success" onclick="saveCustomTemplate()" style="width: 100%;">
-            <i class="fas fa-save"></i> Save Template
-        </button>
-    `;
-  openModal('templateEditorModal');
-}
-
-function saveCustomTemplate() {
-  const title = document.getElementById('templateTitle').value;
-  const template = document.getElementById('customTemplate').value;
-
-  if (!title || !template) {
-    showToast('Please fill in both title and template', 'error');
-    return;
-  }
-
-  showToast('Custom template saved! (Feature coming soon)', 'success');
-  closeModal('templateEditorModal');
-}
-
-function exportPrompts() {
-  const data = {
-    prompts: AppState.prompts,
-    favorites: AppState.favorites,
-    usageStats: AppState.usageStats,
-    exportedAt: new Date().toISOString()
-  };
-
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'cline-prompts-backup.json';
-  a.click();
-  URL.revokeObjectURL(url);
-
-  showToast('Prompts exported successfully! 📁', 'success');
-}
-
-function showAnalytics() {
-  const content = document.getElementById('analyticsContent');
-  const totalUsage = Object.values(AppState.usageStats).reduce((a, b) => a + b, 0);
-  const favoriteCategories = AppState.favorites.map(id => AppState.prompts.find(p => p.id === id)?.category)
-    .reduce((acc, cat) => {
-      acc[cat] = (acc[cat] || 0) + 1;
-      return acc;
-    }, {});
-
-  // Sanitize category names
-  const safeCategoriesHTML = Object.entries(favoriteCategories).map(([cat, count]) => {
-    const safeCat = DOMPurify.sanitize(cat);
-    return `<div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                    <span style="text-transform: capitalize;">${safeCat}</span>
-                    <span style="font-weight: bold;">${count}</span>
-                </div>`;
-  }).join('') || '<p style="color: var(--text-secondary);">No favorites yet</p>';
-
-  const analyticsHTML = `
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px;">
-            <div style="text-align: center; padding: 20px; background: var(--bg-card); border-radius: 12px;">
-                <div style="font-size: 2em; font-weight: bold; color: var(--primary-gradient);">${totalUsage}</div>
-                <div style="color: var(--text-secondary);">Total Uses</div>
-            </div>
-            <div style="text-align: center; padding: 20px; background: var(--bg-card); border-radius: 12px;">
-                <div style="font-size: 2em; font-weight: bold; color: #ffd700;">${AppState.favorites.length}</div>
-                <div style="color: var(--text-secondary);">Favorites</div>
-            </div>
-            <div style="text-align: center; padding: 20px; background: var(--bg-card); border-radius: 12px;">
-                <div style="font-size: 2em; font-weight: bold; color: var(--success-color);">${AppState.prompts.length}</div>
-                <div style="color: var(--text-secondary);">Prompts</div>
-            </div>
-        </div>
-        <div style="background: var(--bg-card); padding: 20px; border-radius: 12px;">
-            <h4 style="margin-bottom: 15px; color: var(--text-primary);">Favorite Categories</h4>
-            ${safeCategoriesHTML}
-        </div>
-    `;
-
-  content.innerHTML = DOMPurify.sanitize(analyticsHTML, { ALLOWED_TAGS: ['div', 'span', 'h4', 'p'], ALLOWED_ATTR: ['style'] });
-  openModal('analyticsModal');
-}
-
-function openKeyboardShortcuts() {
-  openModal('shortcutsModal');
-}
-
-function sharePrompt() {
-  const url = window.location.href;
-  navigator.clipboard.writeText(url).then(() => {
-    showToast('App URL copied to clipboard! 🔗', 'success');
-  });
-}
 
 // Keyboard shortcuts
 document.addEventListener('keydown', (e) => {
@@ -1045,7 +946,7 @@ document.addEventListener('keydown', (e) => {
   case 'e':
     if (isCtrlOrCmd) {
       e.preventDefault();
-      exportPrompts();
+      // Export functionality removed
     }
     break;
   case 'escape':
@@ -1131,6 +1032,21 @@ document.querySelectorAll('.modal').forEach(modal => {
       modal.classList.remove('show');
     }
   });
+});
+
+// Keyboard support for modals
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    // Close any open modal
+    const openModal = document.querySelector('.modal.show');
+    if (openModal) {
+      openModal.classList.remove('show');
+      // Clear editing state if edit modal was open
+      if (openModal.id === 'editPromptModal') {
+        window.currentEditingPromptId = null;
+      }
+    }
+  }
 });
 
 

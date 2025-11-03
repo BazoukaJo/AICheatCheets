@@ -10,12 +10,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
 </head>
 <body>
-
-
     <div class="container">
         <header>
             <h1>🚀 AI Prompt Assistant</h1>
-            <p class="subtitle">Vibe Coding Made Easy - Quick Copy-Paste Queries for Faster AI Communication!</p>
         </header>
 
         <div class="search-container">
@@ -51,79 +48,35 @@
             </div>
         </div>
 
-
-
         <div class="prompts-grid" id="promptsGrid">
             <!-- Prompts will be populated by JavaScript -->
-        </div>
-
-        <div class="feature-proposal">
-            <h2>💡 Interactive Feature Playground!</h2>
-            <p>Try these experimental features to supercharge your Vibe Coding workflow:</p>
-
-            <div class="feature-list">
-                <div class="feature-item" onclick="openPromptBuilder()">
-                    <h3><i class="fas fa-magic"></i> AI Prompt Builder</h3>
-                    <p>Generate custom prompts based on your specific needs and coding context</p>
-                </div>
-                <div class="feature-item" onclick="openTemplateEditor()">
-                    <h3><i class="fas fa-edit"></i> Template Customizer</h3>
-                    <p>Create and save your own prompt templates with smart placeholders</p>
-                </div>
-                <div class="feature-item" onclick="exportPrompts()">
-                    <h3><i class="fas fa-download"></i> Export Collection</h3>
-                    <p>Download all prompts as JSON or Markdown for offline use</p>
-                </div>
-                <div class="feature-item" onclick="showAnalytics()">
-                    <h3><i class="fas fa-chart-bar"></i> Usage Analytics</h3>
-                    <p>View detailed statistics about your prompt usage patterns</p>
-                </div>
-                <div class="feature-item" onclick="sharePrompt()">
-                    <h3><i class="fas fa-share"></i> Share Prompts</h3>
-                    <p>Share your favorite prompts with the community</p>
-                </div>
-            </div>
         </div>
     </div>
 
     <!-- Modals -->
-    <div class="modal" id="promptBuilderModal">
+
+    <div class="modal" id="editPromptModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">AI Prompt Builder</h3>
-                <button class="modal-close" onclick="closeModal('promptBuilderModal')">&times;</button>
+                <h3 class="modal-title">Edit Prompt Template</h3>
+                <button class="modal-close" onclick="closeModal('editPromptModal')">&times;</button>
             </div>
-            <div id="promptBuilderContent">
-                <p>Building custom prompts based on your needs...</p>
+            <div id="editPromptContent">
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 500;">Prompt Template:</label>
+                    <textarea id="editPromptTextarea" rows="8" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); resize: vertical; font-family: 'JetBrains Mono', monospace;" placeholder="Enter your prompt template..."></textarea>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="closeModal('editPromptModal'); return false;">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button class="btn btn-primary" onclick="saveEditedPrompt(); return false;">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="modal" id="templateEditorModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Template Editor</h3>
-                <button class="modal-close" onclick="closeModal('templateEditorModal')">&times;</button>
-            </div>
-            <div id="templateEditorContent">
-                <p>Create and customize your own prompt templates...</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="analyticsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Usage Analytics</h3>
-                <button class="modal-close" onclick="closeModal('analyticsModal')">&times;</button>
-            </div>
-            <div id="analyticsContent">
-                <p>Analyzing your prompt usage patterns...</p>
-            </div>
-        </div>
-    </div>
-
-
 
     <div class="toast" id="toast">Copied to clipboard! 📋</div>
 

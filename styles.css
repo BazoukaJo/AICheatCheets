@@ -569,6 +569,169 @@ h1 {
     color: var(--vscode-text-primary);
 }
 
+/* Edit Prompt Modal Specific Styles */
+#editPromptContent {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#editPromptContent label {
+    font-weight: 600;
+    color: var(--vscode-text-primary);
+    margin-bottom: 8px;
+    display: block;
+    font-size: 0.95em;
+}
+
+#editPromptTextarea {
+    width: 100%;
+    min-height: 250px;
+    padding: 16px;
+    border: 2px solid var(--vscode-border);
+    border-radius: 6px;
+    background: var(--vscode-bg-input);
+    color: var(--vscode-text-primary);
+    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical;
+    transition: var(--transition);
+    outline: none;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+#editPromptTextarea:focus {
+    border-color: var(--vscode-border-focus);
+    box-shadow: var(--glow), inset 0 1px 3px rgba(0,0,0,0.1);
+    background: var(--vscode-bg-primary);
+}
+
+#editPromptTextarea::placeholder {
+    color: var(--vscode-text-secondary);
+    opacity: 0.7;
+}
+
+#editPromptContent .button-group {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid var(--vscode-border);
+    margin-top: 10px;
+}
+
+#editPromptContent .btn {
+    padding: 12px 24px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: var(--transition);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 120px;
+    justify-content: center;
+    font-size: 0.95em;
+    border: 2px solid transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#editPromptContent .btn-primary {
+    background: var(--vscode-keyword);
+    color: white;
+    border-color: var(--vscode-keyword);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+#editPromptContent .btn-primary:hover {
+    background: var(--vscode-bg-hover);
+    border-color: var(--vscode-border-focus);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+#editPromptContent .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+#editPromptContent .btn-secondary {
+    background: transparent;
+    color: var(--vscode-text-secondary);
+    border-color: var(--vscode-border);
+    box-shadow: none;
+}
+
+#editPromptContent .btn-secondary:hover {
+    background: var(--vscode-bg-hover);
+    color: var(--vscode-text-primary);
+    border-color: var(--vscode-border-focus);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#editPromptContent .btn-secondary:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+#editPromptModal .modal-content {
+    max-width: 650px;
+    width: 95%;
+    max-height: 80vh;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+
+#editPromptModal .modal-header {
+    border-bottom: 2px solid var(--vscode-border);
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+#editPromptModal .modal-title {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: var(--vscode-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#editPromptModal .modal-title::before {
+    content: '✏️';
+    font-size: 1.2em;
+}
+
+#editPromptModal .modal-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: transparent;
+    border: none;
+    font-size: 1.8em;
+    cursor: pointer;
+    color: var(--vscode-text-secondary);
+    padding: 8px;
+    border-radius: 50%;
+    transition: var(--transition);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#editPromptModal .modal-close:hover {
+    background: var(--vscode-bg-hover);
+    color: var(--vscode-text-primary);
+    transform: scale(1.1);
+}
+
 .hidden {
     display: none !important;
 }
