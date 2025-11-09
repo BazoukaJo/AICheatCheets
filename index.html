@@ -113,6 +113,7 @@ body {
 .container {
     max-width: 1400px;
     margin: 0 auto;
+    margin-top: 10px;
     padding: 15px;
 }
 
@@ -162,8 +163,8 @@ body {
 header {
     text-align: center;
     color: var(--md-text-primary);
-    margin-bottom: var(--md-space-3);
-    padding: var(--md-space-2) 0;
+    margin-bottom: var(--md-space-2);
+    padding: var(--md-space-1) 0;
 }
 
 h1 {
@@ -241,6 +242,13 @@ h1 {
     color: var(--md-primary);
 }
 
+#toggleViewBtn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
 .quick-actions {
     display: flex;
     gap: 10px;
@@ -267,7 +275,7 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     gap: var(--md-space-2);
-    margin-top: var(--md-space-4);
+    margin-top: var(--md-space-2);
 }
 
 .category-btn {
@@ -318,15 +326,126 @@ h1 {
     box-shadow: var(--md-elevation-04);
 }
 
+.category-btn-favorites {
+    background: #ffd700 !important;
+    color: #1e1e1e !important;
+}
 
+.prompts-grid.compact-view .prompt-card {
+    padding: var(--md-space-3);
+    min-height: unset;
+}
 
-.favorites-section {
-    background: var(--vscode-bg-secondary);
-    border: 1px solid var(--vscode-border);
-    border-radius: 6px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
+.prompts-grid.compact-view .prompt-card .prompt-description,
+.prompts-grid.compact-view .prompt-card .prompt-template {
+    display: none;
+}
+
+.prompts-grid.compact-view .prompt-card .prompt-header {
+    margin-bottom: var(--md-space-2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.prompts-grid.compact-view .prompt-card .prompt-actions {
+    margin-top: 0;
+}
+
+.collapse-btn {
+    background: none;
+    border: none;
+    color: var(--md-text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 3px;
+    transition: var(--transition);
+    margin-left: 10px;
+}
+
+.collapse-btn:hover {
+    color: var(--md-primary);
+    background: var(--md-surface-variant);
+}
+
+.prompt-card.expanded .prompt-description,
+.prompt-card.expanded .prompt-template {
+    display: block !important;
+}
+
+.prompt-card.collapsed .prompt-description,
+.prompt-card.collapsed .prompt-template {
+    display: none !important;
+}
+
+/* Make collapsed cards have consistent height */
+.prompt-card.collapsed {
+    min-height: 56px;
+    height: 56px;
+    max-height: 56px;
+    padding: var(--md-space-2) var(--md-space-4);
+    display: flex;
+    align-items: center;
+}
+
+.prompt-card.collapsed .prompt-header {
+    width: 100%;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--md-space-4);
+    height: 100%;
+}
+
+.prompt-card.collapsed .prompt-title {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--md-space-2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+}
+
+.prompt-card.collapsed .prompt-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--md-space-2);
+    flex-shrink: 0;
+    margin-top: 0;
+    height: 100%;
+}
+
+.prompt-card.collapsed .btn {
+    padding: var(--md-space-1) var(--md-space-2);
+    font-size: 0.7rem;
+    white-space: nowrap;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prompt-card.collapsed .btn i {
+    font-size: 0.85em;
+}
+
+.prompt-card.collapsed .collapse-btn {
+    padding: var(--md-space-1);
+    margin-left: 0;
+    height: 28px;
+    width: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prompt-card.expanded {
+    min-height: auto;
+    height: auto;
+    max-height: none;
 }
 
 .favorites-title {
@@ -362,9 +481,66 @@ h1 {
 }
 
 .prompts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    gap: var(--md-space-6);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--md-space-3);
+    align-items: start;
+}
+
+.prompts-grid .prompt-card {
+    flex: 1 1 calc(50% - var(--md-space-3));
+    min-width: 300px;
+    max-width: 100%;
+}
+
+.prompts-grid.compact-view .prompt-card {
+    flex: 1 1 calc(50% - var(--md-space-6));
+    min-width: 300px;
+}
+
+/* Responsive adjustments for larger screens */
+@media (min-width: 1920px) {
+    .prompts-grid .prompt-card {
+        flex: 1 1 calc(33.333% - var(--md-space-6));
+        min-width: 350px;
+    }
+    .prompts-grid.compact-view .prompt-card {
+        flex: 1 1 calc(33.333% - var(--md-space-6));
+        min-width: 350px;
+    }
+}
+
+@media (min-width: 2560px) {
+    .prompts-grid .prompt-card {
+        flex: 1 1 calc(25% - var(--md-space-6));
+        min-width: 350px;
+    }
+    .prompts-grid.compact-view .prompt-card {
+        flex: 1 1 calc(25% - var(--md-space-6));
+        min-width: 350px;
+    }
+}
+
+@media (min-width: 3440px) {
+    .prompts-grid .prompt-card {
+        flex: 1 1 calc(20% - var(--md-space-6));
+        min-width: 350px;
+    }
+    .prompts-grid.compact-view .prompt-card {
+        flex: 1 1 calc(20% - var(--md-space-6));
+        min-width: 350px;
+    }
+}
+
+@media (min-width: 3840px) {
+    .prompts-grid .prompt-card {
+        flex: 1 1 calc(16.666% - var(--md-space-6));
+        min-width: 350px;
+    }
+    .prompts-grid.compact-view .prompt-card {
+        flex: 1 1 calc(16.666% - var(--md-space-6));
+        min-width: 350px;
+    }
 }
 
 .prompt-card {
@@ -470,6 +646,12 @@ h1 {
     gap: 8px;
     flex-wrap: wrap;
     margin-top: auto;
+}
+
+.prompt-header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
 }
 
 .btn {
@@ -885,6 +1067,21 @@ h1 {
     transform: scale(1.1);
 }
 
+#editPromptContent {
+    margin-bottom: var(--md-space-5);
+}
+
+#editPromptContent label {
+    display: block;
+    margin-bottom: var(--md-space-2);
+    font-weight: 500;
+    color: var(--md-text-primary);
+}
+
+.form-group {
+    margin-bottom: var(--md-space-5);
+}
+
 .hidden {
     display: none !important;
 }
@@ -989,12 +1186,10 @@ mark {
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🚀 AI Prompt Templates</h1>
-
-
-
-        </header>
+        <!-- Added toggle button -->
+        <button id="toggleViewBtn" class="btn btn-primary" title="Toggle between compact and full view">
+            <i class="fas fa-list"></i>
+        </button>
 
         <main role="main">
             <div class="search-container" role="search">
@@ -1004,34 +1199,31 @@ mark {
                     <div id="search-help" class="sr-only">Search through available AI prompts by title, description, or content</div>
                 </div>
                 <nav class="categories" id="categories" role="navigation" aria-label="Prompt categories">
-                <button class="category-btn active" data-category="all">All</button>
-                <button class="category-btn" data-category="favorites" style="background: #ffd700; color: #1e1e1e;"><i class="fas fa-star"></i> Favorites</button>
-                <button class="category-btn" data-category="cleanup">Clean Up</button>
-                <button class="category-btn" data-category="document">Document</button>
-                <button class="category-btn" data-category="repair">Repair</button>
-                <button class="category-btn" data-category="explain">Explain</button>
-                <button class="category-btn" data-category="feature">Add Feature</button>
-                <button class="category-btn" data-category="remove">Remove</button>
-                <button class="category-btn" data-category="refactor">Refactor</button>
-                <button class="category-btn" data-category="beautify">Beautify</button>
-                <button class="category-btn" data-category="generate">Generate</button>
-                <button class="category-btn" data-category="optimize">Optimize</button>
-                <button class="category-btn" data-category="debug">Debug</button>
-                <button class="category-btn" data-category="convert">Convert</button>
-                <button class="category-btn" data-category="test">Test</button>
-                <button class="category-btn" data-category="security">Security</button>
-                <button class="category-btn" data-category="architecture">Architecture</button>
-                <button class="category-btn" data-category="review">Review</button>
-                <button class="category-btn" data-category="eval">Eval</button>
-                <button class="category-btn" data-category="testing">Testing</button>
-                <button class="category-btn" data-category="performance">Performance</button>
-                <button class="category-btn" data-category="database">Database</button>
-                <button class="category-btn" data-category="api">API</button>
-                <button class="category-btn" data-category="devops">DevOps</button>
-                <button class="category-btn" data-category="analysis">Analysis</button>
-                <button class="category-btn" data-category="concurrency">Concurrency</button>
-                <button class="category-btn" data-category="prototype">Prototype</button>
-                <button class="category-btn" data-category="documentation">Documentation</button>
+                    <button class="category-btn active" data-category="all">All</button>
+                    <button class="category-btn category-btn-favorites" data-category="favorites"><i class="fas fa-star"></i> Favorites</button>
+                    <button class="category-btn" data-category="cleanup">Clean Up</button>
+                    <button class="category-btn" data-category="document">Document</button>
+                    <button class="category-btn" data-category="repair">Repair</button>
+                    <button class="category-btn" data-category="explain">Explain</button>
+                    <button class="category-btn" data-category="feature">Feature</button>
+                    <button class="category-btn" data-category="remove">Remove</button>
+                    <button class="category-btn" data-category="refactor">Refactor</button>
+                    <button class="category-btn" data-category="generate">Generate</button>
+                    <button class="category-btn" data-category="optimize">Optimize</button>
+                    <button class="category-btn" data-category="debug">Debug</button>
+                    <button class="category-btn" data-category="convert">Convert</button>
+                    <button class="category-btn" data-category="test">Test</button>
+                    <button class="category-btn" data-category="security">Security</button>
+                    <button class="category-btn" data-category="architecture">Architecture</button>
+                    <button class="category-btn" data-category="review">Review</button>
+                    <button class="category-btn" data-category="eval">Eval</button>
+                    <button class="category-btn" data-category="performance">Performance</button>
+                    <button class="category-btn" data-category="database">Database</button>
+                    <button class="category-btn" data-category="api">API</button>
+                    <button class="category-btn" data-category="devops">DevOps</button>
+                    <button class="category-btn" data-category="analysis">Analysis</button>
+                    <button class="category-btn" data-category="concurrency">Concurrency</button>
+                    <button class="category-btn" data-category="prototype">Prototype</button>
                 </nav>
             </div>
 
@@ -1054,8 +1246,8 @@ mark {
                 </button>
             </div>
             <form id="editPromptContent" onsubmit="saveEditedPrompt(); return false;">
-                <div style="margin-bottom: var(--md-space-5);">
-                    <label for="editPromptTextarea" style="display: block; margin-bottom: var(--md-space-2); font-weight: 500; color: var(--md-text-primary);">Prompt Template:</label>
+                <div class="form-group">
+                    <label for="editPromptTextarea">Prompt Template:</label>
                     <textarea id="editPromptTextarea" rows="8" aria-describedby="textarea-help" placeholder="Enter your prompt template..." required></textarea>
                     <div id="textarea-help" class="sr-only">Enter the prompt template text. Use placeholders like [language] or [code] that will be filled when using the prompt.</div>
                 </div>
@@ -1288,6 +1480,8 @@ function toggleFavoritesView() {
  * @property {number[]} favorites - Array of favorite prompt IDs
  * @property {Object.<string, number>} usageStats - Usage statistics by date
  * @property {Prompt[]} prompts - Array of available prompts
+ * @property {Object.<number, boolean>} collapseStates - Collapse state of each prompt (true = collapsed, false = expanded)
+ * @property {boolean} isCompactView - Whether the view is in compact mode
  */
 
 /** @type {AppState} */
@@ -1298,6 +1492,8 @@ const AppState = {
   favorites: [],
   usageStats: {},
   prompts: [],
+  collapseStates: {},
+  isCompactView: false,
 };
 
 /**
@@ -1322,6 +1518,22 @@ async function initializeState() {
     console.warn('Failed to load usage stats from localStorage:', error);
     AppState.usageStats = {};
   }
+
+  try {
+    const storedCollapseStates = localStorage.getItem('clineCollapseStates');
+    AppState.collapseStates = storedCollapseStates ? JSON.parse(storedCollapseStates) : {};
+  } catch (error) {
+    console.warn('Failed to load collapse states from localStorage:', error);
+    AppState.collapseStates = {};
+  }
+
+  try {
+    const storedViewMode = localStorage.getItem('clineViewMode');
+    AppState.isCompactView = storedViewMode ? JSON.parse(storedViewMode) : false;
+  } catch (error) {
+    console.warn('Failed to load view mode from localStorage:', error);
+    AppState.isCompactView = false;
+  }
 }
 
 /**
@@ -1331,6 +1543,8 @@ async function saveToStorage() {
   try {
     localStorage.setItem('clineFavorites', JSON.stringify(AppState.favorites));
     localStorage.setItem('clineUsageStats', JSON.stringify(AppState.usageStats));
+    localStorage.setItem('clineCollapseStates', JSON.stringify(AppState.collapseStates));
+    localStorage.setItem('clineViewMode', JSON.stringify(AppState.isCompactView));
   } catch (error) {
     console.warn('Failed to save to localStorage:', error);
     showToast('Failed to save preferences', 'error');
@@ -1378,366 +1592,350 @@ function isFavorite(promptId) {
  */
 
 const fullPrompts = [
+  // Reordered by usefulness for web/game developers (most useful first)
   {
     "id": 1,
-    "title": "Evaluate Completed App",
-    "category": "review",
-    "description": "Comprehensive assessment of finished applications with actionable insights",
-    "template": "Act as a senior software architect with 10+ years of experience. Evaluate this completed application: [paste app code/details]. Context: [describe app purpose, tech stack, target users]. Assess: 1) Overall functionality & UX (usability, accessibility, responsiveness), 2) Performance bottlenecks & scalability potential (load testing, database optimization), 3) Security vulnerabilities (OWASP Top 10, authentication, data protection), 4) Code quality (maintainability, technical debt, documentation), 5) Architecture patterns & best practices. Provide: prioritized improvement recommendations with effort estimates, implementation suggestions, and success metrics. Output in Markdown: ## Executive Summary, ## Detailed Assessment, ## Critical Issues, ## Enhancement Roadmap, ## Success Metrics.",
-    "icon": "fas fa-clipboard-check"
-  },
-  {
-    "id": 2,
-    "title": "Clean Up Code",
-    "category": "cleanup",
-    "description": "Remove redundancies, format properly, and suggest improvements with quality metrics",
-    "template": "Act as a senior code quality engineer. Clean up this [language] code for better readability and efficiency: [paste code here]. Context: [describe codebase size, team size, project phase]. Focus on: removing unused imports/variables/functions, improving naming conventions (descriptive, consistent), fixing formatting/indentation (follow [language] style guide), eliminating code duplication, adding meaningful comments, optimizing imports. Preserve all functionality. Run quality checks: [specify linters/tools like ESLint, Prettier, SonarQube]. Output: 1) Cleaned code in a code block, 2) Quality metrics before/after (complexity, duplication %), 3) Automated checks results, 4) Suggestions for further improvements with priority levels.",
-    "icon": "fas fa-broom"
-  },
-  {
-    "id": 3,
     "title": "Debug Code",
     "category": "debug",
-    "description": "Find and fix issues with systematic debugging methodology",
-    "template": "Act as a senior debugger with expertise in [language] runtime issues. Debug this [language] code: [paste code here]. Issue: [describe symptom, e.g., 'throws error X on line Y' or 'returns wrong value Z']. Environment: [OS, [language] version, dependencies, input data]. Step-by-step debugging: 1) Reproduce the issue with minimal test case, 2) Analyze stack trace and error messages, 3) Check inputs, data flow, and logic paths, 4) Identify root causes (null checks, async issues, type mismatches, race conditions), 5) Verify assumptions with logging/debugging tools. Suggest targeted fixes with explanations. Output: 1) Root cause analysis, 2) Fixed code in code block, 3) Unit tests to prevent regression, 4) Debugging checklist for similar issues, 5) Performance impact assessment.",
+    "description": "Fix bugs in C++, C#, TypeScript, JavaScript, Python for web/game development",
+    "template": "Act as a senior debugging expert specializing in [C++/C#/TypeScript/JavaScript/Python] for [web apps/game development]. Debug this code: [paste code here]. **Issue:** [describe error, crash, or unexpected behavior]. **Environment:** [OS, language version, framework: Unity/Unreal/React/Node.js, browser/platform]. **Game-Specific Checks:** Rendering issues (shader errors, draw order), physics bugs (collision detection, rigidbody settings), input handling (controller mapping, event polling), memory leaks (texture/mesh disposal in C++), null references (C# NullReferenceException), frame drops (profiler analysis). **Web-Specific Checks:** Async/await issues (promise chains, race conditions), DOM manipulation (timing, reflow), API errors (CORS, authentication, rate limits), state management (Redux/Zustand bugs, stale closures). **Debugging Tools:** Chrome DevTools (breakpoints, network tab), Unity Profiler (CPU/GPU/memory), Unreal Insights, Visual Studio debugger, Browser console, Memory profilers. **Output:** 1) Root cause analysis with evidence (stack traces, profiler screenshots), 2) Fixed code with line-by-line explanations, 3) Prevention tests (unit tests to catch regression), 4) Performance impact assessment (FPS, load time, memory before/after), 5) Similar bug patterns to watch for.",
     "icon": "fas fa-bug"
   },
   {
-    "id": 4,
+    "id": 2,
     "title": "Explain Code",
     "category": "explain",
-    "description": "Break down code step by step with analysis and educational insights",
-    "template": "Act as a senior code educator and technical mentor. Explain this [language] code step by step: [paste code here]. Context: [describe code purpose, complexity level, target audience]. Break down: 1) Overall purpose and architecture, 2) Key components and their responsibilities, 3) Data flow and control flow, 4) Important algorithms/patterns used, 5) Dependencies and external interactions, 6) Error handling and edge cases, 7) Performance considerations. Use analogies where helpful. Identify potential issues and improvements. Output in structured Markdown: ## Overview & Purpose, ## Architecture Breakdown, ## Line-by-Line Analysis, ## Key Patterns & Algorithms, ## Dependencies & Interactions, ## Error Handling, ## Performance Insights, ## Potential Issues, ## Improvement Suggestions.",
+    "description": "Understand complex code with step-by-step breakdowns for any language",
+    "template": "Act as a senior code educator with expertise in teaching complex concepts. Explain this [C++/C#/TypeScript/JavaScript/Python/HTML/CSS] code step by step: [paste code]. **Context:** [purpose, complexity level (beginner/intermediate/advanced), framework/engine: Unity/Unreal/React/Vue/Node.js]. **Explanation Depth:** 1) Overall purpose & high-level architecture, 2) Key components & their responsibilities, 3) Data flow & state management, 4) Algorithms & computational complexity (Big O), 5) Design patterns used (Singleton, Observer, Factory, etc.), 6) Dependencies & external interactions, 7) Performance considerations & optimizations. **For Game Code:** Explain game loop structure, rendering pipeline (render passes, shaders), physics calculations (collision detection, integration methods), input handling (polling vs events), entity relationships. **For Web Code:** Explain component lifecycle (mount, update, unmount), state management flow (actions, reducers, selectors), API integration patterns, DOM updates & reconciliation, routing logic. **Learning Aids:** Code analogies, visual diagrams (ASCII or Mermaid syntax), comparison to simpler examples. **Output in Markdown:** ## Overview | ## Architecture Diagram | ## Line-by-Line Analysis | ## Key Patterns & Principles | ## Potential Issues & Edge Cases | ## Performance Analysis | ## Improvement Suggestions | ## Learning Resources.",
     "icon": "fas fa-search"
   },
   {
-    "id": 5,
-    "title": "Add Specific Feature",
+    "id": 3,
+    "title": "Add Feature",
     "category": "feature",
-    "description": "Integrate new functionality seamlessly with comprehensive testing",
-    "template": "Act as a senior feature engineer specializing in [language] development. Add [describe feature, e.g., 'JWT-based user authentication with role-based access control'] to this existing [language] code: [paste code here]. Context: [describe current architecture, existing patterns, integration points]. Requirements: [specify functional and non-functional requirements]. Integration approach: 1) Analyze existing codebase for patterns, 2) Design feature architecture (components, data models, APIs), 3) Implement with backward compatibility, 4) Handle dependencies and version conflicts, 5) Add comprehensive error handling and validation, 6) Ensure security best practices. Output: 1) Updated code in code blocks (modular changes), 2) Integration explanation and design decisions, 3) Unit and integration tests, 4) API documentation updates, 5) Migration guide for existing data/code, 6) Performance and security impact assessment.",
+    "description": "Implement new features with testing for web apps and games",
+    "template": "Act as a senior feature engineer in [C++/C#/TypeScript/JavaScript/Python]. Add [feature: user authentication, inventory system, multiplayer, payment integration, UI component, analytics] to: [paste code]. **Context:** [current architecture, existing patterns, framework: Unity/Unreal/React/Vue/Node.js]. **Game Features:** Character abilities (skill trees, cooldowns), save/load system (serialization, cloud sync), AI behavior (state machines, pathfinding), crafting system (recipes, inventory management), dialogue system (branching, localization), quest system (objectives, rewards). **Web Features:** Authentication (JWT, OAuth, 2FA), real-time updates (WebSocket, Server-Sent Events), file upload (chunking, progress, validation), notifications (push, email, in-app), data visualization (charts, dashboards), search & filtering. **Implementation Requirements:** 1) Modular, decoupled design (easy to test & extend), 2) Backward compatibility (migration strategy for existing data), 3) Error handling & validation, 4) Performance optimization (lazy loading, caching), 5) Security considerations (input sanitization, authorization). **Output:** 1) Complete implementation with code organization, 2) Integration guide (step-by-step), 3) Comprehensive unit & integration tests (90%+ coverage), 4) API documentation (if applicable), 5) Performance benchmarks (before/after metrics), 6) Migration/rollback plan.",
     "icon": "fas fa-plus-circle"
   },
   {
-    "id": 6,
-    "title": "Generate Tests",
-    "category": "test",
-    "description": "Create comprehensive unit tests with high coverage and quality metrics",
-    "template": "Act as a senior QA automation engineer. Write comprehensive unit tests for this [language] function/code: [paste code here]. Context: [describe function purpose, input/output types, edge cases]. Testing framework: [Jest for JS, pytest for Python, JUnit for Java, RSpec for Ruby]. Coverage requirements: 1) Happy paths (normal operation), 2) Edge cases (boundary values, null/empty inputs), 3) Error conditions (exceptions, invalid inputs), 4) Performance benchmarks (large datasets, concurrent access), 5) Integration points (external dependencies, database calls). Aim for 90%+ coverage with mutation testing. Output: 1) Test code in code blocks (organized by test type), 2) Test setup and mocking strategies, 3) Coverage report and gap analysis, 4) CI/CD integration commands, 5) Performance benchmarks, 6) Maintenance guidelines for tests.",
-    "icon": "fas fa-vial"
-  },
-  {
-    "id": 7,
-    "title": "Optimize Code",
-    "category": "optimize",
-    "description": "Improve performance, memory usage, or speed with measurable results",
-    "template": "Act as a senior performance engineer specializing in [language] optimization. Optimize this [language] code for [primary aspect: speed/memory/CPU usage]: [paste code here]. Context: [describe current performance issues, target environment, usage patterns]. Optimization strategy: 1) Profile current performance (use tools: Chrome DevTools, Py-Spy, VisualVM, etc.), 2) Identify bottlenecks (CPU, memory, I/O, network), 3) Apply algorithmic improvements (Big O analysis), 4) Implement memory optimizations (object pooling, lazy loading), 5) Reduce complexity (caching, parallelization), 6) Database query optimization if applicable. Measure improvements quantitatively. Output: 1) Optimized code in code block, 2) Performance metrics before/after (response time, memory usage, throughput), 3) Profiling results and bottleneck analysis, 4) Trade-off analysis (readability vs performance), 5) Monitoring recommendations, 6) Scalability projections.",
-    "icon": "fas fa-tachometer-alt"
-  },
-  {
-    "id": 8,
-    "title": "Document Features",
-    "category": "document",
-    "description": "Add detailed comments and documentation following industry standards",
-    "template": "Act as a senior technical writer and documentation architect. Add comprehensive documentation to this code/feature: [paste code or describe feature]. Context: [describe audience, documentation format, existing docs]. Documentation scope: 1) Inline comments explaining complex logic, 2) Function/method documentation (parameters, return values, side effects), 3) Class/module overviews and responsibilities, 4) API documentation (OpenAPI/Swagger for APIs), 5) Usage examples and code samples, 6) Architecture diagrams (text-based), 7) Troubleshooting guides, 8) Migration/upgrade notes. Follow standards: [JSDoc for JS, docstrings for Python, JavaDoc for Java]. Output: 1) Fully documented code in code block, 2) Separate README/documentation files, 3) API specification documents, 4) Usage examples and tutorials, 5) Documentation quality metrics (completeness, clarity, accuracy).",
-    "icon": "fas fa-book"
-  },
-  {
-    "id": 9,
-    "title": "Refactor with Changes",
-    "category": "refactor",
-    "description": "Apply specific refactoring changes while maintaining behavior and improving quality",
-    "template": "Act as a senior refactoring specialist with TDD experience. Refactor this [language] code with these specific changes: [list changes, e.g., 'extract methods', 'introduce design patterns', 'improve error handling']: [paste code here]. Context: [describe codebase size, team practices, quality goals]. Refactoring principles: 1) Maintain original behavior (comprehensive tests required), 2) Improve code structure (SOLID principles, design patterns), 3) Enhance readability and maintainability, 4) Reduce complexity (cyclomatic complexity < 10), 5) Improve testability (dependency injection, single responsibility), 6) Follow language-specific best practices. Output: 1) Refactored code in code blocks (modular changes), 2) Diff highlighting key changes, 3) Design pattern rationale and alternatives considered, 4) Test coverage verification, 5) Code quality metrics improvement, 6) Performance impact assessment, 7) Future maintenance recommendations.",
-    "icon": "fas fa-code-branch"
-  },
-  {
-    "id": 10,
-    "title": "Security Audit",
-    "category": "security",
-    "description": "Identify and fix security vulnerabilities with risk assessment",
-    "template": "Act as a senior security auditor and penetration tester. Perform a comprehensive security audit on this [language] code: [paste code here]. Context: [describe application type, data sensitivity, compliance requirements]. Audit framework: OWASP Top 10, SANS Top 25, language-specific vulnerabilities. Analysis areas: 1) Input validation & sanitization (XSS, SQL injection, command injection), 2) Authentication & authorization (session management, access controls), 3) Data protection (encryption, secure storage, transmission), 4) Error handling (information leakage), 5) Dependencies (vulnerable libraries, supply chain attacks), 6) Configuration security (secrets management, hardening), 7) Business logic flaws. Risk assessment: Critical/High/Medium/Low. Output in Markdown: ## Executive Summary, ## Vulnerability Findings (table: Issue, Severity, CVSS Score, Location), ## Detailed Analysis, ## Remediation Plan, ## Fixed Code, ## Testing Strategy, ## Prevention Measures.",
-    "icon": "fas fa-shield-alt"
-  },
-  {
-    "id": 11,
-    "title": "API Development",
-    "category": "api",
-    "description": "Build robust RESTful APIs with comprehensive documentation and testing",
-    "template": "Act as a senior backend API architect. Create a production-ready RESTful API for [resource, e.g., 'user management system'] in [language/framework, e.g., 'Node.js with Express' or 'Python with FastAPI']. Context: [describe business requirements, expected load, integration points]. API specification: 1) RESTful design (proper HTTP methods, status codes, resource naming), 2) CRUD operations with proper routing, 3) Input validation (schema validation, sanitization), 4) Error handling (structured error responses, logging), 5) Rate limiting and throttling, 6) Caching strategy (Redis/memory), 7) Authentication & authorization (JWT/OAuth), 8) Comprehensive OpenAPI/Swagger documentation, 9) Database integration with migrations, 10) Testing (unit, integration, contract tests). Output: 1) Complete API code in organized files, 2) OpenAPI specification, 3) Database schema and migrations, 4) Authentication implementation, 5) Test suites, 6) Deployment configuration, 7) API usage examples, 8) Performance benchmarks.",
-    "icon": "fas fa-plug"
-  },
-  {
-    "id": 12,
-    "title": "Repair Code",
-    "category": "repair",
-    "description": "Fix bugs and explain changes with regression prevention",
-    "template": "Act as a senior code repair specialist with debugging expertise. Repair this broken [language] code: [paste code here]. Issue: [describe error or unexpected behavior in detail]. Context: [describe when/where the issue occurs, environment, reproduction steps]. Diagnostic approach: 1) Analyze error messages and stack traces, 2) Review code logic and data flow, 3) Check for common issues (null pointers, type mismatches, async problems), 4) Verify assumptions with targeted tests, 5) Implement fixes with minimal changes. Prevention measures: 1) Add comprehensive error handling, 2) Implement input validation, 3) Add logging for debugging, 4) Create regression tests. Output: 1) Root cause analysis, 2) Repaired code in code block, 3) Step-by-step explanation of fixes, 4) Unit tests to prevent regression, 5) Error handling improvements, 6) Code review checklist for similar issues.",
-    "icon": "fas fa-tools"
-  },
-  {
-    "id": 13,
-    "title": "Generate New Code",
+    "id": 4,
+    "title": "Generate Code",
     "category": "generate",
-    "description": "Create new scripts or applications from scratch with production-ready quality",
-    "template": "Act as a senior full-stack developer and software architect. Generate a production-ready [language] script/application that [full description, e.g., 'fetches weather data from OpenWeatherMap API and displays it in an interactive CLI dashboard']. Context: [describe requirements, constraints, target environment]. Implementation requirements: 1) Modular architecture (separation of concerns), 2) Comprehensive error handling and logging, 3) Input validation and sanitization, 4) Configuration management (environment variables, config files), 5) Testing framework integration, 6) Documentation (README, code comments), 7) Security best practices (no hardcoded secrets), 8) Performance optimization, 9) Cross-platform compatibility, 10) Deployment packaging. Output: 1) Complete project structure with all files, 2) Main application code, 3) Configuration and environment setup, 4) Test suites, 5) Documentation and usage examples, 6) Deployment scripts, 7) Performance benchmarks, 8) Security audit results.",
+    "description": "Create production-ready code for web apps, games, scripts, and tools",
+    "template": "Act as a senior software architect and developer. Generate production-ready [C++/C#/TypeScript/JavaScript/Python/HTML/CSS] code for: [describe what to build]. **Tech Stack:** [Unity/Unreal/React/Vue/Angular/Node.js/FastAPI/Express/Django]. **Requirements:** [features list, constraints, performance needs, scalability targets]. **Game Projects:** Implement game mechanics (movement, combat, inventory), player controllers (input handling, camera), enemy AI (behavior trees, FSM), procedural generation (terrain, dungeons, loot), UI systems (HUD, menus, tooltips), multiplayer (client-server, P2P, matchmaking). **Web Projects:** Build REST/GraphQL APIs (CRUD, pagination, filtering), responsive UIs (mobile-first, accessibility), authentication & authorization (JWT, OAuth, RBAC), real-time features (WebSocket, SSE), database integration (ORM, migrations, indexes), payment processing (Stripe, PayPal). **Code Quality Standards:** 1) Clean architecture (separation of concerns, dependency injection), 2) Comprehensive error handling (try-catch, error boundaries), 3) Input validation & sanitization, 4) Logging & monitoring hooks, 5) Configuration management (environment variables), 6) Type safety (TypeScript, type hints). **Output:** 1) Complete, organized codebase (folder structure, file naming), 2) Setup instructions (dependencies, environment), 3) Comprehensive test suite (unit, integration, E2E), 4) Documentation (README, API docs, code comments), 5) Deployment guide (Docker, CI/CD, cloud platforms), 6) Performance benchmarks & optimization notes.",
     "icon": "fas fa-magic"
   },
   {
-    "id": 14,
-    "title": "Code Review Analysis",
-    "category": "review",
-    "description": "Comprehensive code review with actionable feedback and quality metrics",
-    "template": "Act as a senior code reviewer and technical lead. Perform a comprehensive code review of this [language] code: [paste code or provide diff]. Context: [describe PR purpose, codebase size, team experience level, timeline]. Review dimensions: 1) Functionality & requirements compliance, 2) Code quality (readability, maintainability, complexity), 3) Performance implications (algorithms, database queries, memory usage), 4) Security vulnerabilities (input validation, authentication, data exposure), 5) Testing coverage and quality, 6) Documentation completeness, 7) Architecture & design patterns, 8) Best practices adherence, 9) Scalability considerations, 10) Technical debt impact. Output in structured Markdown: ## Executive Summary (Approval/Changes Required), ## Critical Issues (Blockers), ## Major Concerns (Must Fix), ## Minor Issues (Should Fix), ## Suggestions (Nice to Have), ## Security Findings, ## Performance Analysis, ## Testing Gaps, ## Overall Score (1-10), ## Approval Recommendation.",
-    "icon": "fas fa-search-plus"
-  },
-  {
-    "id": 15,
-    "title": "Testing Strategy",
-    "category": "testing",
-    "description": "Create comprehensive testing strategies with modern methodologies and tools",
-    "template": "Act as a senior test engineering lead and QA architect. Generate a comprehensive testing strategy for [application/feature]: [describe application, tech stack, user base]. Context: [describe development methodology, release cycle, quality requirements]. Testing framework: 1) Unit tests (isolated functions, mocking, TDD), 2) Integration tests (API endpoints, database interactions, microservices), 3) End-to-end tests (user journeys, critical workflows), 4) Performance tests (load, stress, spike testing), 5) Security tests (penetration testing, vulnerability scanning), 6) Accessibility tests (WCAG compliance, screen readers), 7) Cross-browser/device testing, 8) API contract tests. Tools: [Jest/Cypress for JS, pytest/Selenium for Python, JUnit/TestNG for Java]. Coverage goals: 90%+ unit, 80%+ integration, 70%+ E2E. Output: 1) Detailed test plan in Markdown, 2) Test automation framework setup, 3) CI/CD integration (GitHub Actions, Jenkins), 4) Test data management strategy, 5) Reporting and metrics dashboard, 6) Risk-based testing prioritization, 7) Maintenance and evolution plan.",
-    "icon": "fas fa-vial"
-  },
-  {
-    "id": 16,
-    "title": "Create Full App Prototype",
-    "category": "generate",
-    "description": "Build complete application prototypes with production considerations",
-    "template": "Act as a senior full-stack architect and product engineer. Build a production-ready prototype of [app type, e.g., 'real-time collaborative task management platform'] in [stack, e.g., 'React + Node.js + PostgreSQL']. Context: [describe target users, key features, success metrics]. Architecture requirements: 1) Scalable microservices/backend-for-frontend pattern, 2) Real-time features (WebSocket/Socket.io), 3) Database design (normalized schema, indexes, migrations), 4) Authentication & authorization (JWT, role-based access), 5) API design (REST/GraphQL, OpenAPI docs), 6) Frontend architecture (component library, state management), 7) Security (CORS, CSRF, input validation), 8) Performance (caching, lazy loading, CDN), 9) Testing (unit, integration, E2E), 10) Deployment (Docker, Kubernetes, CI/CD). Output: 1) Complete project structure, 2) All source code files, 3) Database schema and migrations, 4) API documentation, 5) Test suites, 6) Deployment configurations, 7) Performance benchmarks, 8) Security audit, 9) User documentation, 10) Development roadmap.",
-    "icon": "fas fa-rocket"
-  },
-  {
-    "id": 17,
-    "title": "System Architecture Design",
-    "category": "architecture",
-    "description": "Design scalable system architectures with cloud-native considerations",
-    "template": "Act as a senior enterprise architect and cloud solutions expert. Design a scalable, cloud-native architecture for [app type, e.g., 'e-commerce platform handling 10k concurrent users'] with [specific requirements, e.g., '99.9% uptime, sub-500ms response times']. Context: [describe business domain, compliance requirements, budget constraints]. Architecture framework: 1) Microservices decomposition (domain-driven design, bounded contexts), 2) API gateway & service mesh (Kong, Istio), 3) Event-driven architecture (Kafka, event sourcing), 4) Database strategy (CQRS, polyglot persistence), 5) Caching layers (Redis, CDN), 6) Security (zero-trust, encryption, secrets management), 7) Observability (monitoring, logging, tracing), 8) Infrastructure as Code (Terraform, CloudFormation), 9) CI/CD pipelines (GitOps, automated testing), 10) Disaster recovery & scalability. Cloud provider: [AWS/GCP/Azure]. Output in Markdown: ## Architecture Overview (diagrams), ## Service Boundaries, ## Technology Stack Rationale, ## Data Flow Diagrams, ## Scalability Projections, ## Security Architecture, ## Deployment Strategy, ## Cost Analysis, ## Risk Assessment, ## Migration Roadmap.",
-    "icon": "fas fa-sitemap"
-  },
-  {
-    "id": 18,
-    "title": "Database Schema Design",
-    "category": "database",
-    "description": "Design optimized database structures with performance and scalability in mind",
-    "template": "Act as a senior database architect and performance optimization expert. Design a production-ready database schema for [application, e.g., 'SaaS project management tool'] in [DB type, e.g., 'PostgreSQL' or 'MongoDB']. Context: [describe data volume, query patterns, concurrency requirements]. Schema design: 1) Normalized structure (3NF/BCNF), 2) Indexing strategy (B-tree, GIN, composite indexes), 3) Partitioning strategy (range, hash, list), 4) Constraints and triggers, 5) Views and materialized views, 6) Audit tables and change tracking, 7) Performance optimization (query analysis, execution plans), 8) Backup and recovery strategy, 9) Migration scripts (Flyway, Liquibase), 10) Monitoring and alerting. Consider: read/write ratios, data growth projections, compliance requirements. Output: 1) Complete SQL schema in code blocks, 2) ER diagram (text-based), 3) Index recommendations with rationale, 4) Query optimization examples, 5) Performance benchmarks, 6) Backup/recovery procedures, 7) Migration strategy, 8) Monitoring dashboard setup, 9) Scaling recommendations.",
-    "icon": "fas fa-database"
-  },
-  {
-    "id": 19,
-    "title": "Performance Profiling",
-    "category": "performance",
-    "description": "Identify and fix performance bottlenecks with comprehensive analysis",
-    "template": "Act as a senior performance engineer and systems optimizer. Profile and optimize this [language] code for [specific metric: response time/memory usage/throughput]: [paste code here]. Context: [describe performance requirements, current bottlenecks, target environment]. Profiling methodology: 1) Establish baseline metrics (APM tools: New Relic, DataDog, custom benchmarks), 2) CPU profiling (hotspots, thread contention), 3) Memory analysis (leaks, heap dumps, garbage collection), 4) I/O optimization (disk, network, database queries), 5) Algorithm complexity analysis (Big O, space-time tradeoffs), 6) Caching strategy (Redis, in-memory, CDN), 7) Database optimization (query tuning, connection pooling), 8) Concurrent processing (async, parallelization, thread pools), 9) Resource monitoring (custom metrics, alerting), 10) Load testing (JMeter, k6, Artillery). Output: 1) Performance analysis report, 2) Optimized code with explanations, 3) Before/after metrics comparison, 4) Profiling tool configurations, 5) Monitoring dashboard setup, 6) Scaling recommendations, 7) Cost-benefit analysis, 8) Future optimization roadmap.",
+    "id": 5,
+    "title": "Optimize Performance",
+    "category": "optimize",
+    "description": "Boost speed, reduce memory usage, optimize rendering for games and web",
+    "template": "Act as a senior performance engineer. Optimize this [C++/C#/TypeScript/JavaScript/Python] code for [60 FPS/fast load times/low memory]: [paste code]. **Game Optimization:** Reduce draw calls, optimize physics, implement object pooling, compress textures, shader optimization, LOD systems. **Web Optimization:** Bundle size reduction, lazy loading, code splitting, caching strategies, CDN, image optimization. **Tools:** Chrome DevTools, Unity Profiler, Unreal Insights, Python Profilers. **Output:** 1) Optimized code, 2) Metrics (before/after FPS, load time, memory), 3) Profiling results, 4) Trade-offs analysis.",
     "icon": "fas fa-tachometer-alt"
   },
   {
-    "id": 20,
-    "title": "CI/CD Pipeline",
+    "id": 6,
+    "title": "Refactor Code",
+    "category": "refactor",
+    "description": "Improve code structure, apply design patterns, enhance maintainability",
+    "template": "Act as a refactoring specialist with deep knowledge of design patterns and clean architecture. Refactor this [C++/C#/TypeScript/JavaScript/Python] code for [better structure/design patterns/testability/scalability]: [paste code]. **Apply Principles:** SOLID (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion), DRY (Don't Repeat Yourself), KISS (Keep It Simple), YAGNI (You Aren't Gonna Need It), separation of concerns. **Design Patterns:** Creational (Factory, Builder, Singleton), Structural (Adapter, Decorator, Facade), Behavioral (Observer, Strategy, Command, State Machine, Chain of Responsibility), Concurrency (Producer-Consumer, Thread Pool). **Game Patterns:** Entity-Component-System (data-oriented design), Object Pooling (reduce allocations), Command Pattern (input handling, undo/redo), State Machines (AI, animation), Service Locator, Update Method. **Web Patterns:** MVC/MVVM/MVP, Repository Pattern, Dependency Injection, Hooks Pattern (React), Composition over Inheritance, Pub/Sub, Middleware Pattern. **Measurable Improvements:** Cyclomatic complexity reduction (target <10), coupling metrics (CBO, Afferent/Efferent), cohesion metrics (LCOM), code duplication elimination, test coverage increase. **Output:** 1) Refactored code with detailed change explanations, 2) Design decisions rationale (why each pattern), 3) Architecture diagrams (before/after), 4) Comprehensive test suite, 5) Quality metrics comparison table (complexity, coupling, cohesion), 6) Maintenance cost reduction estimate.",
+    "icon": "fas fa-code-branch"
+  },
+  {
+    "id": 7,
+    "title": "Generate Tests",
+    "category": "test",
+    "description": "Create comprehensive test suites with high coverage for any codebase",
+    "template": "Act as a senior QA engineer and test architect. Write comprehensive tests for this [C++/C#/TypeScript/JavaScript/Python] code: [paste code]. **Frameworks & Tools:** Jest/Vitest (JS/TS), pytest (Python), NUnit/xUnit (C#), Google Test/Catch2 (C++), Testing Library (React/Vue), Cypress/Playwright (E2E). **Test Coverage Strategy:** 1) Happy paths (expected inputs, normal flow), 2) Edge cases (null, undefined, empty strings, zero, negative, max values), 3) Boundary conditions (min-1, min, min+1, max-1, max, max+1), 4) Error conditions (exceptions, invalid inputs, network failures), 5) Concurrency issues (race conditions, deadlocks), 6) Performance tests (load, stress, spike, endurance). **Game Testing:** Input simulation (keyboard, mouse, gamepad), physics validation (collision detection, rigidbody behavior), collision detection accuracy, save/load system integrity (serialization roundtrip), multiplayer scenarios (lag, packet loss), frame rate stability tests. **Web Testing:** API endpoint testing (status codes, response schemas), component rendering (snapshots, DOM queries), user interactions (clicks, form submissions), form validation (client-side, server-side), accessibility (ARIA, keyboard navigation), responsive design (viewport sizes). **Test Quality:** Mocking strategies (dependencies, external services), test data factories (realistic, reusable), assertion clarity (meaningful error messages), test isolation (independent, no shared state), test maintainability (DRY, clear naming). **Output:** 1) Complete test code (organized by test type), 2) Mocking/stubbing strategies with examples, 3) Test data fixtures & factories, 4) Coverage report aiming for 90%+ (statement, branch, function), 5) CI integration config (GitHub Actions, GitLab CI), 6) Mutation testing report (Stryker, PIT).",
+    "icon": "fas fa-vial"
+  },
+  {
+    "id": 8,
+    "title": "Clean Code",
+    "category": "cleanup",
+    "description": "Remove redundancies, improve naming, fix formatting across all languages",
+    "template": "Act as a code quality engineer with expertise in clean code principles. Clean this [C++/C#/TypeScript/JavaScript/Python/HTML/CSS] code: [paste code]. **Cleanup Focus:** 1) Remove dead code, unused imports, commented blocks, 2) Consistent naming conventions (camelCase/PascalCase/snake_case per language), 3) Eliminate code duplication (DRY principle), 4) Proper indentation & spacing, 5) Meaningful variable/function names (no x, tmp, data), 6) Clear comments (explain WHY not WHAT). **Language-Specific:** C++ (header guards, const correctness), C# (using directives, XML docs), JS/TS (import organization, type annotations), Python (PEP 8, type hints), HTML (semantic tags), CSS (BEM/utility classes). **Quality Metrics Analysis:** Cyclomatic complexity, code duplication %, lines of code reduction, maintainability index. **Tools:** Prettier, ESLint, Black, Clang-Format, StyleCop, SonarQube. **Output:** 1) Cleaned code with change annotations, 2) Quality metrics (before/after comparison table), 3) Linter/analyzer results, 4) Technical debt reduction score, 5) CI/CD quality gate configs.",
+    "icon": "fas fa-broom"
+  },
+  {
+    "id": 9,
+    "title": "Document Code",
+    "category": "document",
+    "description": "Add comprehensive documentation: comments, README, API docs",
+    "template": "Act as a technical writer and documentation specialist. Document this [C++/C#/TypeScript/JavaScript/Python] code: [paste code or describe project]. **Documentation Types:** 1) Inline comments (complex logic, algorithms, WHY not WHAT), 2) Function/method documentation (JSDoc, docstrings, XML docs with params, returns, examples), 3) README (project overview, features, prerequisites, installation, usage, examples, FAQ, troubleshooting), 4) API documentation (OpenAPI/Swagger specs, endpoint descriptions, request/response examples), 5) Architecture documentation (system design, component diagrams, data flow, design decisions), 6) CHANGELOG (version history, breaking changes, migrations). **Game Documentation:** Game design document (core mechanics, gameplay loop, progression), controls & input mapping, game mechanics explanations, level design guidelines, asset pipeline (import settings, naming conventions), performance targets (FPS, memory budget), multiplayer architecture (client-server model, state synchronization). **Web Documentation:** API endpoints (authentication, rate limits, error codes), component library (Storybook, props documentation), state management flow (actions, reducers, selectors), environment setup (variables, configurations), deployment procedures (build commands, environment-specific configs), database schema & migrations. **Documentation Standards:** Version tracking (API versioning, changelog), code examples (runnable, copy-paste ready), visual aids (diagrams, screenshots, videos), searchability (clear headings, table of contents), maintainability (keep docs in sync with code). **Output:** 1) Fully documented code with inline comments, 2) Complete README.md with badges, 3) API specification (OpenAPI YAML/JSON), 4) Architecture diagrams (Mermaid, PlantUML, or images), 5) Usage examples & tutorials, 6) Contributing guidelines & code of conduct.",
+    "icon": "fas fa-book"
+  },
+  {
+    "id": 10,
+    "title": "Review Code",
+    "category": "review",
+    "description": "Comprehensive code review with actionable feedback and scoring",
+    "template": "Act as a senior code reviewer with expertise in software quality and best practices. Review this [C++/C#/TypeScript/JavaScript/Python] code: [paste code or diff]. **Context:** [PR purpose, team experience level, project type: game/web app, timeline constraints]. **Review Criteria:** 1) Functionality & requirements (does it work, meets acceptance criteria), 2) Code quality (readability, naming, structure, complexity), 3) Performance (algorithms efficiency, memory usage, database queries, rendering), 4) Security (input validation, SQL injection, XSS, authentication, authorization, secrets management), 5) Testing coverage (unit tests, edge cases, integration tests), 6) Best practices & patterns (SOLID, DRY, language idioms), 7) Documentation (inline comments, README updates, API docs). **Game-Specific Review:** Frame budget impact (60 FPS target), memory allocation patterns (avoid GC pressure), thread safety (physics, rendering), asset references (memory leaks), platform compatibility (PC/console/mobile). **Web-Specific Review:** Async handling (promise chains, error handling), error boundaries (React), accessibility (ARIA, keyboard navigation, screen readers), responsive design, API error handling, database transactions. **Code Smells:** Long methods (>50 lines), god classes, feature envy, data clumps, primitive obsession, divergent change, shotgun surgery. **Review Priorities:** P0 (blockers - must fix), P1 (critical - should fix), P2 (important - nice to fix), P3 (suggestions - future improvement). **Output in Markdown:** ## Executive Summary | ## Approval Status (Approve/Request Changes/Reject) | ## Critical Issues (P0 - blockers) | ## Major Concerns (P1 - important) | ## Minor Issues (P2 - suggestions) | ## Positive Highlights (what's done well) | ## Overall Score (1-10 with justification) | ## Learning Resources & References.",
+    "icon": "fas fa-search-plus"
+  },
+  {
+    "id": 11,
+    "title": "Create Prototype",
+    "category": "prototype",
+    "description": "Build rapid prototypes for games and web apps with production foundations",
+    "template": "Act as a rapid prototyping expert focused on speed and validation. Build a prototype of [describe app/game/feature] in [tech stack: Unity C#, Unreal C++, React TypeScript, Vue JavaScript, Python Flask/FastAPI]. **Prototyping Goal:** Validate [concept feasibility, user interaction, technical approach, performance viability] with minimal time investment. **Game Prototypes:** Core mechanics (movement, combat basics), player movement & controls (feel, responsiveness), basic AI (chase, patrol), simple placeholder graphics (primitives, wireframes), input handling (keyboard, mouse, gamepad), one playable level/scene. **Web Prototypes:** Key user flows (signup to first value), responsive UI (mobile-first, basic styling), basic backend API (authentication, core CRUD), authentication (email/password, no OAuth yet), database (SQLite or in-memory for speed). **MVP Focus (80/20 Rule):** Implement 20% of features that provide 80% of value, skip: polish, edge case handling, optimization, comprehensive error handling, production infrastructure, extensive documentation. **Validation Metrics:** User feedback plan (surveys, interviews, analytics events), success criteria (what to measure), A/B testing setup (if applicable), performance baselines (acceptable for prototype). **Output:** 1) Working prototype code (< 2 days effort), 2) Setup & run instructions (quick start), 3) Demo video or screenshots (key features), 4) User feedback collection plan (questions to ask), 5) Performance metrics (load time, FPS, responsiveness), 6) Next iteration roadmap (what to add next based on priorities).",
+    "icon": "fas fa-rocket"
+  },
+  {
+    "id": 12,
+    "title": "Fix Deployment Issues",
     "category": "devops",
-    "description": "Automated deployment pipelines with security and quality gates",
-    "template": "Act as a senior DevOps architect and automation expert. Generate a production-ready CI/CD pipeline for [tech stack, e.g., 'Node.js microservices on Kubernetes'] using [platform, e.g., 'GitHub Actions + AWS' or 'GitLab CI + GCP']. Context: [describe team size, deployment frequency, compliance requirements]. Pipeline stages: 1) Code quality (linting, formatting, complexity analysis), 2) Security scanning (SAST, DAST, dependency checks), 3) Testing (unit, integration, contract tests), 4) Build optimization (multi-stage Docker, layer caching), 5) Artifact management (registry, versioning), 6) Deployment strategies (blue-green, canary, rolling updates), 7) Infrastructure provisioning (IaC, configuration management), 8) Monitoring setup (logs, metrics, alerts), 9) Rollback procedures (automated, manual), 10) Compliance gates (audit trails, approvals). Tools: [Docker, Kubernetes, Terraform, SonarQube, OWASP ZAP]. Output: 1) Complete pipeline YAML/configuration, 2) Infrastructure as Code templates, 3) Security policy configurations, 4) Monitoring and alerting setup, 5) Deployment documentation, 6) Disaster recovery procedures, 7) Cost optimization strategies, 8) Team onboarding guide.",
-    "icon": "fas fa-cogs"
+    "description": "Troubleshoot deployment, build, and production environment problems",
+    "template": "Act as a DevOps engineer with expertise in deployment troubleshooting. Fix this deployment issue: [describe problem: build fails, container crash, 404 errors, CORS, SSL issues, environment mismatch]. **Environment Details:** [platform: AWS/Azure/GCP/Vercel/Netlify/DigitalOcean/Steam/Console stores, OS, runtime versions]. **Logs & Evidence:** [paste error logs, stack traces, build output]. **Configuration Files:** [paste: Dockerfile, docker-compose.yml, kubernetes manifests, CI/CD configs, .env files]. **Game Deployment Specifics:** Platform-specific builds (Windows, macOS, Linux, PS5, Xbox, Switch, iOS, Android), asset bundling & compression, DRM integration (Steam, Epic, console), cloud save integration, achievements & leaderboards setup, build size optimization (target sizes per platform). **Web Deployment Specifics:** Docker/Kubernetes issues (container won't start, health checks failing), CDN configuration (Cloudflare, CloudFront), SSL/TLS certificates (Let's Encrypt, custom), environment variables (secrets management, precedence), database migrations (zero-downtime), CORS & CSP headers, reverse proxy config (Nginx, Traefik). **Common Issues Checklist:** Port binding conflicts, file permissions, network connectivity, DNS propagation, environment variable typos, dependency version mismatches, build artifacts missing, resource limits (memory, CPU). **Debugging Tools:** Docker logs, kubectl describe/logs, cloud provider logs (CloudWatch, Azure Monitor), network debugging (curl, ping, traceroute), process monitoring. **Output:** 1) Root cause analysis with evidence (logs, screenshots), 2) Fixed configurations with annotations, 3) Step-by-step resolution guide, 4) Prevention measures (CI checks, validation scripts), 5) Monitoring & alerting setup (health checks, error tracking), 6) Rollback procedure.",
+    "icon": "fas fa-server"
+  },
+  {
+    "id": 13,
+    "title": "Repair Runtime Issues",
+    "category": "repair",
+    "description": "Fix crashes, memory leaks, and critical runtime errors",
+    "template": "Act as a systems engineer specializing in runtime diagnostics. Fix this runtime issue: [describe: crash, memory leak, freeze, infinite loop, stack overflow]. **Code:** [paste problematic code]. **Stack Trace:** [paste full stack trace with line numbers]. **Environment:** [OS, runtime version, framework, hardware specs]. **Reproduction Steps:** [how to trigger the issue consistently]. **Game Runtime Issues:** Memory leaks (texture/mesh disposal, audio clip references, event listeners), physics crashes (invalid collisions, NaN values), shader compilation errors (platform-specific), save file corruption (serialization errors), multiplayer desyncs (state mismatch), frame rate instability (GC spikes, draw call explosions). **Web Runtime Issues:** Memory leaks (DOM references, event listeners not cleaned, closures holding large objects), infinite loops (React re-render loops, recursive updates), unhandled promise rejections (async errors), stack overflow (deep recursion, circular references), browser-specific bugs (Safari, Firefox quirks). **Debugging Tools & Techniques:** Valgrind (memory leaks in C++), AddressSanitizer/ThreadSanitizer (C++), Chrome DevTools Memory Profiler (heap snapshots), Unity Profiler (CPU/GPU/memory), Visual Studio debugger (breakpoints, watches), logging & assertions, binary search debugging (isolate problematic code section). **Analysis Required:** Memory allocation patterns, object lifecycle (when created/destroyed), reference counting (shared_ptr, weak_ptr), event subscription/unsubscription, resource disposal (RAII in C++, using in C#, finally blocks). **Output:** 1) Root cause analysis with evidence (profiler data, memory graphs, stack traces), 2) Fixed code with explanations, 3) Reproduction test case, 4) Prevention strategy (code patterns to avoid, best practices), 5) Monitoring recommendations (crash reporting, memory alerts).",
+    "icon": "fas fa-exclamation-triangle"
+  },
+  {
+    "id": 14,
+    "title": "Build API",
+    "category": "api",
+    "description": "Create REST/GraphQL APIs with authentication, validation, and docs",
+    "template": "Act as a backend architect specializing in API design. Create a [REST/GraphQL] API for [resource: users, game leaderboards, inventory, payments, content management] in [Node.js Express/NestJS, Python FastAPI/Django, C# ASP.NET Core]. **API Requirements:** 1) CRUD operations (Create, Read, Update, Delete with proper HTTP methods), 2) Authentication & authorization (JWT tokens, OAuth 2.0, API keys, role-based access control), 3) Input validation (request body schemas, Zod/Joi/Pydantic), 4) Error handling (consistent format, proper HTTP status codes, error codes), 5) Rate limiting (per user, per endpoint, Redis-based), 6) Pagination (cursor-based, offset-based), 7) Filtering & sorting, 8) Database integration (ORM: Prisma/TypeORM/SQLAlchemy/Entity Framework). **Game API Features:** Matchmaking endpoints (queue, match creation), player statistics & leaderboards (rankings, scores), save data synchronization (cloud saves, conflict resolution), in-app purchase validation, achievement tracking, friend system (invites, presence), anti-cheat measures (request signing, server-side validation). **Web API Features:** User management (registration, login, password reset, email verification), file upload (multipart, S3/cloud storage, size limits), real-time WebSocket endpoints, webhook handling (payments, third-party integrations), search & full-text indexing (Elasticsearch), caching strategy (Redis, CDN). **API Best Practices:** Versioning (URL or header-based), HATEOAS (links in responses), idempotency (POST/PUT), ETags (cache validation), CORS configuration, compression (gzip), logging & monitoring (request IDs, performance metrics). **Security:** SQL injection prevention (parameterized queries), XSS prevention (output encoding), CSRF protection, secrets management (environment variables, vaults), HTTPS only, input sanitization. **Output:** 1) Complete API code with middleware, 2) OpenAPI 3.0 specification (Swagger), 3) Comprehensive tests (unit, integration, E2E), 4) Postman/Insomnia collection, 5) Deployment configuration (Docker, environment variables), 6) API versioning strategy & migration guide.",
+    "icon": "fas fa-plug"
+  },
+  {
+    "id": 15,
+    "title": "Design Architecture",
+    "category": "architecture",
+    "description": "Design scalable architectures for games and web applications",
+    "template": "Act as a software architect. Design architecture for [game: multiplayer FPS, RPG | web app: e-commerce, SaaS platform] handling [scale: users, requests]. **Game Architecture:** Client-server model, entity-component-system, data-oriented design, asset streaming, networking (authoritative server, client prediction). **Web Architecture:** Microservices, API gateway, database strategy (SQL/NoSQL), caching (Redis), CDN, message queues. **Tech Stack:** [specify preferences]. **Output in Markdown:** ## Architecture Diagram | ## Component Details | ## Data Flow | ## Scalability | ## Tech Stack | ## Deployment | ## Cost Estimate.",
+    "icon": "fas fa-sitemap"
+  },
+  {
+    "id": 16,
+    "title": "Optimize Game Performance",
+    "category": "optimize",
+    "description": "Game-specific optimization: FPS, rendering, physics, memory for games",
+    "template": "Act as a game optimization specialist. Optimize this [Unity C#/Unreal C++/Godot/Custom Engine] game code for [target: 60 FPS desktop, 30 FPS mobile, VR 90 FPS]: [paste code]. **Profile:** 1) CPU bottlenecks (game logic, AI, physics), 2) GPU bottlenecks (draw calls, overdraw, shaders), 3) Memory usage (textures, meshes, audio). **Techniques:** Object pooling, LOD systems, occlusion culling, texture atlasing, shader optimization, multithreading. **Platform:** [PC/Console/Mobile/VR]. **Output:** 1) Optimized code, 2) FPS metrics (before/after), 3) Profiling screenshots, 4) Quality settings presets.",
+    "icon": "fas fa-gamepad"
+  },
+  {
+    "id": 17,
+    "title": "Implement Game Feature",
+    "category": "feature",
+    "description": "Add game-specific features: inventory, AI, multiplayer, UI systems",
+    "template": "Act as a game developer. Implement [feature: inventory system, enemy AI, multiplayer networking, save/load, dialogue system, quest system] in [Unity C#/Unreal C++/Godot GDScript]. **Requirements:** [describe feature details, gameplay mechanics]. **Integration:** [existing systems: player controller, UI, database]. **Platform:** [PC/Console/Mobile]. **Deliverables:** 1) Fully functional code (optimized for target FPS), 2) Integration with existing systems, 3) Playtest scenarios, 4) Performance analysis (frame impact, memory), 5) Design documentation.",
+    "icon": "fas fa-puzzle-piece"
+  },
+  {
+    "id": 18,
+    "title": "Debug Game Issues",
+    "category": "debug",
+    "description": "Fix game-specific bugs: rendering glitches, physics, networking, crashes",
+    "template": "Act as a game debugging expert. Debug this issue: [crash, rendering glitch, physics bug, network desync, audio problem]. **Code:** [paste relevant code]. **Engine:** [Unity/Unreal/Godot/Custom]. **Platform:** [PC/Console/Mobile/VR]. **Reproduction:** [steps to reproduce]. **Check:** 1) Rendering (shader errors, draw order, GPU state), 2) Physics (collision layers, rigidbody settings, timestep), 3) Networking (packet loss, state sync, lag compensation), 4) Audio (buffer issues, 3D audio), 5) Input (controller mapping, deadzones). **Output:** Root cause | Fixed code | Test cases | Prevention checklist.",
+    "icon": "fas fa-bug-slash"
+  },
+  {
+    "id": 19,
+    "title": "Build Web App",
+    "category": "generate",
+    "description": "Create full-stack web apps with React/Vue/Angular and Node.js/Python",
+    "template": "Act as a full-stack web developer. Build [describe web app: dashboard, e-commerce, social platform] using [stack: React TypeScript + Node.js, Vue + FastAPI Python, Angular + NestJS]. **Features:** [authentication, real-time updates, file upload, payments, search]. **Frontend:** Component library, state management (Redux/Zustand/Pinia), routing, responsive design. **Backend:** REST/GraphQL API, database (PostgreSQL/MongoDB), caching (Redis), authentication (JWT/OAuth). **Deployment:** [Vercel/Netlify/AWS/Docker]. **Output:** 1) Complete codebase, 2) API documentation, 3) Deployment guide, 4) Performance benchmarks, 5) Security audit.",
+    "icon": "fas fa-globe"
+  },
+  {
+    "id": 20,
+    "title": "Convert Languages",
+    "category": "convert",
+    "description": "Translate code between C++, C#, TypeScript, JavaScript, Python",
+    "template": "Act as a polyglot developer. Convert this [C++/C#/TypeScript/JavaScript/Python] code to [target language]: [paste code]. **Context:** [migration reason, performance needs]. **Handle:** 1) Language idioms (C++ RAII, C# LINQ, Python list comprehensions, JS promises), 2) Type systems, 3) Memory management differences, 4) Async patterns, 5) Standard library equivalents. **Game Code:** Entity systems, vector math, collision detection, rendering code. **Web Code:** API clients, UI components, data processing. **Output:** 1) Converted code with explanations, 2) Performance comparison, 3) Tests, 4) Migration guide.",
+    "icon": "fas fa-exchange-alt"
   },
   {
     "id": 21,
-    "title": "Technical Debt Analysis",
-    "category": "analysis",
-    "description": "Identify and prioritize technical debt with remediation strategies",
-    "template": "Act as a senior technical debt analyst and refactoring strategist. Analyze technical debt in this codebase: [describe codebase or paste relevant code]. Context: [describe team size, project age, business priorities]. Debt assessment framework: 1) Code quality metrics (complexity, duplication, maintainability index), 2) Architecture issues (tight coupling, circular dependencies, god classes), 3) Testing gaps (coverage, flaky tests, missing integration tests), 4) Security vulnerabilities (outdated dependencies, insecure patterns), 5) Performance bottlenecks (N+1 queries, memory leaks, inefficient algorithms), 6) Documentation debt (missing docs, outdated comments), 7) Infrastructure debt (legacy systems, manual processes), 8) Knowledge debt (bus factor, undocumented processes). Prioritization: Impact × Effort matrix, business value alignment. Output in Markdown: ## Debt Inventory (table: Issue, Severity, Impact, Effort, Priority), ## Root Cause Analysis, ## Remediation Roadmap (phased approach), ## Quick Wins vs Major Refactoring, ## Cost-Benefit Analysis, ## Risk Assessment, ## Success Metrics, ## Prevention Strategies.",
+    "title": "Profile Performance",
+    "category": "performance",
+    "description": "Deep performance analysis with profiling tools for all platforms",
+    "template": "Act as a performance engineer. Profile this [C++/C#/TypeScript/JavaScript/Python] code for [bottlenecks: CPU, GPU, memory, I/O]: [paste code]. **Tools:** Chrome DevTools (web), Unity Profiler (Unity), Unreal Insights (Unreal), Valgrind/perf (C++), cProfile (Python). **Analysis:** 1) CPU hotspots, 2) Memory allocations/leaks, 3) GPU usage (games), 4) I/O operations, 5) Algorithm complexity. **Output:** 1) Performance analysis report (charts), 2) Optimized code, 3) Before/after metrics, 4) Profiling tool configs, 5) Monitoring setup.",
     "icon": "fas fa-chart-line"
   },
   {
     "id": 22,
-    "title": "Convert Code Languages",
-    "category": "convert",
-    "description": "Translate code between programming languages with fidelity and optimization",
-    "template": "Act as a senior polyglot developer and language migration expert. Convert this [source language] code to [target language]: [paste code here]. Context: [describe migration reason, performance requirements, team skills]. Conversion strategy: 1) Analyze source code structure and dependencies, 2) Identify language-specific idioms and patterns, 3) Map data types and control structures, 4) Handle platform-specific features (async, concurrency, memory management), 5) Optimize for target language best practices, 6) Preserve functionality and performance characteristics, 7) Update error handling patterns, 8) Adapt testing approaches, 9) Consider ecosystem differences (libraries, tooling), 10) Plan incremental migration. Output: 1) Converted code in target language, 2) Line-by-line mapping explanations, 3) Performance comparison benchmarks, 4) Test suite adaptation, 5) Dependency migration guide, 6) Gotchas and considerations, 7) Refactoring opportunities, 8) Integration testing strategy, 9) Documentation updates, 10) Team training recommendations.",
-    "icon": "fas fa-exchange-alt"
-  },
-  {
-    "id": 23,
-    "title": "Migration Guide",
-    "category": "convert",
-    "description": "Migrate code between frameworks, libraries, or versions with comprehensive planning",
-    "template": "Act as a senior migration architect and technical lead. Help migrate this [current tech/library/version] code to [target tech/library/version]: [paste code here]. Context: [describe migration drivers, timeline, risk tolerance]. Migration framework: 1) Impact assessment (breaking changes, compatibility issues), 2) Dependency analysis (transitive dependencies, version conflicts), 3) Risk evaluation (downtime, data migration, rollback complexity), 4) Incremental migration strategy (strangler pattern, feature flags), 5) Testing strategy (backward compatibility, contract tests), 6) Performance validation (benchmarking, load testing), 7) Security review (new vulnerabilities, authentication changes), 8) Documentation updates (API changes, breaking changes), 9) Team training and knowledge transfer, 10) Monitoring and alerting setup. Tools: [migration tools, testing frameworks, monitoring solutions]. Output: 1) Detailed migration plan with phases, 2) Risk mitigation strategies, 3) Code changes with explanations, 4) Testing procedures and scripts, 5) Rollback procedures, 6) Performance impact analysis, 7) Documentation updates, 8) Training materials, 9) Success criteria and metrics, 10) Post-migration monitoring plan.",
-    "icon": "fas fa-arrows-alt"
-  },
-  {
-    "id": 24,
-    "title": "Configuration Issues",
-    "category": "debug",
-    "description": "Debug and fix configuration problems with systematic troubleshooting",
-    "template": "Act as a senior DevOps engineer and configuration management expert. Debug this configuration issue: [describe problem, e.g., 'application fails to start in production']. Configuration files: [paste relevant configs (Docker, Kubernetes, environment variables, app configs)]. Environment: [describe dev/staging/prod differences, infrastructure]. Troubleshooting methodology: 1) Verify configuration syntax and validation, 2) Check environment variable precedence and overrides, 3) Validate service dependencies and connectivity, 4) Review resource limits and allocations, 5) Analyze logs for configuration-related errors, 6) Test configuration isolation (single service), 7) Verify secrets management and access controls, 8) Check network policies and security groups, 9) Validate monitoring and alerting configurations, 10) Test failover and recovery procedures. Tools: [kubectl, docker, envsubst, config validators]. Output: 1) Root cause analysis, 2) Fixed configuration files, 3) Step-by-step resolution explanation, 4) Configuration validation scripts, 5) Monitoring improvements, 6) Documentation updates, 7) Prevention measures, 8) Troubleshooting checklist for similar issues.",
+    "title": "CI/CD Pipeline",
+    "category": "devops",
+    "description": "Automated build, test, and deployment pipelines for games and web",
+    "template": "Act as a DevOps engineer. Create CI/CD pipeline for [game: Unity/Unreal | web: Node.js/Python] using [GitHub Actions/GitLab CI/Jenkins]. **Game Pipeline:** Build for multiple platforms (PC/Console/Mobile), run automated tests, asset processing, version management, deploy to Steam/consoles/stores. **Web Pipeline:** Linting, testing (unit/integration/E2E), security scanning, Docker build, deploy to AWS/Vercel, database migrations. **Output:** 1) Complete pipeline YAML, 2) Infrastructure as Code, 3) Security configs, 4) Monitoring setup, 5) Documentation.",
     "icon": "fas fa-cogs"
   },
   {
-    "id": 25,
-    "title": "Deployment Issues",
-    "category": "devops",
-    "description": "Troubleshoot and fix deployment problems with comprehensive diagnostics",
-    "template": "Act as a senior site reliability engineer and deployment specialist. Fix this deployment issue: [describe problem, e.g., 'container crashes during startup' or 'service unavailable after deployment']. Environment: [dev/staging/prod, cloud provider, orchestration]. Logs: [paste relevant application, system, and orchestration logs]. Configuration: [paste deployment configs, Dockerfiles, Kubernetes manifests]. Diagnostic approach: 1) Analyze deployment pipeline and rollback status, 2) Review resource constraints and limits, 3) Check health checks and readiness probes, 4) Validate service dependencies and networking, 5) Examine security policies and permissions, 6) Test incremental deployment strategies, 7) Verify configuration management and secrets, 8) Analyze performance metrics and bottlenecks, 9) Check monitoring and alerting configurations, 10) Validate backup and recovery procedures. Tools: [kubectl, docker, helm, prometheus, grafana]. Output: 1) Root cause analysis with evidence, 2) Fixed deployment configurations, 3) Step-by-step resolution guide, 4) Monitoring improvements, 5) Automated testing additions, 6) Documentation updates, 7) Prevention strategies, 8) Incident response improvements.",
-    "icon": "fas fa-server"
-  },
-  {
-    "id": 26,
-    "title": "Concurrency Analysis",
-    "category": "concurrency",
-    "description": "Thread safety and concurrent programming analysis with solutions",
-    "template": "Act as a senior concurrent programming expert and systems architect. Review this [language] code for concurrency issues: [paste code here]. Context: [describe application type, concurrency requirements, performance expectations]. Concurrency analysis: 1) Race condition identification (shared state, critical sections), 2) Deadlock detection (circular dependencies, lock ordering), 3) Thread safety assessment (immutable objects, atomic operations), 4) Memory model understanding (happens-before relationships), 5) Synchronization overhead evaluation, 6) Lock contention analysis, 7) Parallel processing opportunities, 8) Async/await patterns review, 9) Resource sharing problems, 10) Performance implications of concurrency. Language-specific: [Go channels, Java threads, JS event loop, Python GIL]. Output: 1) Concurrency issue analysis, 2) Fixed code with proper synchronization, 3) Performance benchmarks (before/after), 4) Testing strategies for concurrent code, 5) Monitoring and profiling setup, 6) Best practices recommendations, 7) Alternative architecture considerations, 8) Documentation updates.",
-    "icon": "fas fa-sync"
-  },
-  {
-    "id": 27,
-    "title": "Code Documentation",
-    "category": "documentation",
-    "description": "Comprehensive documentation generation following industry standards",
-    "template": "Act as a senior technical writer and documentation architect. Generate comprehensive documentation for [code/project]: [paste code or describe]. Context: [describe audience, existing docs, maintenance requirements]. Documentation framework: 1) API documentation (OpenAPI/Swagger, JSDoc, Sphinx), 2) Architecture documentation (ADRs, system diagrams), 3) Code comments (inline, function, class documentation), 4) User guides and tutorials, 5) Deployment and operations guides, 6) Troubleshooting and FAQ sections, 7) Contributing guidelines and development setup, 8) API versioning and deprecation notices, 9) Performance and scalability notes, 10) Security considerations and best practices. Standards: [OpenAPI 3.0, RFC 2119, ISO/IEC 26514]. Tools: [Swagger, Docusaurus, MkDocs, Read the Docs]. Output: 1) Complete documentation structure, 2) API specifications and schemas, 3) Code with comprehensive comments, 4) User guides and examples, 5) Architecture diagrams (text-based), 6) Deployment documentation, 7) Testing documentation, 8) Maintenance and contribution guides, 9) Documentation quality metrics, 10) Continuous integration for docs.",
-    "icon": "fas fa-book-open"
-  },
-  {
-    "id": 28,
-    "title": "Document API Endpoint",
-    "category": "document",
-    "description": "Document APIs with comprehensive specifications and examples",
-    "template": "Act as a senior API documentation specialist and technical writer. Document this API endpoint: [paste code or describe endpoint]. Context: [describe API purpose, client types, usage patterns]. API documentation framework: 1) Endpoint specification (HTTP method, path, parameters), 2) Request/response schemas (JSON Schema, OpenAPI), 3) Authentication requirements (Bearer tokens, API keys), 4) Error responses and status codes, 5) Rate limiting and quotas, 6) Request/response examples, 7) SDK/code samples (cURL, Python, JavaScript), 8) Changelog and versioning, 9) Deprecation notices and migration guides, 10) Testing instructions and sandbox access. Standards: [OpenAPI 3.0, RFC 7231, JSON Schema]. Tools: [Swagger UI, Postman, Insomnia]. Output: 1) Complete OpenAPI specification, 2) Interactive documentation, 3) Code samples in multiple languages, 4) Error handling examples, 5) Testing procedures, 6) Performance characteristics, 7) Security considerations, 8) Monitoring and analytics, 9) Support and troubleshooting, 10) API governance guidelines.",
-    "icon": "fas fa-plug"
-  },
-  {
-    "id": 29,
-    "title": "Clean Up with Style Guide",
-    "category": "cleanup",
-    "description": "Follow specific coding standards and style guides with automated enforcement",
-    "template": "Act as a senior code quality engineer and style guide enforcer. Clean up this [language] code to follow [style guide, e.g., 'Airbnb JavaScript Style Guide' or 'PEP 8 for Python']: [paste code here]. Context: [describe team preferences, existing codebase standards, CI requirements]. Style guide compliance: 1) Code formatting (indentation, line length, spacing), 2) Naming conventions (variables, functions, classes), 3) Code structure (imports, exports, file organization), 4) Documentation standards (comments, docstrings), 5) Error handling patterns, 6) Testing conventions, 7) Performance guidelines, 8) Security best practices, 9) Accessibility standards, 10) Framework-specific patterns. Tools: [ESLint, Prettier, Black, Flake8, SonarQube]. Output: 1) Reformatted code following standards, 2) Linting configuration files, 3) Pre-commit hooks setup, 4) CI/CD quality gates, 5) Team documentation updates, 6) Code review checklist, 7) Automated refactoring scripts, 8) Quality metrics dashboard, 9) Training materials, 10) Continuous improvement plan.",
-    "icon": "fas fa-palette"
-  },
-  {
-    "id": 30,
-    "title": "Refactor for Scalability",
-    "category": "refactor",
-    "description": "Optimize code for production scalability with architectural improvements",
-    "template": "Act as a senior scalability architect and performance engineer. Refactor this [language] code for scalability [specific improvements, e.g., 'handle 100x traffic increase']: [paste code here]. Context: [describe current bottlenecks, growth projections, infrastructure]. Scalability framework: 1) Architecture assessment (monolithic vs microservices), 2) Database optimization (sharding, read replicas, caching), 3) Caching strategy (Redis, CDN, application-level), 4) Asynchronous processing (queues, background jobs), 5) Load distribution (load balancers, CDNs), 6) Resource optimization (memory, CPU, I/O), 7) Monitoring and alerting setup, 8) Auto-scaling configuration, 9) Performance testing and benchmarking, 10) Disaster recovery planning. Output: 1) Refactored architecture design, 2) Optimized code with explanations, 3) Infrastructure recommendations, 4) Performance benchmarks (before/after), 5) Monitoring dashboard setup, 6) Scaling policies and procedures, 7) Cost analysis and optimization, 8) Migration strategy, 9) Risk assessment and mitigation, 10) Future scaling roadmap.",
-    "icon": "fas fa-chart-line"
-  },
-  {
-    "id": 31,
-    "title": "Rapid Prototyping",
-    "category": "prototype",
-    "description": "Quick working prototypes with production-ready foundations",
-    "template": "Act as a senior product engineer and rapid prototyping expert. Build a working prototype of [feature/concept, e.g., 'AI-powered code review assistant'] using [tech stack, e.g., 'Next.js + OpenAI API']. Context: [describe problem solved, target users, success criteria]. Prototype requirements: 1) Core functionality MVP (80/20 rule), 2) User experience design (intuitive interface), 3) Technical architecture (scalable foundations), 4) Data management (storage, validation), 5) Security basics (input sanitization, authentication), 6) Performance optimization (fast loading, responsive), 7) Error handling and logging, 8) Testing framework setup, 9) Deployment configuration, 10) Documentation and handoff. Tools: [Figma for design, Vercel for deployment, Supabase for backend]. Output: 1) Working prototype with source code, 2) User interface screenshots/mockups, 3) Technical architecture diagram, 4) API documentation, 5) User testing results, 6) Performance metrics, 7) Security assessment, 8) Deployment guide, 9) Future development roadmap, 10) Lessons learned and recommendations.",
-    "icon": "fas fa-rocket"
-  },
-  {
-    "id": 32,
-    "title": "Repair Runtime Issues",
-    "category": "repair",
-    "description": "Fix crashing code with comprehensive root cause analysis",
-    "template": "Act as a senior runtime debugging expert and systems engineer. Repair this [language] code that crashes at runtime: [paste code here]. Stack trace: [paste full stack trace]. Context: [describe when/where crashes occur, environment, reproduction steps]. Runtime analysis: 1) Stack trace interpretation (call stack, error types), 2) Memory analysis (leaks, corruption, out-of-memory), 3) Threading issues (race conditions, deadlocks), 4) Resource management (file handles, network connections), 5) Exception handling review, 6) Input validation gaps, 7) Third-party library issues, 8) Environment-specific problems, 9) Performance-related crashes, 10) Security vulnerabilities causing crashes. Tools: [gdb, lldb, Valgrind, Visual Studio Debugger, Chrome DevTools]. Output: 1) Root cause analysis with evidence, 2) Fixed code with explanations, 3) Comprehensive test suite, 4) Error handling improvements, 5) Logging and monitoring enhancements, 6) Performance optimizations, 7) Security hardening, 8) Documentation updates, 9) Prevention strategies, 10) Incident response procedures.",
-    "icon": "fas fa-exclamation-triangle"
-  },
-  {
-    "id": 33,
-    "title": "Explain with Comparison",
-    "category": "explain",
-    "description": "Compare code approaches with detailed analysis and recommendations",
-    "template": "Act as a senior software architect and technical decision-maker. Explain this [language] code and compare it to [alternative approach, e.g., 'functional programming paradigm']: [paste code here]. Context: [describe problem domain, constraints, team preferences]. Comparative analysis framework: 1) Current implementation assessment (strengths, weaknesses), 2) Alternative approach evaluation (pros, cons, tradeoffs), 3) Performance comparison (speed, memory, scalability), 4) Maintainability analysis (readability, testability, extensibility), 5) Team productivity impact (learning curve, development speed), 6) Ecosystem and tooling support, 7) Long-term viability and evolution, 8) Risk assessment and mitigation, 9) Cost-benefit analysis, 10) Migration feasibility. Output in Markdown: ## Current Implementation Analysis, ## Alternative Approach Overview, ## Detailed Comparison Matrix, ## Performance Benchmarks, ## Maintainability Assessment, ## Team Impact Analysis, ## Risk Evaluation, ## Cost-Benefit Summary, ## Migration Strategy, ## Final Recommendation with Rationale.",
-    "icon": "fas fa-balance-scale"
-  },
-  {
-    "id": 34,
-    "title": "Add Feature with Library",
-    "category": "feature",
-    "description": "Add features using specific libraries with integration best practices",
-    "template": "Act as a senior integration engineer and library specialist. Add [feature, e.g., 'real-time notifications with WebSocket support'] using [library/framework, e.g., 'Socket.io' or 'SignalR'] to this [language] code: [paste code here]. Context: [describe existing architecture, integration points, performance requirements]. Integration strategy: 1) Library evaluation (alternatives, maturity, community support), 2) Architecture impact assessment, 3) Dependency management and version conflicts, 4) Security implications and best practices, 5) Performance optimization and monitoring, 6) Error handling and fallback mechanisms, 7) Testing strategy (unit, integration, E2E), 8) Documentation and code examples, 9) Migration path and backward compatibility, 10) Maintenance and update procedures. Output: 1) Integrated code with comprehensive comments, 2) Configuration and setup instructions, 3) API usage examples and patterns, 4) Test suites covering integration points, 5) Performance benchmarks and monitoring, 6) Security assessment and hardening, 7) Documentation updates, 8) Troubleshooting guide, 9) Future maintenance recommendations, 10) Alternative library comparisons.",
-    "icon": "fas fa-cubes"
-  },
-  {
-    "id": 35,
-    "title": "Remove References",
-    "category": "remove",
-    "description": "Remove libraries, variables, or deprecated elements with impact analysis",
-    "template": "Act as a senior code maintenance engineer and dependency manager. Remove all references to [specify what to remove, e.g., 'deprecated jQuery library' or 'unused authentication module'] from this [language] code: [paste code here]. Context: [describe removal reason, timeline, risk tolerance]. Removal strategy: 1) Impact analysis (usage throughout codebase), 2) Dependency mapping (direct and transitive), 3) Breaking change assessment, 4) Alternative solution identification, 5) Incremental removal plan, 6) Testing strategy for regressions, 7) Documentation updates, 8) Team communication plan, 9) Rollback procedures, 10) Monitoring and validation. Tools: [bundler analyzer, code search tools, dependency checkers]. Output: 1) Impact analysis report, 2) Modified code with changes highlighted, 3) Removal checklist and timeline, 4) Test cases for validation, 5) Documentation updates, 6) Migration guide for affected code, 7) Performance impact assessment, 8) Security implications review, 9) Future prevention measures, 10) Success metrics and validation.",
-    "icon": "fas fa-trash"
-  },
-  {
-    "id": 36,
-    "title": "Remove Deprecated Elements",
-    "category": "remove",
-    "description": "Update deprecated code to modern equivalents with migration planning",
-    "template": "Act as a senior modernization engineer and technical debt specialist. Remove deprecated [element, e.g., 'API endpoints' or 'library versions'] from this [language] code and update to modern equivalents: [paste code here]. Context: [describe deprecation timeline, security risks, performance impact]. Modernization framework: 1) Deprecation impact assessment (usage analysis, downstream effects), 2) Modern alternative evaluation (feature parity, performance, security), 3) Migration strategy (incremental, big bang, hybrid), 4) Breaking change management, 5) Testing strategy (backward compatibility, regression prevention), 6) Performance validation (benchmarking, optimization), 7) Security improvements, 8) Documentation updates, 9) Team training and knowledge transfer, 10) Monitoring and alerting setup. Output: 1) Modernized code with explanations, 2) Migration plan with phases, 3) Risk assessment and mitigation, 4) Testing procedures and results, 5) Performance comparison (before/after), 6) Security improvements, 7) Documentation updates, 8) Training materials, 9) Monitoring setup, 10) Success criteria and metrics.",
-    "icon": "fas fa-recycle"
-  },
-  {
-    "id": 37,
-    "title": "Edge Case Testing",
+    "id": 23,
+    "title": "Testing Strategy",
     "category": "test",
-    "description": "Identify and test edge cases with comprehensive coverage analysis",
-    "template": "Act as a senior QA engineer specializing in edge case testing and quality assurance. Analyze this [language] function/code for edge cases: [paste code here]. Context: [describe function purpose, input domain, failure consequences]. Edge case framework: 1) Boundary value analysis (min/max values, off-by-one errors), 2) Equivalence partitioning (valid/invalid input classes), 3) Error condition testing (null/undefined/empty inputs), 4) Resource exhaustion (memory, disk, network limits), 5) Concurrent access patterns (race conditions, deadlocks), 6) Time-sensitive operations (timezones, leap years, daylight saving), 7) Internationalization (unicode, localization, encoding), 8) Security edge cases (injection attacks, privilege escalation), 9) Performance edge cases (large datasets, high concurrency), 10) Integration edge cases (third-party failures, network issues). Output: 1) Comprehensive edge case inventory, 2) Test cases with expected results, 3) Test automation code, 4) Coverage analysis report, 5) Risk assessment for untested scenarios, 6) Performance implications, 7) Security considerations, 8) Monitoring recommendations, 9) Documentation updates, 10) Continuous testing strategy.",
+    "description": "Comprehensive testing plans: unit, integration, E2E, performance",
+    "template": "Act as a QA architect. Create testing strategy for [game/web app]: [describe project]. **Tech Stack:** [specify]. **Test Types:** 1) Unit tests (isolated functions, 90%+ coverage), 2) Integration tests (API, database, services), 3) E2E tests (user journeys, Cypress/Playwright), 4) Performance tests (load, stress). **Game Testing:** Input simulation, collision detection, multiplayer stress tests, save/load integrity. **Web Testing:** API contracts, component testing, accessibility (a11y). **Output:** 1) Test plan, 2) Framework setup, 3) CI integration, 4) Coverage reports, 5) Maintenance guidelines.",
+    "icon": "fas fa-clipboard-check"
+  },
+  {
+    "id": 24,
+    "title": "Security Audit",
+    "category": "security",
+    "description": "Comprehensive security assessment with vulnerability detection",
+    "template": "Act as a security auditor. Audit this [game/web app] for vulnerabilities: [paste code/describe architecture]. **Check:** 1) Authentication & authorization (JWT validation, session management), 2) Input validation (XSS, SQL injection, path traversal), 3) Data encryption (at rest, in transit), 4) API security (rate limiting, CORS), 5) Dependencies (known CVEs). **Game Security:** Cheat prevention, save file tampering, network packet validation. **Web Security:** OWASP Top 10, CSP headers, secrets management. **Output:** ## Critical Vulnerabilities | ## Risk Assessment | ## Remediation Plan | ## Security Score (/10).",
+    "icon": "fas fa-shield-alt"
+  },
+  {
+    "id": 25,
+    "title": "Analyze Technical Debt",
+    "category": "analysis",
+    "description": "Identify and prioritize tech debt with remediation roadmap",
+    "template": "Act as a technical debt analyst. Analyze debt in: [describe codebase]. **Assess:** 1) Code quality (complexity, duplication, maintainability), 2) Architecture issues (coupling, god classes), 3) Testing gaps (coverage, flaky tests), 4) Security vulnerabilities (outdated dependencies), 5) Performance bottlenecks, 6) Documentation debt. **Prioritization:** Impact × Effort matrix. **Output in Markdown:** ## Debt Inventory (table: Issue | Severity | Impact | Effort | Priority) | ## Root Causes | ## Remediation Roadmap (phased) | ## Quick Wins | ## Cost-Benefit | ## Prevention.",
     "icon": "fas fa-exclamation-circle"
   },
   {
+    "id": 26,
+    "title": "Migration Guide",
+    "category": "convert",
+    "description": "Migrate between frameworks, libraries, or versions safely",
+    "template": "Act as a migration architect. Migrate from [current: Unity 2020, React 17, Python 2.7] to [target: Unity 2023, React 18, Python 3.11]: [paste code]. **Migration Plan:** 1) Breaking changes analysis, 2) Dependency updates, 3) API changes mapping, 4) Incremental migration strategy, 5) Testing approach, 6) Rollback procedures. **Game Migrations:** Engine versions, rendering pipeline changes, asset compatibility. **Web Migrations:** Framework versions, breaking API changes, new features adoption. **Output:** 1) Migration plan (phased), 2) Updated code, 3) Test procedures, 4) Rollback guide, 5) Team training.",
+    "icon": "fas fa-arrows-alt"
+  },
+  {
+    "id": 27,
+    "title": "Debug Configuration",
+    "category": "debug",
+    "description": "Fix configuration issues: build settings, environment, deployment",
+    "template": "Act as a configuration and DevOps specialist. Debug this config issue: [describe: build fails, wrong environment variables, deployment errors, dependency conflicts]. **Affected Configs:** [paste: package.json, tsconfig.json, webpack.config.js, vite.config.ts, Dockerfile, docker-compose.yml, .env files, Unity ProjectSettings, Unreal .uproject/.ini]. **Environment:** [dev/staging/prod, OS, Node/Python version, platform]. **Validation Approach:** 1) Syntax validation (JSON/YAML linters), 2) Schema validation (JSON Schema, OpenAPI), 3) Environment variable resolution order, 4) Dependency version conflicts (lock files), 5) Path resolution issues (absolute vs relative), 6) Platform-specific settings (Windows/Linux/Mac, PC/Console/Mobile). **Tools:** eslint, ajv (JSON Schema), docker-compose config, npm/pip/cargo audit, Unity Build Report. **Game Configs:** Player settings, build settings, quality presets, input mapping, asset bundles. **Web Configs:** Bundler optimization, environment-specific builds, proxy settings, CORS configuration. **Output:** 1) Root cause analysis with evidence, 2) Fixed configs with annotations, 3) Validation scripts (pre-commit hooks), 4) Environment setup checklist, 5) Troubleshooting decision tree, 6) Config testing strategy.",
+    "icon": "fas fa-cog"
+  },
+  {
+    "id": 28,
+    "title": "Analyze Concurrency",
+    "category": "concurrency",
+    "description": "Fix threading issues, race conditions, deadlocks, async problems",
+    "template": "Act as a concurrency expert. Analyze this [C++/C#/TypeScript/JavaScript/Python] code for concurrency issues: [paste code]. **Check:** 1) Race conditions (shared state), 2) Deadlocks (lock ordering), 3) Thread safety (atomic operations), 4) Async/await patterns, 5) Memory model (happens-before). **Game Concurrency:** Physics simulation threading, asset loading, network updates. **Web Concurrency:** Event loop (Node.js), Web Workers, promise chains. **Tools:** Thread sanitizers, profilers. **Output:** 1) Issue analysis, 2) Fixed code (proper synchronization), 3) Performance benchmarks, 4) Testing strategies.",
+    "icon": "fas fa-sync"
+  },
+  {
+    "id": 29,
+    "title": "Refactor for Scalability",
+    "category": "refactor",
+    "description": "Optimize architecture for 10x-100x growth in users or complexity",
+    "template": "Act as a scalability architect. Refactor this code/architecture for [10x, 100x, 1000x] scale: [paste code/describe system]. **Current:** [users, requests/sec, data size]. **Target:** [scale goals]. **Strategies:** 1) Database optimization (sharding, read replicas, caching), 2) Microservices decomposition, 3) Load balancing, 4) CDN & caching layers, 5) Async processing (queues), 6) Auto-scaling. **Game Scaling:** Multiplayer server architecture, matchmaking, player sharding. **Web Scaling:** API rate limiting, horizontal scaling, database partitioning. **Output:** 1) Refactored architecture, 2) Code changes, 3) Infrastructure plan, 4) Cost analysis, 5) Migration strategy.",
+    "icon": "fas fa-expand-arrows-alt"
+  },
+  {
+    "id": 30,
+    "title": "Generate Documentation",
+    "category": "document",
+    "description": "Create complete project documentation: architecture, API, user guides",
+    "template": "Act as a documentation architect. Document this project: [describe or paste code]. **Documentation Types:** 1) Architecture docs (system design, diagrams), 2) API documentation (OpenAPI/Swagger), 3) Code documentation (inline comments, docstrings), 4) User guides (setup, usage, tutorials), 5) Developer onboarding, 6) Troubleshooting guides. **Game Docs:** Game design document, controls, mechanics, level design, asset pipeline. **Web Docs:** API endpoints, component library, deployment, environment variables. **Output:** 1) README.md, 2) API specs, 3) Architecture diagrams, 4) User guides, 5) Contributing guidelines.",
+    "icon": "fas fa-book-open"
+  },
+  {
+    "id": 31,
+    "title": "Document API",
+    "category": "document",
+    "description": "Create comprehensive API documentation with examples and schemas",
+    "template": "Act as an API documentation specialist. Document this API: [paste code or describe endpoints]. **Framework:** [Express/FastAPI/ASP.NET]. **Documentation:** 1) OpenAPI 3.0 specification, 2) Endpoint details (method, path, parameters), 3) Request/response schemas (JSON Schema), 4) Authentication requirements, 5) Error responses & status codes, 6) Rate limiting info, 7) Code examples (cURL, JavaScript, Python). **Output:** 1) OpenAPI spec (YAML), 2) Interactive docs (Swagger UI), 3) Code samples (multiple languages), 4) Postman collection, 5) Testing guide.",
+    "icon": "fas fa-file-code"
+  },
+  {
+    "id": 32,
+    "title": "Style Guide Compliance",
+    "category": "cleanup",
+    "description": "Enforce coding standards: Airbnb, Google, PEP 8, game engine conventions",
+    "template": "Act as a code standards enforcer. Apply [Airbnb JS, Google C++, PEP 8 Python, Unity C# conventions] to: [paste code]. **Formatting:** Indentation, line length, spacing, brace style. **Naming:** camelCase (JS/Java), PascalCase (C#), snake_case (Python), m_prefix (C++ members). **Best Practices:** Const correctness, immutability, error handling patterns. **Tools:** ESLint + Prettier (JS/TS), Black + Flake8 (Python), ClangFormat (C++), StyleCop (C#). **Output:** 1) Formatted code, 2) Linting configs, 3) Pre-commit hooks, 4) CI quality gates, 5) Team guidelines.",
+    "icon": "fas fa-palette"
+  },
+  {
+    "id": 33,
+    "title": "Rapid Prototyping",
+    "category": "prototype",
+    "description": "Build MVPs quickly with 80/20 rule for validation and testing",
+    "template": "Act as a rapid prototyping specialist. Build MVP of [game mechanic, web feature, tool] in [tech stack]. **Goal:** Validate [concept, user interaction, feasibility] with minimal effort. **Focus:** Core functionality only (20% effort, 80% value). **Game MVP:** Basic mechanics, placeholder art, simple controls, one level. **Web MVP:** Key user flow, basic UI, authentication, core API. **No:** Polish, optimization, edge cases (add later). **Output:** 1) Working prototype (< 1 day of work), 2) Demo video/screenshots, 3) User feedback plan, 4) Next iteration roadmap.",
+    "icon": "fas fa-rocket"
+  },
+  {
+    "id": 34,
+    "title": "Explain with Comparison",
+    "category": "explain",
+    "description": "Compare code approaches and recommend best solution with trade-offs",
+    "template": "Act as a software architect. Compare this [C++/C#/TypeScript/JavaScript/Python] code to [alternative: OOP vs functional, synchronous vs async, SQL vs NoSQL]: [paste code]. **Compare:** 1) Implementation approaches, 2) Performance characteristics, 3) Maintainability, 4) Scalability, 5) Team productivity, 6) Ecosystem support. **Game Examples:** ECS vs OOP for entities, client-server vs P2P networking. **Web Examples:** REST vs GraphQL, SSR vs CSR, monolith vs microservices. **Output in Markdown:** ## Current Analysis | ## Alternative Approach | ## Comparison Table | ## Recommendation | ## Migration Effort.",
+    "icon": "fas fa-balance-scale"
+  },
+  {
+    "id": 35,
+    "title": "Add Feature with Library",
+    "category": "feature",
+    "description": "Integrate third-party libraries: physics engines, UI frameworks, APIs",
+    "template": "Act as an integration engineer. Add [feature] using [library: Three.js, Socket.io, Stripe, JWT, Redux] to: [paste code]. **Integration:** 1) Library evaluation (alternatives, maturity), 2) Installation & configuration, 3) API usage patterns, 4) Error handling, 5) Performance impact. **Game Libraries:** Physics (Box2D, PhysX), networking (Photon, Mirror), UI (Unity UI Toolkit, ImGui). **Web Libraries:** Auth (Passport, Auth0), payments (Stripe, PayPal), real-time (Socket.io, Pusher). **Output:** 1) Integrated code, 2) Setup instructions, 3) Usage examples, 4) Performance analysis, 5) Troubleshooting guide.",
+    "icon": "fas fa-cubes"
+  },
+  {
+    "id": 36,
+    "title": "Remove References",
+    "category": "remove",
+    "description": "Safely remove dependencies, libraries, or deprecated code",
+    "template": "Act as a dependency manager. Remove [library, deprecated API, unused module] from: [paste code or describe project]. **Analysis:** 1) Usage throughout codebase, 2) Dependencies (direct, transitive), 3) Breaking changes impact, 4) Alternative solutions, 5) Migration strategy. **Removal Plan:** Incremental approach, feature flags, testing at each step. **Output:** 1) Impact analysis report, 2) Modified code (changes highlighted), 3) Removal checklist, 4) Test cases, 5) Rollback procedures, 6) Performance/bundle size improvement.",
+    "icon": "fas fa-trash"
+  },
+  {
+    "id": 37,
+    "title": "Remove Deprecated Elements",
+    "category": "remove",
+    "description": "Update deprecated APIs, functions, libraries to modern equivalents",
+    "template": "Act as a modernization engineer. Update deprecated [API, function, library, syntax] in this [C++/C#/TypeScript/JavaScript/Python] code: [paste code]. **Examples:** jQuery → vanilla JS/React, callback hell → async/await, var → let/const, old Unity APIs → new equivalents. **Migration:** 1) Identify all usage, 2) Find modern equivalents, 3) Update incrementally, 4) Test thoroughly, 5) Update documentation. **Output:** 1) Modernized code with explanations, 2) Migration changelog, 3) Before/after comparison, 4) Tests, 5) Performance/security improvements.",
+    "icon": "fas fa-recycle"
+  },
+  {
     "id": 38,
-    "title": "Code Review Feedback",
-    "category": "review",
-    "description": "Provide constructive feedback on code changes with improvement prioritization",
-    "template": "Act as a senior code reviewer, technical lead, and mentoring engineer. Review this code change/diff: [paste code or diff]. Context: [describe PR purpose, codebase impact, timeline, team experience]. Review framework: 1) Functionality verification (requirements compliance, edge cases), 2) Code quality assessment (readability, maintainability, complexity), 3) Architecture evaluation (design patterns, SOLID principles), 4) Performance analysis (algorithms, database queries, memory usage), 5) Security review (vulnerabilities, best practices), 6) Testing coverage (unit, integration, regression), 7) Documentation completeness (comments, API docs), 8) Scalability considerations (growth projections, bottlenecks), 9) Technical debt impact (maintainability, future costs), 10) Best practices adherence (language idioms, team standards). Output in structured Markdown: ## Executive Summary (Approval Status), ## Critical Issues (Blockers - Must Fix), ## Major Concerns (High Priority), ## Minor Issues (Should Fix), ## Suggestions (Nice to Have), ## Security Findings, ## Performance Analysis, ## Testing Gaps, ## Documentation Needs, ## Overall Assessment (Score: 1-10), ## Approval Recommendation with Conditions.",
-    "icon": "fas fa-comments"
+    "title": "Edge Case Testing",
+    "category": "test",
+    "description": "Identify and test boundary conditions, null values, extreme inputs",
+    "template": "Act as a QA specialist. Generate edge case tests for: [paste code]. **Edge Cases:** 1) Boundary values (min, max, off-by-one), 2) Null/undefined/empty inputs, 3) Type mismatches, 4) Concurrent access, 5) Resource exhaustion (memory, disk, network), 6) Time-sensitive (timezones, leap years), 7) Internationalization (Unicode, RTL). **Game Edge Cases:** Frame drops, save corruption, physics glitches, network packet loss. **Web Edge Cases:** Large uploads, API rate limits, slow networks, browser compatibility. **Output:** 1) Edge case inventory (50+ cases), 2) Test code, 3) Coverage analysis, 4) Risk assessment.",
+    "icon": "fas fa-exclamation-circle"
   },
   {
     "id": 39,
-    "title": "Beautify Code",
+    "title": "Code Review Feedback",
+    "category": "review",
+    "description": "Provide constructive PR feedback with priorities and suggestions",
+    "template": "Act as a senior code reviewer and mentor. Review this PR/code change: [paste diff or code]. **Context:** [PR purpose, team experience]. **Review Dimensions:** 1) Functionality (requirements met), 2) Code quality (readability, SOLID), 3) Performance, 4) Security, 5) Testing, 6) Documentation. **Feedback Style:** Constructive, educational, prioritized. **Output in Markdown:** ## Summary (approve/changes required) | ## Blockers (must fix) | ## Important (should fix) | ## Suggestions (nice to have) | ## Praise (what's good) | ## Score (1-10) | ## Learning Resources.",
+    "icon": "fas fa-comments"
+  },
+  {
+    "id": 40,
+    "title": "Refactor for Readability",
     "category": "refactor",
-    "description": "IMPORTANT: Refactor code style to match specific themes or default to VSCode dark theme for improved readability",
-    "template": "Act as a senior code styling expert and UI/UX designer. Beautify this code by refactoring its style to match [specific style/theme, e.g., 'Material Design' or 'minimalist approach'] or default to VSCode dark theme if no specific style provided: [paste code here]. Context: [describe target environment, existing style preferences, readability requirements]. Styling requirements: 1) Consistent indentation and spacing following theme standards, 2) Proper naming conventions and color schemes, 3) Syntax highlighting optimization for the specified theme, 4) Accessibility considerations (contrast ratios, font choices), 5) Theme-specific formatting rules, 6) IDE/editor compatibility and extensions. Focus on visual appeal and developer experience. Output: 1) Beautified code with improved styling, 2) Style guide compliance explanation, 3) Theme configuration recommendations, 4) Accessibility improvements made, 5) IDE setup instructions for maintaining style, 6) Before/after visual comparison notes.",
-    "icon": "fas fa-palette",
-    "important": true
+    "description": "Transform complex code into clear, self-documenting, maintainable code",
+    "template": "Act as a senior refactoring engineer specializing in code readability. Refactor this [C++/C#/TypeScript/JavaScript/Python] code for maximum clarity: [paste code]. **Readability Goals:** 1) Self-documenting code (clear names, obvious intent), 2) Reduce cognitive complexity (flatten nesting, extract methods), 3) Consistent patterns throughout, 4) Single Responsibility Principle per function/class, 5) Clear data flow (minimize side effects), 6) Appropriate abstraction levels. **Refactoring Techniques:** Extract method/class, introduce explaining variable, replace magic numbers with named constants, simplify conditionals (early returns, guard clauses), decompose complex expressions. **Measurable Improvements:** Cyclomatic complexity (target < 10), nesting depth (max 3 levels), function length (max 50 lines), class cohesion (LCOM4 metric). **Code Smells to Eliminate:** Long methods, god classes, feature envy, data clumps, primitive obsession, divergent change. **Output:** 1) Refactored code with clear naming and structure, 2) Before/after complexity analysis (table with metrics), 3) Refactoring changelog (what changed and why), 4) Code review readiness checklist, 5) Maintenance cost reduction estimate, 6) Team onboarding improvement justification.",
+    "icon": "fas fa-lightbulb"
   },
   {
-    'id': 47,
-    'title': 'Complete Project Evaluation',
-    'category': 'eval',
-    'description': 'Comprehensive 10/10 scoring evaluation of entire project with detailed improvement roadmap',
-    'template': 'Act as a senior software architect and product manager with 15+ years of experience. Evaluate this complete project/application: [paste project overview, tech stack, and key files]. Context: [describe target users, business goals, timeline, team size]. Perform comprehensive evaluation on 10-point scale: 1) **Code Quality** (readability, structure, best practices) - Score: __/10, 2) **Architecture & Design** (scalability, patterns, maintainability) - Score: __/10, 3) **Performance & Optimization** (speed, memory, efficiency) - Score: __/10, 4) **Security** (vulnerabilities, data protection, compliance) - Score: __/10, 5) **User Experience** (UI/UX, accessibility, responsiveness) - Score: __/10, 6) **Testing & Quality Assurance** (coverage, automation, reliability) - Score: __/10, 7) **Documentation** (completeness, clarity, maintenance docs) - Score: __/10, 8) **DevOps & Deployment** (CI/CD, monitoring, scalability) - Score: __/10, 9) **Innovation & Features** (uniqueness, user value, market fit) - Score: __/10, 10) **Overall Business Impact** (ROI, user satisfaction, growth potential) - Score: __/10. Output in Markdown: ## Executive Summary (Total Score: __/100), ## Detailed Assessment (each category with score + justification), ## Critical Issues (must fix for production), ## Major Improvements (high impact, medium effort), ## Minor Enhancements (low effort, nice to have), ## Technical Debt Analysis, ## Security Recommendations, ## Performance Optimization Plan, ## Testing Strategy Gaps, ## Deployment & Scaling Roadmap, ## Final Recommendations with Priority Matrix.',
-    'icon': 'fas fa-star-half-alt',
+    "id": 41,
+    "title": "Complete Project Evaluation",
+    "category": "eval",
+    "description": "Comprehensive 10/10 assessment: code, architecture, performance, security",
+    "template": "Act as a software auditor. Evaluate this complete project: [describe or paste key files]. **Score (1-10) for:** 1) Code Quality (readability, structure), 2) Architecture (scalability, patterns), 3) Performance (speed, memory), 4) Security (vulnerabilities, best practices), 5) UX/UI (usability, design), 6) Testing (coverage, quality), 7) Documentation, 8) DevOps, 9) Innovation, 10) Business Value. **Output in Markdown:** ## Executive Summary (Total: __/100) | ## Detailed Assessment (each category with justification) | ## Critical Issues | ## Major Improvements | ## Minor Enhancements | ## Roadmap.",
+    "icon": "fas fa-star-half-alt"
   },
   {
-    'id': 48,
-    'title': 'UI/UX Design Evaluation',
-    'category': 'eval',
-    'description': 'Evaluate user interface and experience design with scoring and improvement suggestions',
-    'template': 'Act as a senior UX designer and usability expert. Evaluate the UI/UX design of this application: [describe app purpose, target users, current design]. Context: [platform - web/mobile/desktop, user personas, key user journeys]. Rate on 10-point scale: 1) **Visual Design** (aesthetics, branding, consistency) - Score: __/10, 2) **Information Architecture** (content organization, navigation) - Score: __/10, 3) **User Experience Flow** (intuitiveness, efficiency, satisfaction) - Score: __/10, 4) **Accessibility** (WCAG compliance, inclusive design) - Score: __/10, 5) **Responsive Design** (cross-device compatibility) - Score: __/10, 6) **Interaction Design** (feedback, micro-interactions, affordances) - Score: __/10, 7) **Performance UX** (loading states, perceived performance) - Score: __/10, 8) **Error Handling UX** (error messages, recovery flows) - Score: __/10, 9) **Mobile Experience** (touch targets, gestures, context) - Score: __/10, 10) **Overall User Satisfaction** (usability testing results, user feedback) - Score: __/10. Provide: ## Current Design Analysis, ## Usability Issues Found, ## Accessibility Audit Results, ## Mobile Optimization Gaps, ## Performance UX Problems, ## Recommended Design Improvements, ## Implementation Priority, ## A/B Testing Suggestions, ## User Research Recommendations.',
-    'icon': 'fas fa-palette',
+    "id": 42,
+    "title": "UI/UX Evaluation",
+    "category": "eval",
+    "description": "Evaluate interface design, usability, accessibility, responsiveness",
+    "template": "Act as a UX designer. Evaluate UI/UX of [game UI, web app, mobile app]: [paste screenshots/code/describe]. **Score (1-10):** 1) Visual Design (aesthetics, branding), 2) Information Architecture (navigation, organization), 3) User Flow (intuitiveness, efficiency), 4) Accessibility (WCAG, screen readers, color contrast), 5) Responsiveness (mobile/tablet/desktop), 6) Interactions (feedback, animations), 7) Performance UX (loading, perceived speed), 8) Error Handling (clear messages, recovery). **Output:** ## Scores | ## Usability Issues | ## Accessibility Audit | ## Recommendations | ## Wireframe Improvements.",
+    "icon": "fas fa-palette"
   },
   {
-    'id': 49,
-    'title': 'Code Quality Assessment',
-    'category': 'eval',
-    'description': 'Evaluate code quality, maintainability, and technical excellence with detailed scoring',
-    'template': 'Act as a senior software engineer and code quality specialist. Assess the code quality of this [language] codebase: [paste code samples or describe structure]. Context: [team size, project age, coding standards used]. Evaluate on 10-point scale: 1) **Code Readability** (naming, comments, structure) - Score: __/10, 2) **Code Maintainability** (modularity, dependencies, complexity) - Score: __/10, 3) **Best Practices Adherence** (language idioms, framework conventions) - Score: __/10, 4) **Error Handling** (robustness, logging, recovery) - Score: __/10, 5) **Testing Quality** (coverage, types, automation) - Score: __/10, 6) **Documentation** (inline docs, API docs, README) - Score: __/10, 7) **Performance** (algorithms, memory usage, bottlenecks) - Score: __/10, 8) **Security** (vulnerabilities, input validation, data protection) - Score: __/10, 9) **Scalability** (architecture, database design, caching) - Score: __/10, 10) **Technical Debt Level** (refactoring needs, outdated dependencies) - Score: __/10. Output: ## Quality Metrics Summary (Total: __/100), ## Code Smell Analysis, ## Complexity Assessment, ## Testing Coverage Gaps, ## Security Vulnerabilities, ## Performance Issues, ## Maintainability Problems, ## Recommended Refactoring, ## Code Standards Compliance, ## Automated Quality Tools Setup, ## Continuous Improvement Plan.',
-    'icon': 'fas fa-code'
-  },
-  {
-    'id': 50,
-    'title': 'Performance & Scalability Review',
-    'category': 'eval',
-    'description': 'Evaluate application performance and scalability potential with optimization recommendations',
-    'template': 'Act as a senior performance engineer and scalability architect. Evaluate the performance and scalability of this application: [describe tech stack, current load, performance requirements]. Context: [expected users, peak load, infrastructure]. Rate performance aspects: 1) **Frontend Performance** (loading speed, rendering, bundle size) - Score: __/10, 2) **Backend Performance** (response times, throughput, database queries) - Score: __/10, 3) **Database Performance** (query optimization, indexing, caching) - Score: __/10, 4) **API Performance** (latency, rate limiting, CDN) - Score: __/10, 5) **Memory Usage** (leaks, optimization, garbage collection) - Score: __/10, 6) **Network Efficiency** (compression, caching, CDN) - Score: __/10, 7) **Scalability Architecture** (horizontal scaling, load balancing) - Score: __/10, 8) **Caching Strategy** (implementation, hit rates, invalidation) - Score: __/10, 9) **Monitoring & Alerting** (observability, performance tracking) - Score: __/10, 10) **Resource Optimization** (CPU, memory, bandwidth efficiency) - Score: __/10. Provide: ## Performance Benchmark Results, ## Bottleneck Analysis, ## Scalability Assessment, ## Optimization Recommendations, ## Monitoring Setup Guide, ## Load Testing Strategy, ## CDN & Caching Plan, ## Database Tuning Advice, ## Infrastructure Scaling Plan, ## Performance Budget Guidelines.',
-    'icon': 'fas fa-tachometer-alt'
-  },
-  {
-    'id': 51,
-    'title': 'Security Audit & Assessment',
-    'category': 'eval',
-    'description': 'Comprehensive security evaluation with vulnerability scoring and remediation plan',
-    'template': 'Act as a senior security auditor and penetration tester. Perform a comprehensive security assessment of this application: [describe application type, data sensitivity, user authentication]. Context: [compliance requirements, threat model, security team]. Evaluate security on 10-point scale: 1) **Authentication & Authorization** (login security, session management) - Score: __/10, 2) **Data Protection** (encryption, secure storage, transmission) - Score: __/10, 3) **Input Validation** (XSS, SQL injection, sanitization) - Score: __/10, 4) **API Security** (rate limiting, authentication, CORS) - Score: __/10, 5) **Infrastructure Security** (server hardening, network security) - Score: __/10, 6) **Dependency Security** (vulnerable libraries, supply chain) - Score: __/10, 7) **Privacy Compliance** (GDPR, data handling, user rights) - Score: __/10, 8) **Logging & Monitoring** (security events, audit trails) - Score: __/10, 9) **Incident Response** (breach detection, recovery plans) - Score: __/10, 10) **Security Testing** (pen testing, automated scanning) - Score: __/10. Output: ## Security Score Summary (Total: __/100), ## Critical Vulnerabilities (CVSS scores), ## High-Risk Issues, ## Medium-Risk Concerns, ## Security Best Practices Gaps, ## Compliance Requirements Status, ## Recommended Security Controls, ## Penetration Testing Plan, ## Security Monitoring Setup, ## Incident Response Improvements, ## Security Training Recommendations.',
-    'icon': 'fas fa-shield-alt'
-  },
-  {
-    'id': 52,
-    'title': 'Business Value & ROI Assessment',
-    'category': 'eval',
-    'description': 'Evaluate business impact, market fit, and return on investment potential',
-    'template': 'Act as a senior product manager and business analyst. Assess the business value and ROI potential of this product/application: [describe product, target market, competitors]. Context: [business goals, budget, timeline, team]. Evaluate business aspects: 1) **Market Opportunity** (market size, growth potential, competition) - Score: __/10, 2) **Product-Market Fit** (user needs, value proposition, differentiation) - Score: __/10, 3) **User Acquisition** (marketing strategy, conversion rates, channels) - Score: __/10, 4) **Monetization Potential** (revenue models, pricing strategy, LTV/CAC) - Score: __/10, 5) **Scalability** (business model scalability, market expansion) - Score: __/10, 6) **Technical Competitive Advantage** (innovation, IP, barriers to entry) - Score: __/10, 7) **Team & Execution** (capability, experience, execution risk) - Score: __/10, 8) **Financial Projections** (revenue forecast, cost structure, profitability) - Score: __/10, 9) **Risk Assessment** (market risks, technical risks, execution risks) - Score: __/10, 10) **Exit Strategy** (acquisition potential, IPO readiness, strategic value) - Score: __/10. Provide: ## Business Score Summary (Total: __/100), ## Market Analysis, ## Competitive Landscape, ## Revenue Model Assessment, ## Go-to-Market Strategy, ## Risk Mitigation Plan, ## Growth Projections, ## Investment Recommendations, ## KPI Dashboard Setup, ## Strategic Roadmap.',
-    'icon': 'fas fa-chart-line'
+    "id": 43,
+    "title": "Performance Review",
+    "category": "eval",
+    "description": "Evaluate app performance and scalability potential with optimization plan",
+    "template": "Act as a performance auditor. Evaluate performance of [game, web app]: [paste code/describe architecture]. **Score (1-10):** 1) Load Time (initial, perceived), 2) Runtime Performance (FPS, response time), 3) Memory Efficiency, 4) Network Efficiency (API calls, bandwidth), 5) Rendering Performance (60 FPS target), 6) Database Performance (query optimization), 7) Caching Strategy, 8) Scalability (10x, 100x users). **Output:** ## Performance Scores | ## Bottleneck Analysis | ## Optimization Priorities | ## Benchmarks | ## Monitoring Setup | ## Scalability Roadmap.",
+    "icon": "fas fa-tachometer-alt"
   }
 ];
 
@@ -1793,23 +1991,59 @@ function generatePromptCardHTML(prompt) {
   const highlightedTemplate = highlightMatches(templateWithPlaceholders, AppState.searchTerm);
   const isFav = isFavorite(prompt.id);
 
+  // Check if this prompt should be collapsed based on saved state
+  const isCollapsed = AppState.collapseStates[prompt.id] !== undefined
+    ? AppState.collapseStates[prompt.id]
+    : AppState.isCompactView; // Default to view mode setting if no saved state
+
+  if (AppState.isCompactView || isCollapsed) {
+    return `
+      <div class="prompt-card compact collapsed" data-prompt-id="${prompt.id}">
+          <div class="prompt-header">
+              <div class="prompt-title">
+                  <i class="${prompt.icon}"></i> ${safeTitle}
+              </div>
+              <div class="prompt-actions">
+                  <button class="btn btn-primary copy-btn" data-template="${prompt.template.replace(/"/g, '\"')}" data-prompt-id="${prompt.id}">
+                      <i class="fas fa-copy"></i> Copy
+                  </button>
+                  <button class="btn btn-secondary edit-btn" data-template="${prompt.template.replace(/"/g, '\"')}" data-prompt-id="${prompt.id}">
+                      <i class="fas fa-edit"></i> Edit
+                  </button>
+                  <button class="collapse-btn" data-prompt-id="${prompt.id}" title="Expand to view details">
+                      <i class="fas fa-chevron-down"></i>
+                  </button>
+              </div>
+          </div>
+          <div class="prompt-description">${prompt.description}</div>
+          <div class="prompt-template">${prompt.template}</div>
+      </div>
+    `;
+  }
+
+  // Full view
   return `
-    <div class="prompt-card ${isFav ? 'favorite' : ''}" data-prompt-id="${prompt.id}">
+    <div class="prompt-card expanded" data-prompt-id="${prompt.id}">
         <div class="prompt-header">
             <div class="prompt-title">
-                <i class="${safeIcon}"></i> ${highlightedTitle}
+                <i class="${prompt.icon}"></i> ${safeTitle}
             </div>
-            <button class="favorite-btn ${isFav ? 'active' : ''}" data-prompt-id="${prompt.id}" title="Add to favorites">
-                <i class="fas fa-star"></i>
-            </button>
+            <div class="prompt-header-actions">
+                <button class="favorite-btn" data-prompt-id="${prompt.id}" title="Add to favorites">
+                    <i class="fas fa-star"></i>
+                </button>
+                <button class="collapse-btn" data-prompt-id="${prompt.id}" title="Collapse to hide details">
+                    <i class="fas fa-chevron-up"></i>
+                </button>
+            </div>
         </div>
         <div class="prompt-description">${highlightedDescription}</div>
         <div class="prompt-template">${highlightedTemplate}</div>
         <div class="prompt-actions">
-            <button class="btn btn-primary copy-btn" data-template="${prompt.template.replace(/"/g, '"')}" data-prompt-id="${prompt.id}">
+            <button class="btn btn-primary copy-btn" data-template="${prompt.template.replace(/"/g, '\"')}" data-prompt-id="${prompt.id}">
                 <i class="fas fa-copy"></i> Copy
             </button>
-            <button class="btn btn-secondary edit-btn" data-template="${prompt.template.replace(/"/g, '"')}" data-prompt-id="${prompt.id}">
+            <button class="btn btn-secondary edit-btn" data-template="${prompt.template.replace(/"/g, '\"')}" data-prompt-id="${prompt.id}">
                 <i class="fas fa-edit"></i> Edit
             </button>
         </div>
@@ -1822,6 +2056,36 @@ function generatePromptCardHTML(prompt) {
  * @param {Element} grid - The grid container element
  */
 function setupCardEventListeners(grid) {
+  // Handle collapse button clicks
+  const collapseButtons = grid.querySelectorAll('.collapse-btn');
+  collapseButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const promptId = parseInt(this.dataset.promptId);
+      const card = this.closest('.prompt-card');
+
+      if (card.classList.contains('collapsed')) {
+        // Expand this specific card
+        card.classList.remove('collapsed');
+        card.classList.add('expanded');
+        this.innerHTML = '<i class="fas fa-chevron-up"></i>';
+        this.title = 'Collapse to hide details';
+        // Save expanded state (false = not collapsed)
+        AppState.collapseStates[promptId] = false;
+      } else {
+        // Collapse this specific card
+        card.classList.remove('expanded');
+        card.classList.add('collapsed');
+        this.innerHTML = '<i class="fas fa-chevron-down"></i>';
+        this.title = 'Expand to view details';
+        // Save collapsed state (true = collapsed)
+        AppState.collapseStates[promptId] = true;
+      }
+
+      // Save to localStorage
+      saveToStorage();
+    });
+  });
   const copyButtons = grid.querySelectorAll('.copy-btn');
   const editButtons = grid.querySelectorAll('.edit-btn');
   const favoriteButtons = grid.querySelectorAll('.favorite-btn');
@@ -2010,6 +2274,22 @@ async function initializeApp() {
   }
 
   await initializeState();
+
+  // Restore view mode
+  const grid = document.getElementById('promptsGrid');
+  const toggleBtn = document.getElementById('toggleViewBtn');
+  if (grid && AppState.isCompactView) {
+    grid.classList.add('compact-view');
+    // Update button icon to match state
+    if (toggleBtn) {
+      const icon = toggleBtn.querySelector('i');
+      if (icon) {
+        icon.className = 'fas fa-th-large';
+        toggleBtn.title = 'Switch to full view';
+      }
+    }
+  }
+
   renderPrompts();
 }
 
@@ -2170,6 +2450,37 @@ document.addEventListener('keydown', (e) => {
     }
     break;
   }
+  }
+});
+
+// Toggle compact view functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const toggleBtn = document.getElementById('toggleViewBtn');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function() {
+      const grid = document.getElementById('promptsGrid');
+      if (grid) {
+        grid.classList.toggle('compact-view');
+
+        // Update AppState
+        AppState.isCompactView = grid.classList.contains('compact-view');
+
+        // Save to localStorage
+        saveToStorage();
+
+        // Update button icon
+        const icon = toggleBtn.querySelector('i');
+        if (grid.classList.contains('compact-view')) {
+          icon.className = 'fas fa-th-large'; // Grid icon for full view
+          toggleBtn.title = 'Switch to full view';
+        } else {
+          icon.className = 'fas fa-list'; // List icon for compact view
+          toggleBtn.title = 'Switch to compact view';
+        }
+        // Re-render prompts to reflect the new view
+        renderPrompts();
+      }
+    });
   }
 });
 
