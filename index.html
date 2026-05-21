@@ -1697,27 +1697,27 @@ const fullPrompts = [
     "category": "fix",
     "description": "Fix bugs in C++, C#, TypeScript, JavaScript, Python for web/game development",
     "template": `<materials>
-[paste code here]
+[paste failing code + full stack trace + minimal repro if available]
 </materials>
 
 <context>
-**Domain:** [web app | game — specify]
-**Symptom:** [error, crash, or wrong behavior]
-**Environment:** [OS, runtime, engine/framework, platform — leave blank if unknown; you must flag gaps]
+**Domain:** [web app | game — name engine/framework]
+**Symptom:** [exact error text, crash signature, or wrong observable behavior]
+**Environment:** [OS, runtime version, engine/framework version, platform]
+**Recent changes:** [commits, deps, config — or "none known"]
 </context>
 
 <task>
-Identify the most likely root cause and propose a minimal, production-minded fix. Prefer evidence from <materials> over speculation.
+Find the most likely root cause of the symptom and ship the smallest correct fix. Cite specific lines from <materials> for every claim; tag anything not grounded in <materials> as **hypothesis**.
 </task>
 
 <output_spec>
-Respond in Markdown:
-1. ## Diagnosis — separate **confirmed** (from code/logs) from **hypothesis**; cite lines or snippets.
-2. ## Fix — patch-style or full snippets as appropriate.
-3. ## Verify — exact steps: tests to add/run, traces, profiler, or smaller repro.
-4. ## Watchlist — regressions and similar failure modes.
+1. ## Diagnosis — list **confirmed** (lines/logs) vs **hypothesis** rows.
+2. ## Fix — patch-style diff or full snippet; smallest change that resolves it.
+3. ## Verify — exact commands, tests, or traces that prove the fix.
+4. ## Watchlist — adjacent code likely to fail the same way.
 
-Apply deep game checks (render/physics/net) or web checks (async/DOM/API/state) only when this domain applies—avoid generic checklists.
+Invoke domain-specific failure modes only when they apply (game: render/physics/net/GC spikes; web: async/DOM/state/API contracts). No generic checklists.
 </output_spec>`,
     "icon": "fas fa-bug"
   },
@@ -1727,28 +1727,28 @@ Apply deep game checks (render/physics/net) or web checks (async/DOM/API/state) 
     "category": "understand",
     "description": "Understand complex code with step-by-step breakdowns for any language",
     "template": `<materials>
-[paste code]
+[paste code — include imports and any non-trivial dependency surface]
 </materials>
 
 <context>
 **Language:** [C++/C#/TypeScript/JavaScript/Python/HTML/CSS]
 **Depth:** [beginner | intermediate | advanced]
-**Purpose / stack (optional):** [e.g. Unity, React, Node]
+**Stack (optional):** [e.g. Unity, React, Node, Django]
+**Specific question (optional):** [e.g. "why this lock?", "what does line 42 do?"]
 </context>
 
 <task>
-Explain what this code does and how it behaves in realistic scenarios.
+Explain what this code does, how it behaves under realistic inputs, and where it can break. Stay grounded in the provided code; do not invent missing modules.
 </task>
 
 <output_spec>
-Markdown sections:
-- ## TL;DR — behavior and public contracts
-- ## Flow — control and data for the important paths (skip noisy line-by-line unless beginner depth)
-- ## Complexity — Big-O / hot paths only where meaningful
-- ## Structure — patterns, module boundaries, extension points present in this code
-- ## Diagram — Mermaid or ASCII only if it clarifies non-trivial structure
-- ## Risks — edge cases, misuse, performance or security footguns
-- ## Deeper dive — only if depth is advanced; otherwise omit this heading
+- ## TL;DR — purpose + public contracts in 2-4 lines
+- ## Flow — control + data path for the important branches (line-by-line only at beginner depth)
+- ## Complexity — Big-O / hot paths only when meaningful
+- ## Structure — patterns, module boundaries, extension points actually present
+- ## Diagram — Mermaid only if it clarifies non-obvious structure
+- ## Risks — edge cases, misuse, perf/security footguns visible in this code
+- ## Deeper dive — only at advanced depth (memory model, ABI, JIT, etc.)
 </output_spec>`,
     "icon": "fas fa-search"
   },
@@ -1758,25 +1758,28 @@ Markdown sections:
     "category": "create",
     "description": "Implement new features with testing for web apps and games",
     "template": `<materials>
-[paste relevant code, entrypoints, or concise repo map]
+[paste relevant code, entrypoints, types/interfaces, or a concise repo map]
 </materials>
 
 <context>
-**Feature:** [what to add]
-**Language / stack:** [C++/C#/TypeScript/JavaScript/Python + frameworks]
-**Constraints:** [deadlines, style, must-not-break behavior, auth/privacy, performance]
+**Feature:** [user-facing description in 1-2 sentences]
+**Acceptance criteria:** [bullet list of observable behaviors]
+**Stack:** [language + frameworks + versions]
+**Constraints:** [perf budget, must-not-break behavior, auth/privacy, deadlines, style guide]
+**Out of scope:** [explicit cuts]
 </context>
 
 <task>
-Design and implement the feature idiomatically for this stack. State assumptions explicitly.
+Design and implement the feature idiomatically for this stack. Wire it into existing modules visible in <materials>; do not fabricate APIs.
 </task>
 
 <output_spec>
-1. ## Design — boundaries, data touched, failure modes (brief).
-2. ## Implementation — complete code, organized by file or module as appropriate.
-3. ## Tests — focused unit/integration tests for the riskiest paths (quality over a coverage percentage).
-4. ## Integration — wiring, configuration, feature flags, rollback.
-5. ## Follow-ups — intentionally deferred work.
+1. ## Design — boundaries, data touched, failure modes (≤10 lines).
+2. ## Implementation — complete code, organized by file path.
+3. ## Tests — focused unit/integration tests for the riskiest acceptance criteria.
+4. ## Integration — wiring, config, feature flag, rollout/rollback.
+5. ## Assumptions — defaults chosen where context was silent.
+6. ## Follow-ups — work intentionally deferred.
 </output_spec>`,
     "icon": "fas fa-plus-circle"
   },
@@ -1786,22 +1789,23 @@ Design and implement the feature idiomatically for this stack. State assumptions
     "category": "create",
     "description": "Create production-ready code for web apps, games, scripts, and tools",
     "template": `<context>
-**Build:** [what to build in one paragraph]
+**Build:** [what to build — one paragraph, include user/value]
 **Languages:** [C++/C#/TypeScript/JavaScript/Python/HTML/CSS]
-**Stack & constraints:** [frameworks, hosting, compliance, perf, team conventions]
+**Stack & constraints:** [frameworks, hosting, runtime versions, compliance, perf SLOs, team conventions]
+**Inputs / outputs:** [data shape on each side]
 </context>
 
 <task>
-Generate production-grade code and supporting artifacts. List defaults you chose where I was silent.
+Generate production-grade code and only the supporting artifacts that ship value. Choose defaults explicitly where context is silent and surface them in ## Assumptions.
 </task>
 
 <output_spec>
-- ## Layout — directories and file responsibilities
-- ## Code — full implementation (validation, errors, logging hooks as appropriate)
-- ## Runbook — install, env vars, run, test commands
-- ## Tests — happy path plus meaningful failure cases
-- ## Deploy / ops — only what applies (Docker, CI snippet, health checks)
-- ## Assumptions — explicit defaults and trade-offs
+- ## Layout — directory tree with file responsibilities
+- ## Code — complete implementation with input validation, structured errors, and logging hooks
+- ## Runbook — install / env vars / run / test commands
+- ## Tests — happy path + meaningful failure cases (not coverage padding)
+- ## Deploy / ops — only what applies (Dockerfile, CI snippet, health checks)
+- ## Assumptions — defaults chosen + trade-offs accepted
 </output_spec>`,
     "icon": "fas fa-magic"
   },
@@ -1811,23 +1815,24 @@ Generate production-grade code and supporting artifacts. List defaults you chose
     "category": "improve",
     "description": "Boost speed, reduce memory usage, optimize rendering for games and web",
     "template": `<materials>
-[paste code]
+[paste hot-path code + any profiler output, flame graph, or metric snapshot]
 </materials>
 
 <context>
-**Optimization target:** [e.g. 60 FPS, p95 latency, memory cap]
-**Current evidence:** [profiler output, metrics, or “unknown” — if unknown, start with the smallest measurement to run]
+**Target:** [concrete number — e.g. "60 FPS at 1080p", "p95 < 200ms", "RSS < 512MB"]
+**Current measurement:** [actual number, or "unknown — propose smallest measurement to run first"]
+**Workload:** [input size, concurrency, hardware]
 </context>
 
 <task>
-Improve performance with reasoning tied to this code; do not hand-wave.
+Improve performance with reasoning anchored in the code and any provided measurements. Do not optimize speculatively — name the bottleneck before changing code.
 </task>
 
 <output_spec>
-1. ## Bottleneck — dominant cost and why (link to code).
-2. ## Change — optimized code with rationale.
-3. ## Metrics — before/after or predicted + how to measure.
-4. ## Trade-offs — correctness, readability, platform limits.
+1. ## Bottleneck — dominant cost + evidence (line refs, allocation pattern, syscall, GPU stall, etc.).
+2. ## Change — optimized code with rationale tied to the bottleneck.
+3. ## Metrics — before/after numbers if measurable, otherwise predicted Δ + how to verify.
+4. ## Trade-offs — correctness, readability, platform limits, memory vs CPU.
 </output_spec>`,
     "icon": "fas fa-tachometer-alt"
   },
@@ -1837,24 +1842,25 @@ Improve performance with reasoning tied to this code; do not hand-wave.
     "category": "improve",
     "description": "Improve code structure, apply design patterns, enhance maintainability",
     "template": `<materials>
-[paste code]
+[paste code + existing tests if any]
 </materials>
 
 <context>
-**Goal:** [testability | clarity | scalability | named patterns]
-**Non-goals / frozen surface:** [public API, behavior that must not change]
+**Goal:** [testability | clarity | scalability | decoupling | named pattern]
+**Frozen surface:** [public APIs, behaviors, performance characteristics that must not change]
+**Risk tolerance:** [strict-equivalence | behavior-preserving | "small fixes OK if flagged"]
 </context>
 
 <task>
-Refactor safely. Apply patterns only where they clearly reduce risk or complexity.
+Refactor safely and incrementally. Apply patterns only when they measurably reduce complexity or risk; reject pattern-for-pattern's-sake changes.
 </task>
 
 <output_spec>
-1. ## Plan — ordered, safe steps.
-2. ## Result — refactored code.
+1. ## Plan — ordered, individually-shippable steps.
+2. ## Result — refactored code (or per-step diffs if the change is large).
 3. ## Rationale — only non-obvious decisions.
-4. ## Metrics — complexity/coupling note or small table if useful.
-5. ## Tests — new or updated tests locking behavior.
+4. ## Metrics — coupling/complexity delta if material.
+5. ## Tests — new or updated tests locking the frozen surface.
 </output_spec>`,
     "icon": "fas fa-code-branch"
   },
@@ -1864,24 +1870,26 @@ Refactor safely. Apply patterns only where they clearly reduce risk or complexit
     "category": "quality",
     "description": "Create comprehensive test suites with high coverage for any codebase",
     "template": `<materials>
-[paste code under test]
+[paste code under test + any existing test setup/helpers]
 </materials>
 
 <context>
 **Language:** [C++/C#/TypeScript/JavaScript/Python]
-**Test stack:** [runner/framework — or say you will infer and disclose inference]
+**Test stack:** [runner + assertion lib — or "infer from repo and disclose what you inferred"]
+**Risk areas:** [what would hurt most if it regressed — money, data loss, auth, gameplay feel, etc.]
+**Constraints:** [no network, deterministic time, fast suite, etc.]
 </context>
 
 <task>
-Add tests that protect the behaviors that would hurt most if they regressed.
+Add tests that protect the highest-risk behaviors. Optimize for catching real regressions, not coverage percentage.
 </task>
 
 <output_spec>
-- ## Strategy — risk-ranked list of what to cover
-- ## Test code — grouped (unit vs integration); realistic mocks/fakes
-- ## Data — factories/fixtures if needed
-- ## CI — commands or minimal workflow snippet
-- ## Gaps — honest list of what remains untested and why
+- ## Strategy — risk-ranked behavior list (table: behavior | risk | test type)
+- ## Test code — grouped by unit vs integration; realistic mocks/fakes; deterministic
+- ## Data — factories/fixtures only when reused
+- ## CI — exact command(s) or minimal workflow snippet
+- ## Gaps — what remains untested and why (e.g. requires live service)
 </output_spec>`,
     "icon": "fas fa-vial"
   },
@@ -1896,17 +1904,19 @@ Add tests that protect the behaviors that would hurt most if they regressed.
 
 <context>
 **Languages:** [C++/C#/TypeScript/JavaScript/Python/HTML/CSS]
-**Style target:** [project standard or “idiomatic for X”]
+**Style target:** [project standard, e.g. "Airbnb ESLint", "PEP 8 + black", or "idiomatic for X"]
+**Allowed changes:** [formatting only | naming + dead-code | small refactors OK]
 </context>
 
 <task>
-Clean up without changing runtime behavior. Flag any edit that might be semantic before applying it.
+Clean up without altering observable behavior. If any edit could be semantic, list it under ## Behavioral risks before applying — do not silently change semantics.
 </task>
 
 <output_spec>
 1. ## Cleaned code
-2. ## Changelog — substantive edits only
-3. ## Tooling — suggested format/lint commands if helpful
+2. ## Changelog — substantive edits only (skip pure whitespace)
+3. ## Behavioral risks — empty if none
+4. ## Tooling — format/lint commands that would enforce this style
 </output_spec>`,
     "icon": "fas fa-broom"
   },
