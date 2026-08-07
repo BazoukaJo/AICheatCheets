@@ -55,9 +55,34 @@ Flags: `-ModelContextProtocolStartServer`, `-ModelContextProtocolPort=N`
 
 If `bEnableToolSearch` is on, `tools/list` may only show meta-tools (`list_toolsets`, `describe_toolset`, `call_tool`). **Discover** before assuming a full catalog.
 
+## UltimateTrainning Python bridge
+
+Training / harness repo can talk to the same Editor MCP without inventing PIE Done:
+
+| Mode | Env / flag | Behavior |
+|------|------------|----------|
+| `dry_run` | default | In-memory harness (no Editor) |
+| `live_readonly` | `UNREAL_BRIDGE_MODE=live_readonly` | Real MCP inspect; mutate rejected |
+| `live_mutate` | `live_mutate` + `BRIDGE_MUTATION=1` + `BRIDGE_LIFT_TASK=<id>` | Content writes only after explicit lift |
+
+```text
+# From UltimateTrainning repo root (Editor must be running for live_*):
+python -m src.unreal.bridge ping
+python -m src.unreal.bridge --mode live_readonly list-toolsets
+python -m src.unreal.bridge --mode live_readonly describe Editor
+python -m src.unreal.bridge --mode live_readonly call GetSelectedActors
+python -m src.unreal.bridge --mode dry_run catalog-smoke
+
+# Optional coverage probe (soft-fails if Editor offline):
+python -m src.unreal_feature_test --live-mcp
+```
+
+Config: `configs/bridge.yaml`, `configs/unreal_mcp_map.yaml`. Env: `UNREAL_MCP_URL`, `UNREAL_BRIDGE_MODE`, `BRIDGE_MUTATION`, `BRIDGE_LIFT_TASK`.
+
 ## Agent rules
 
 1. Default MCP = **inspect / read** unless fingerprint says writes OK
 2. No overlapping calls
 3. Never claim PIE/visual success from MCP alone
 4. If mutation is `lift_per_task`, wait for an explicit human lift naming the task
+5. Prefer UT bridge CLI / `live_readonly` for discover/inspect; do not auto-promote bridge to `yes` / `agent_may_edit`

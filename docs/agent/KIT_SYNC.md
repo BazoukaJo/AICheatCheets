@@ -1,9 +1,9 @@
-# Kit sync stamp
+﻿# Kit sync stamp
 
-- Kit version: 1.10
+- Kit version: 1.13
 - Synced from: UltimateTrainning/kits/local-ai-dropin
 - Consumer: AICheatCheets
-- UTC: 2026-08-07T17:03:37.868614+00:00
+- UTC: 2026-08-07T18:13:27.2571305Z
 - Pillar hint: hybrid
 
 Project-owned (not overwritten): PROJECT.md, AGENTS.md, CLAUDE.md, TASKS.md, memory/, design docs/, MCP configs, .cursor/rules/01-*.mdc
