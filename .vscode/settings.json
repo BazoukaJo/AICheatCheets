@@ -1,0 +1,19 @@
+{
+  "ollama.endpoint": "http://127.0.0.1:11434",
+  "opilot.host": "http://127.0.0.1:11434",
+  "opilot.completionModel": "lfm2.5:latest",
+  "opilot.enableInlineCompletions": true,
+  "opilot.maxContextTokens": 65536,
+  "opilot.hideThinkingContent": false,
+  "chat.defaultModel": "qwen3.5:9b-q8_0",
+  "chat.utilityModel": "selfagency-opilot/ollama:qwen3.5:9b-q8_0",
+  "chat.utilitySmallModel": "selfagency-opilot/ollama:lfm2.5:latest",
+  "inlineChat.defaultModel": "Qwen3.5:9b-q8_0 (selfagency-opilot)",
+  "chat.exploreAgent.defaultModel": "Qwen3.5:9b-q8_0 (selfagency-opilot)",
+  "chat.planAgent.defaultModel": "Qwen3.5:9b-q8_0 (selfagency-opilot)",
+  "github.copilot.selectedCompletionModel": "lfm2.5:latest",
+  "github.copilot.chat.askAgent.model": "qwen3.5:9b-q8_0",
+  "github.copilot.chat.exploreAgent.model": "qwen3.5:9b-q8_0",
+  "github.copilot.chat.implementAgent.model": "qwen3.5:9b-q8_0",
+  "ollama-autocoder.model": "qwen3.5:9b-q8_0"
+}
